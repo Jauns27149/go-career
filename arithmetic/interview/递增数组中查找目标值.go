@@ -1,11 +1,11 @@
-package main
-
-import "fmt"
-
 /*
 快手外包面试题目
 在一个递增数列nums中,寻找是否存在target值，如果存在返回下标，如果不存在返回-1
 */
+package main
+
+import "fmt"
+
 func main() {
 	s := []sample{
 		{[]int{0, 2, 4, 5, 8}, 2, 1},

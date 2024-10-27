@@ -2,9 +2,18 @@
 
 ​	面试准备的资料和面试遇到的问题。
 
-## 结构
+# 结构
 
-- go-interview	
-  - arithmetic	算法题
-  - interview.md	面试背诵文档 
-  - README.md	
+```bash
+go-interview
+├── arithmetic	# 算法题
+├── go.mod
+├── interview.md
+└── README.md
+```
+
+# 参考
+
+1. [github 项目 mao888/golang-guide](https://github.com/mao888/golang-guide)
+1. [github 项目 viraptor/reverse-interview](https://github.com/viraptor/reverse-interview)
+

@@ -1,3 +1,7 @@
+/*
+百度外包面试遇到题目
+启动两个协程交叉打印1～100，
+*/
 package main
 
 import (
@@ -5,10 +9,6 @@ import (
 	"sync"
 )
 
-/*
-百度外包面试遇到题目
-启动两个协程交叉打印1～100，
-*/
 func main() {
 	job := sync.WaitGroup{}
 	job.Add(2)
