@@ -316,6 +316,14 @@ go tool pprof mem.prof
 
 ​	逃逸分析（Escape analysis）是指由编译器决定内存分配的位置，不需要程序员指定. 程序员可以通过go的工具参数`-gcflags=-m`查看逃逸情况.
 
+## GRPC
+
+​	GRPC是google开源的一个基于protobuf的高性能、跨语言的RPC框架。
+
+### protocol buffers
+
+​	Protobuf（Protocol Buffers）是 Google 开发的一种数据序列化工具。它类似于 XML，但比 XML 更小、更快、更简单。
+
 ## Gin
 
 ### 特性
