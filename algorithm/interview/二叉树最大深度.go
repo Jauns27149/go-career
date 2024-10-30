@@ -28,19 +28,23 @@ func main() {
 	}
 }
 
+/*
+递归计算左右节点深度,取大值
+*/
 func calculateDepth(root *TreeNode) int {
-	if root == nil {
-		return 1
+	switch root {
+	case nil:
+		return 0
+	default:
+		return findEnd(root, 0)
 	}
-	n := 0
-	n = findEnd(root, n)
-	return n
 }
 
 func findEnd(t *TreeNode, n int) int {
-	if t.Left != nil || t.Right != nil {
-		n++
+	if t.Left == nil && t.Right == nil {
+		return n
 	}
+	n++
 	ln, rn := n, n
 	if t.Left != nil {
 		ln = findEnd(t.Left, n)
