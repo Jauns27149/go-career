@@ -9,7 +9,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 type minSubArrayLenExample struct {
@@ -20,6 +19,10 @@ type minSubArrayLenExample struct {
 
 func main() {
 	examples := []minSubArrayLenExample{
+		{[]int{12, 28, 83, 4, 25, 26, 25, 2, 25, 25, 25, 12}, 213, 8},
+		{[]int{2, 16, 14, 15}, 20, 2},
+		{[]int{1, 2, 3, 4, 5}, 15, 5},
+		{[]int{2, 3, 1, 2, 4, 3}, 7, 2},
 		{[]int{1, 2, 3, 4, 5}, 11, 3},
 		{[]int{1, 1, 1, 1, 1, 1, 1, 1}, 11, 0},
 	}
@@ -29,30 +32,35 @@ func main() {
 }
 
 /*
-1. 排序，计算 i 到 i+1 的差值存储在新的 []int 中
-2. 从子数组最小长度开始循环
+1.
 */
 func minSubArrayLen(target int, nums []int) int {
-	sort.Ints(nums)
-
-	for i := 1; i < target && i < len(nums); i++ {
-		if i == 1 {
-			if nums[len(nums)-1] < target || target < nums[0] {
-				continue
-			}
-			for _, v := range nums {
-				if v == target {
-					return 1
-				}
-				if v > target {
-					break
-				}
-			}
-			continue
-		}
-		for j, v := range nums {
-			
-		}
+	total := 0
+	for _, v := range nums {
+		total += v
 	}
-	return 0
+	return calculate(target, nums, total)
+}
+
+func calculate(target int, nums []int, total int) int {
+	if total >= target {
+		l := calculate(target, nums[:len(nums)-1], total-nums[len(nums)-1])
+		r := calculate(target, nums[1:], total-nums[0])
+		if l != 0 && r != 0 {
+			if l < r {
+				return l
+			} else {
+				return r
+			}
+		}
+		if l == 0 && r == 0 {
+			return len(nums)
+		}
+		if l == 0 {
+			return r
+		}
+		return l
+	} else {
+		return 0
+	}
 }
