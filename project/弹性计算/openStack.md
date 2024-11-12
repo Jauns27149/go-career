@@ -24,16 +24,27 @@
 
 ## nova
 
-**概念**
+- 概念
 
 1. Nova和Swift是OpenStack最早的两个组件，nova分为控制节点和计算节点。
 2. 计算节点通过Nova Compute进行虚拟机创建，通过libvirt调用kvm创建虚拟机，nova之间通信通过rabbitMQ队列进行通信。
 3. Nova位于Openstack架构的中心，其他服务或者组件（比如Glance、Cinder、Neutron等）对它提供支持，另外它本身的架构也比较复杂。
 
-**作用**
+- 作用
 
 1. Nova是OpenStack最核心的服务模块，负责管理和维护云计算环境的计算资源，负责整个云环境虚拟机生命周期的管理。
 2. Nova是OpenStack的计算服务，负责维护和管理的网络和存储，提供计算服务。
 
-## Gophercloud
+- 组件
 
+![stickPicture](assets/stickPicture.png)
+
+### 工作流程
+
+![stickPicture](assets/stickPicture-1731403108838-10.png)
+
+![stickPicture](assets/stickPicture-1731403218807-15.png)
+
+![stickPicture](assets/stickPicture-1731403224722-17.png)
+
+![stickPicture](assets/stickPicture-1731403231405-19.png)

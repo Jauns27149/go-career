@@ -2,8 +2,6 @@ module go-interview
 
 go 1.22.7
 
-toolchain go1.22.8
-
 require (
 	github.com/gin-gonic/gin v1.10.0
 	google.golang.org/grpc v1.67.1
