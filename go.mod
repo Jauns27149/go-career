@@ -1,4 +1,4 @@
-module go-interview
+module go-career
 
 go 1.22.7
 

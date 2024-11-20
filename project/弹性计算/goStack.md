@@ -22,3 +22,12 @@
 ![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)
 
 <img src="assets/AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW.png" alt="AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW" style="zoom:67%;" />
+
+![image-20241120174806266](assets/image-20241120174806266.png)
+
+# 疑问
+
+## engine
+
+1. yaml文件没有mongo配置
+2. 
