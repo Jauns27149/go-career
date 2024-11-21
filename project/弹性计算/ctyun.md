@@ -75,7 +75,7 @@
 
 | 命令                           | 作用                  |
 | ------------------------------ | --------------------- |
-| virsh list --all               | 列出所有虚拟机        |
+| virsh list                     | 列出所有虚拟机        |
 | virsh start <domain-name>      | 启动虚拟机            |
 | virsh shutdown <domain-name>   | 关闭虚拟机            |
 | virsh destroy <domain-name>    | 强制关闭虚拟机        |
@@ -100,4 +100,23 @@
   2. 它可以执行一些宿主机发起的操作，如文件操作、磁盘管理、网络配置等。
   3. QGA的功能扩展较为方便，开发者可以通过修改源码来添加新的命令或功能。
 
- 
+#  openstack 命令
+
+- openstack [commands]
+  - image list : 查看镜像
+  - flavor list : 查看规格
+  - network list : 查看network
+  -  availability zone list : 查看可用区
+  - server 
+    - list : 查看虚拟机
+    - create
+      - ---image :
+      - --availability-zone :
+      - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none>
+      - <server-name>
+    - 
+
+模拟环境：2022年-贵州多AZ测试环境-POC2 -> 55.249.31.27
+
+
+

@@ -25,6 +25,14 @@
 
 ![image-20241120174806266](assets/image-20241120174806266.png)
 
+# 运行流程
+
+1. 加载配置文件,初始化读取template
+2. 上报健康状态
+3. 加载已有数据并构建缓存（cache）
+4. 开启事件监听服务(workflow_service)
+   - WatchEvent（重点）
+
 # 疑问
 
 ## engine
