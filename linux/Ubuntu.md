@@ -7,6 +7,7 @@
     - os-release: 存储操作系统的识别信息(key-value)
     - shadow: 存储用户密码和其他与用户帐户相关的安全信息的重要文件
   - opt: 存放可选的第三方软件包
+  - tmp: 存储临时文件和数据(temporary)
 
 # 命令
 
@@ -76,6 +77,81 @@ tee [选项] 文件...
 
 - 选项
   - -a: 追加到文件末尾而不是覆盖文件
+
+## sudo
+
+```bash
+# sudo - execute a command as another user
+sudo [optins]
+
+Options:
+  -i, --login                   run login shell as the target user; a command may also be specified
+```
+
+## source
+
+​	在当前shell环境中执行一个指定的脚本文件（和 . 同效）。
+
+## journalctl
+
+​	journalctl 是 systemd 系统和服务管理器的一部分，用于查询和显示系统日志。systemd 日志系统（也称为 journald）收集来自内核、系统服务和用户进程的日志信息，并将其存储在一个二进制日志文件中。journalctl 命令提供了多种选项来过滤和格式化这些日志信息，使其更易于阅读和分析。
+
+```bash
+journalctl [OPTIONS...] [MATCHES...]
+
+Query the journal.
+
+Flags:
+     --system              Show the system journal
+     --user                Show the user journal for the current user
+  -M --machine=CONTAINER   Operate on local container
+  -S --since=DATE          Show entries not older than the specified date
+  -U --until=DATE          Show entries not newer than the specified date
+  -c --cursor=CURSOR       Show entries starting at the specified cursor
+     --after-cursor=CURSOR Show entries after the specified cursor
+     --show-cursor         Print the cursor after all the entries
+  -b --boot[=ID]           Show current boot or the specified boot
+     --list-boots          Show terse information about recorded boots
+  -k --dmesg               Show kernel message log from the current boot
+  -u --unit=UNIT           Show logs from the specified unit
+  -t --identifier=STRING   Show entries with the specified syslog identifier
+  -p --priority=RANGE      Show entries with the specified priority
+  -e --pager-end           Immediately jump to the end in the pager
+  -f --follow              Follow the journal
+  -n --lines[=INTEGER]     Number of journal entries to show
+     --no-tail             Show all lines, even in follow mode
+  -r --reverse             Show the newest entries first
+  -o --output=STRING       Change journal output mode (short, short-iso,
+                                   short-precise, short-monotonic, verbose,
+                                   export, json, json-pretty, json-sse, cat)
+     --utc                 Express time in Coordinated Universal Time (UTC)
+  -x --catalog             Add message explanations where available
+     --no-full             Ellipsize fields
+  -a --all                 Show all fields, including long and unprintable
+  -q --quiet               Do not show privilege warning
+     --no-pager            Do not pipe output into a pager
+  -m --merge               Show entries from all available journals
+  -D --directory=PATH      Show journal files from directory
+     --file=PATH           Show journal file
+     --root=ROOT           Operate on catalog files underneath the root ROOT
+     --interval=TIME       Time interval for changing the FSS sealing key
+     --verify-key=KEY      Specify FSS verification key
+     --force               Override of the FSS key pair with --setup-keys
+
+Commands:
+  -h --help                Show this help text
+     --version             Show package version
+  -F --field=FIELD         List all values that a specified field takes
+     --new-id128           Generate a new 128-bit ID
+     --disk-usage          Show total disk usage of all journal files
+     --vacuum-size=BYTES   Reduce disk usage below specified size
+     --vacuum-time=TIME    Remove journal files older than specified date
+     --flush               Flush all journal data from /run into /var
+     --header              Show journal header information
+
+```
+
+
 
 # 权限模式
 

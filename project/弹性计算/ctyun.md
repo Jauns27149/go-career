@@ -104,19 +104,63 @@
 
 - openstack [commands]
   - image list : 查看镜像
+  
   - flavor list : 查看规格
+  
   - network list : 查看network
-  -  availability zone list : 查看可用区
+  
+  - availability zone list : 查看可用区
+  
   - server 
     - list : 查看虚拟机
+    
+      ```bash
+      Status:
+      	BUILD: 实例正在创建过程中。
+      	ACTIVE: 实例已经成功创建并运行。这是实例正常运行的状态。
+      	SHUTOFF: 实例已被关闭，但未被删除。这个状态下的实例不会消耗资源，但可以通过启动操作重新变为ACTIVE状态。
+      	ERROR: 实例在创建或运行过程中遇到了错误，无法继续。这个状态通常需要管理员进行干预来解决问题。
+      	DELETED: 实例已经被删除，不再存在。
+      	RESIZE: 实例正在进行大小调整（例如更改CPU或内存配置）。
+      	VERIFY_RESIZE: 实例已经完成了大小调整，但尚未确认新的大小是否生效。
+      	PAUSED: 实例已暂停，可以暂时停止其运行。
+      	SUSPENDED: 实例已挂起，类似于暂停，但可能涉及更深层次的资源管理。
+      	SHELVED: 实例已被“归档”，即保存到磁盘上，以便以后恢复。
+      	SHELVED_OFFLOADED: 实例已被完全从主机上移除，存储在外部存储设备上。
+      ```
+    
     - create
-      - ---image :
+      - --image :
+    
+      - --flavor : 指定规格
+    
       - --availability-zone :
-      - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none>
+    
+      - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none> ：
+    
       - <server-name>
-    - 
+    
+        ```bash
+        openstack server create --image Ubuntu16.04.v1-20220310 --flavor m6.3xlarge.8 --availability-zone internal --nic net-id=f0a223bc-19dd-405d-8f78-5b82d5facce0 janus-ubuntu
+        
+        
+        openstack server create --image CentOS7.8.v2-211130  --flavor s3.4xlarge.4 --availability-zone SERIES-3-ZONE --nic net-id=f0a223bc-19dd-405d-8f78-5b82d5facce0 janus-test
+        
+        openstack server create --image 76b36ab2-0699-4824-a6a7-83c661eaded6  --flavor ffc3f521-bc50-4b12-bf15-8f2b9e064d4b  --availability-zone IDRS-ZONE --nic net-id=c0fb14dc-fddf-4e8e-afc8-26c027b590cb janus-test
+        
+        ```
+    
+    - delete <instance-id> : 删除虚拟机实例
 
 模拟环境：2022年-贵州多AZ测试环境-POC2 -> 55.249.31.27
 
+2022年-贵州多AZ测试环境-POC2 -> 55.249.31.26
 
+
+
+systemctl status openstack-nova-api 
+
+systemctl status openstack-nova-scheduler 
+
+systemctl status openstack-nova-conductor
 
