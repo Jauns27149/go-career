@@ -1,15 +1,156 @@
 # 结构
 
 - /
-  - var: 存放可变数据文件(动态)
+  - var : 存放可变数据文件(动态)
     - lib: 存放与特定应用程序相关的状态信息和数据文件
-  - etc: 存放系统的配置文件(静态)
-    - os-release: 存储操作系统的识别信息(key-value)
-    - shadow: 存储用户密码和其他与用户帐户相关的安全信息的重要文件
-  - opt: 存放可选的第三方软件包
-  - tmp: 存储临时文件和数据(temporary)
+    - log : 存放系统和应用程序的日志文件
+  - etc : 存放系统的配置文件(静态)
+    - os-release : 存储操作系统的识别信息(key-value)
+    - shadow : 存储用户密码和其他与用户帐户相关的安全信息的重要文件
+  - opt : 存放可选的第三方软件包
+  - tmp : 存储临时文件和数据(temporary)
 
 # 命令
+
+## 目录&文件操作
+
+### journalctl
+
+```bash
+journalctl [OPTIONS...] [MATCHES...]
+# 访问和查看由 systemd 管理的系统日志，包含系统启动信息、服务日志、内核消息、应用程序日志等
+```
+
+- options : 
+
+  - -S --since=DATE : 显示date之后的日志
+
+  - -U --until=DATE : 显示date之前的日志
+
+  - -u --unit=UNIT : 查看特定服务的日志
+
+  - -f : 实时查看日志
+
+  - xe: 查看当前登录会话的日志
+
+  - -p : 按日志的优先级（日志级别）进行过滤
+
+    ```bash
+    0 - emergency（紧急）
+    1 - alert（警报）
+    2 - critical（严重）
+    3 - error（错误）
+    4 - warning（警告）
+    5 - notice（通知）
+    6 - info（信息
+    7 - debug（调试）
+    ```
+
+    
+
+### find
+
+```bash
+find [path] [expression]
+# 在文件系统中搜索文件和目录，默认目录是当前目录
+```
+
+- expression
+
+  - -name : 指定名字文件，可以使用正则
+
+  - -type : 指定类型
+
+    ```bash
+    d : 目录
+    f :	文件
+    l : 符号连接
+    ```
+
+  - size : 按大小寻找
+
+    ```bash
+    +100M : 大于100M
+    -100M : 小于100M
+    ```
+
+  - -exec : 对找到的文件执行某个命令
+
+### grep
+
+```bash
+grep [options...] "pattern" filename
+```
+
+- options :
+  - -i : 忽略大小写
+  - -n : 显示行号
+  - -v : 反向匹配（不显示匹配的行）
+  - -w : 匹配完整单词
+  - -c : 显示匹配行的数量
+  - -l : 显示包含匹配模式的文件名
+  - -r 或 -R : 递归搜索目录
+  - -E : 使用扩展正则表达式
+  - -P : 使用 Perl 正则表达式。
+
+### 基本正则
+
+- .（点）: 匹配任何单个字符（除了换行符），a.c 可以匹配 "abc"、"axc" 
+- `*`（星号）: 匹配前面的字符或子表达式零次或多次,，a*b 匹配 "b"、"ab"、"aab"、"aaab" 等
+- ^（脱字符）: 匹配行的开头，^abc 匹配以 "abc" 开头的行
+- $（美元符号）: 匹配行的结尾，abc$ 匹配以 "abc" 结尾的行
+- []（方括号）: 匹配方括号内的任何一个字符，可以使用范围， [a-z] 匹配任何小写字母，[abc] 匹配 "a", "b" 或 "c"
+- [^]（否定方括号）: 匹配不在方括号内的任何字符，`[^0-9] `匹配任何非数字字符
+- \（反斜杠）: 用于转义特殊字符，使其失去特殊含义，`\.` 匹配一个实际的句点，而不是“任意字符”。
+
+### cp
+
+```
+cp [OPTIONS...] source destination
+```
+
+- optines :
+  - -r : 递归
+  - -f : 强制
+  - -v : 输出过程
+  - -u : 更新
+
+## 系统操作
+
+### systemctl
+
+```bash
+systemctl [OPTIONS...] COMMAND ...
+# 管理和控制 systemd 系统和服务管理器的命令行工具
+```
+
+- command
+
+  - status <server-name> : 查看特定服务的当前状态
+  - start <server-name> : 启动服务
+  - restart <server-name> : 重启服务
+  - reload <server-name> : 重新加载服务配置
+  - stop <server-name> : 停止服务
+  - enable <server-name> : 系统启动时自动启动
+  - disable <server-name> : 禁用服务
+  - daemon-reload: 重新加载 systemd 系统和服务管理器的配置文件
+
+- options : 
+
+  - --type : 指定要列出的单位类型（unit type）。常见的单位类型包括 service, socket, target, mount
+
+  - --state : 过滤和显示具有特定状态的服务单元
+
+    ```bash
+    active: 单元正在运行或已完成
+    inactive: 单元未运行且未激活
+    reloading: 单元正在重新加载其配置
+    failed: 单元失败了，可能是因为启动过程中出现错误
+    activating: 单元正在启动中
+    deactivating: 单元正在停止中
+    ```
+
+  - --force : 强制执行
 
 ## awk
 
