@@ -166,7 +166,7 @@
   
   - server 
     - list : 查看虚拟机
-    
+  
       ```bash
       Status:
       	BUILD: 实例正在创建过程中。
@@ -181,31 +181,51 @@
       	SHELVED: 实例已被“归档”，即保存到磁盘上，以便以后恢复。
       	SHELVED_OFFLOADED: 实例已被完全从主机上移除，存储在外部存储设备上。
       ```
-    
+  
     - create
       - --image :
-    
+  
       - --flavor : 指定规格
-    
+  
       - --availability-zone :
-    
+  
       - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none> ：
-    
+  
       - <server-name>
-    
+  
         ```bash
-        openstack server create --image Ubuntu16.04.v1-20220310 --flavor m6.3xlarge.8 --availability-zone internal --nic net-id=f0a223bc-19dd-405d-8f78-5b82d5facce0 janus-ubuntu
-        
-        
-        openstack server create --image CentOS7.8.v2-211130  --flavor s3.4xlarge.4 --availability-zone SERIES-3-ZONE --nic net-id=f0a223bc-19dd-405d-8f78-5b82d5facce0 janus-test
-        
-        openstack server create --image 76b36ab2-0699-4824-a6a7-83c661eaded6  --flavor ffc3f521-bc50-4b12-bf15-8f2b9e064d4b  --availability-zone IDRS-ZONE --nic net-id=c0fb14dc-fddf-4e8e-afc8-26c027b590cb janus-test
-        
+         openstack server create --image centOS_6.8  --flavor s2.2xlarge.2   --availability-zone  S6-PUBLIC-ZONE --nic net-id=08048318-af62-4a15-9634-e5db4d3a015f janus-test
+         # 2022年-贵州公共测试-贵州-弹性计算测试环境
         ```
     
     - delete <instance-id> : 删除虚拟机实例
+    
+    - show <instance-id> : 虚机详情
+    
+    - stop <instance-id> : 虚机关机
+    
+    - start <instance-id> : 虚机开机
+    
+    - rebuld <instance-id> --image <image-id> : 重装虚机
+    
+    - resize <instance-id> 
+    
+      - --flavor <flavor name or id> : 更换规格（需要再次确认操作）
+      - --confirm <instance-id> : 确认更改
+      - --revert <instance-id> : 取消变更
+    
+    - migrate 
+    
+      - --live <target-host> <instance-id> : 热迁手打指定目标节点（虚机状态应当为ACTIVE or RUNNING）
+      - --host<target-hsot> <instance-id> : 冷迁（虚机状态为SHUTOFF）
+    
+  - hypervisor stats show : 查看计算节点的资源利用率
+  
+  - compute service list : 查看节点
+  
+    
 
-模拟环境：2022年-贵州多AZ测试环境-POC2 -> 55.249.31.27
+模拟环境：2022年-贵州多AZ测试环境-POC2 ->  
 
 2022年-贵州多AZ测试环境-POC2 -> 55.249.31.26
 
@@ -216,4 +236,22 @@ systemctl status openstack-nova-api
 systemctl status openstack-nova-scheduler 
 
 systemctl status openstack-nova-conductor
+
+# gs
+
+内蒙08 ->  10.8.73.43
+配置环境  . admin-openrc az1
+
+ gs instance boot --flavor s2.large.2 --image CentOS-7.6-x86_64 --name janus-test --port port-2sb8rcyg64 --zone SERIES-3-ZONE --host 4c27d7188f25e67baedc703cd916e80bf7cbadfe
+
+gs instance boot --flavor test0008 --image CentOS-7.6-x86_64 --name janus-test --port port-2sb8rcyg64 --zone SERIES-3-ZONE --host 4c27d7188f25e67baedc703cd916e80bf7cbadfe
+
+gs instance boot --flavor d1ace1b0-dbcc-3f8a-b94e-2a17fce46efc --image a941360a-ad53-4409-a327-4864a6c4bab7 --name janus-test --port port-3eis49bbp1 --zone public --host 1b0680e94d636f8bd3cf97f072a806a547041288
+
+
+
+- gs [commad]
+  - instance 
+    - show <instance-id> : 查看虚机详细信息
+    - delete <instance-id> : 删除虚机  
 
