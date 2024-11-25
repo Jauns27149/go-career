@@ -10,6 +10,7 @@ type ninWindow struct {
 
 func main() {
 	examples := []ninWindow{
+		{"cabwefgewcwaefgcf", "cae", "cwae"},
 		{"ADOBECODEBANC", "ABC", "BANC"},
 	}
 	for _, ex := range examples {
@@ -18,26 +19,85 @@ func main() {
 }
 
 func minWindow(s string, t string) string {
-	mapt := map[rune]int{}
+	m := map[rune]int{}
 	for _, v := range t {
-		mapt[v]--
+		m[v]--
 	}
-	var targetSlice []int
+	var is []int
 	flag := len(t)
 	for i, v := range s {
-		if c, ok := mapt[v]; ok {
+		if c, ok := m[v]; ok {
 			if c < 0 {
 				flag--
 			}
-			mapt[v]++
-			targetSlice = append(targetSlice, i)
+			m[v]++
+			is = append(is, i)
 		}
 	}
 	if flag > 0 {
 		return ""
 	}
-	targetSlice = findMinWindow(s, mapt, targetSlice)
-	return s[targetSlice[0] : targetSlice[len(targetSlice)-1]+1]
+
+	start, end := 0, len(is)-1
+	if v, _ := m[rune(s[is[start]])]; v == 0 {
+		v, _ = m[rune(s[is[end]])]
+		for v != 0 {
+			m[rune(s[is[end]])]--
+			end--
+			v, _ = m[rune(s[is[end]])]
+		}
+		return s[is[start] : is[end]+1]
+	}
+
+	if v, _ := m[rune(s[is[end]])]; v == 0 {
+		v, _ = m[rune(s[is[start]])]
+		for v != 0 {
+			m[rune(s[is[start]])]--
+			start++
+			v, _ = m[rune(s[is[start]])]
+		}
+		return s[is[start] : is[end]+1]
+	}
+	tm := map[rune]int{}
+	for k, v := range m {
+		tm[k] = v
+	}
+
+	v, _ := m[rune(s[is[start]])]
+	for v != 0 {
+		m[rune(s[is[start]])]--
+		start++
+		v, _ = m[rune(s[is[start]])]
+	}
+	v, _ = m[rune(s[is[end]])]
+	for v != 0 {
+		m[rune(s[is[end]])]--
+		end--
+		v, _ = m[rune(s[is[end]])]
+	}
+	answerS := s[is[start] : is[end]+1]
+
+	start, end = 0, len(is)-1
+	v, _ = tm[rune(s[is[end]])]
+	for v != 0 {
+		tm[rune(s[is[end]])]--
+		end--
+		v, _ = tm[rune(s[is[end]])]
+	}
+	v, _ = tm[rune(s[is[start]])]
+	for v != 0 {
+		m[rune(s[is[start]])]--
+		start++
+		v, _ = tm[rune(s[is[start]])]
+	}
+	answerE := s[is[start] : is[end]+1]
+
+	if len(answerE) < len(answerS) {
+		return answerE
+	} else {
+		return answerS
+	}
+
 }
 
 func findMinWindow(s string, mapt map[rune]int, slice []int) []int {
