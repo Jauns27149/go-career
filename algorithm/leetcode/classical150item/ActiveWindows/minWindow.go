@@ -1,6 +1,26 @@
+/*
+	给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。
+	如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
+
+注意：
+ 1. 对于 t 中重复字符，我们寻找的子字符串中该字符数量必须不少于 t 中该字符数量。
+ 2. 如果 s 中存在这样的子串，我们保证它是唯一的答案。
+
+示例 1：
+输入：s = "ADOBECODEBANC", t = "ABC"
+输出："BANC"
+解释：最小覆盖子串 "BANC" 包含来自字符串 t 的 'A'、'B' 和 'C'。
+
+示例 2：
+输入：s = "a", t = "a"
+输出："a"
+解释：整个字符串 s 是最小覆盖子串。
+*/
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ninWindow struct {
 	s      string
@@ -10,125 +30,55 @@ type ninWindow struct {
 
 func main() {
 	examples := []ninWindow{
+		{"a", "b", ""},
+		{"a", "a", "a"},
 		{"cabwefgewcwaefgcf", "cae", "cwae"},
 		{"ADOBECODEBANC", "ABC", "BANC"},
 	}
 	for _, ex := range examples {
-		fmt.Println(minWindow(ex.s, ex.t), "\t->", ex.answer)
+		fmt.Printf("%v\n%v\n-------\n", minWindow(ex.s, ex.t), ex.answer)
 	}
 }
 
 func minWindow(s string, t string) string {
+	ls, lt := len(s), len(t)
 	m := map[rune]int{}
 	for _, v := range t {
 		m[v]--
 	}
+
 	var is []int
-	flag := len(t)
+	start, end, l, do := 0, ls-1, ls, false
 	for i, v := range s {
 		if c, ok := m[v]; ok {
 			if c < 0 {
-				flag--
+				lt--
 			}
 			m[v]++
 			is = append(is, i)
+			if lt == 0 {
+				do = true
+			}
+
+			if do {
+				for a, ii := range is {
+					k := rune(s[ii])
+					cc, _ := m[k]
+					if cc == 0 {
+						is = is[a:]
+						if i-ii+1 < l {
+							start, end = ii, i
+							l = i - ii + 1
+						}
+						break
+					}
+					m[k]--
+				}
+			}
 		}
 	}
-	if flag > 0 {
-		return ""
+	if do {
+		return s[start : end+1]
 	}
-
-	start, end := 0, len(is)-1
-	if v, _ := m[rune(s[is[start]])]; v == 0 {
-		v, _ = m[rune(s[is[end]])]
-		for v != 0 {
-			m[rune(s[is[end]])]--
-			end--
-			v, _ = m[rune(s[is[end]])]
-		}
-		return s[is[start] : is[end]+1]
-	}
-
-	if v, _ := m[rune(s[is[end]])]; v == 0 {
-		v, _ = m[rune(s[is[start]])]
-		for v != 0 {
-			m[rune(s[is[start]])]--
-			start++
-			v, _ = m[rune(s[is[start]])]
-		}
-		return s[is[start] : is[end]+1]
-	}
-	tm := map[rune]int{}
-	for k, v := range m {
-		tm[k] = v
-	}
-
-	v, _ := m[rune(s[is[start]])]
-	for v != 0 {
-		m[rune(s[is[start]])]--
-		start++
-		v, _ = m[rune(s[is[start]])]
-	}
-	v, _ = m[rune(s[is[end]])]
-	for v != 0 {
-		m[rune(s[is[end]])]--
-		end--
-		v, _ = m[rune(s[is[end]])]
-	}
-	answerS := s[is[start] : is[end]+1]
-
-	start, end = 0, len(is)-1
-	v, _ = tm[rune(s[is[end]])]
-	for v != 0 {
-		tm[rune(s[is[end]])]--
-		end--
-		v, _ = tm[rune(s[is[end]])]
-	}
-	v, _ = tm[rune(s[is[start]])]
-	for v != 0 {
-		m[rune(s[is[start]])]--
-		start++
-		v, _ = tm[rune(s[is[start]])]
-	}
-	answerE := s[is[start] : is[end]+1]
-
-	if len(answerE) < len(answerS) {
-		return answerE
-	} else {
-		return answerS
-	}
-
-}
-
-func findMinWindow(s string, mapt map[rune]int, slice []int) []int {
-	end := len(slice) - 1
-	startCount := mapt[rune(s[slice[0]])]
-	endCount := mapt[rune(s[slice[end]])]
-	if startCount == 0 && endCount == 0 {
-		return slice
-	}
-	leftSlice, rightSlice := slice, slice
-	if startCount > 0 {
-		m := map[rune]int{}
-		for k, v := range mapt {
-			m[k] = v
-		}
-		m[rune(s[slice[0]])]--
-		leftSlice = findMinWindow(s, m, slice[1:end+1])
-	}
-	if endCount > 0 {
-		m := map[rune]int{}
-		for k, v := range mapt {
-			m[k] = v
-		}
-		m[rune(s[slice[end]])]--
-		rightSlice = findMinWindow(s, m, slice[:end])
-	}
-	left := leftSlice[len(leftSlice)-1] - leftSlice[0] + 1
-	right := rightSlice[len(rightSlice)-1] - rightSlice[0] + 1
-	if left < right {
-		return leftSlice
-	} else {
-		return rightSlice
-	}
+	return ""
 }
