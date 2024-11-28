@@ -152,6 +152,13 @@ systemctl [OPTIONS...] COMMAND ...
 
   - --force : 强制执行
 
+### lsblk
+
+```bash
+lsblk
+# list block devices，用于列出系统中所有可用的块设备信
+```
+
 ## awk
 
 ```bash
