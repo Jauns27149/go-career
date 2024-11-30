@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
-	"go-career/swag/hello"
+	_ "go-career/swag/docs"
+	"go-career/swag/server"
 )
 
 // @title Swagger Example API
@@ -20,12 +21,13 @@ func main() {
 	e := echo.New()
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.GET("/hello", hello.Hello)
+	e.GET("/hello", server.Hello)
+	e.GET("/goodbye", server.Hello)
 
 	/*
 		Or can use EchoWrapHandler func with configurations.
 		url := echoSwagger.URL("http://localhost:1323/swagger/doc.json") //The url pointing to API definition
 		e.GET("/swagger/*", echoSwagger.EchoWrapHandler(url))
 	*/
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
