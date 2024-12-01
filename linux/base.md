@@ -109,11 +109,25 @@ grep [options...] "pattern" filename
 cp [OPTIONS...] source destination
 ```
 
-- optines :
+- options :
   - -r : 递归
   - -f : 强制
   - -v : 输出过程
   - -u : 更新
+
+### wc
+
+```bash
+wc [options] [flie...]
+# word count 用于统计文件的字数、行数、字符数和字节数
+```
+
+- options
+  - `-l` :  统计行数（Line count）
+  - `-w : 统计单词数（Word count）
+  - `-c : 统计字符数（Character count）
+  - `-m` : 统计字符数（按字符计）
+  - `-L` : 统计文件中最长一行的长度
 
 ## 系统操作
 
