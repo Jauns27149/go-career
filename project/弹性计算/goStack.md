@@ -33,9 +33,23 @@
 4. 开启事件监听服务(workflow_service)
    - WatchEvent（重点）
 
-# 疑问
+# 业务数理
 
-## engine
+## 虚拟机快照
 
-1. yaml文件没有mongo配置
-2. 
+- 接口
+  - 获取虚拟机快照列表
+  - 获取虚拟机快照信息
+
+- 小缺陷
+
+  - swag关于接口描述的注解，表达不清晰。
+
+    ![image-20241201163031071](/home/janus/.config/Typora/typora-user-images/image-20241201163031071.png)
+
+### 获取虚拟机快照列表
+
+- 流程：从mongo获取快照信息
+- 疑问：快照信息存入的时机待探索
+
+### 获取虚拟机快照信息

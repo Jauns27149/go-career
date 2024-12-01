@@ -14,6 +14,10 @@ api地址 : `http://localhost:1323/swagger/index.html`
 goStack项目生成API命令：
 
 ```bash
+# linux
+swag init -g ./main/main.go --parseDependency --exclude ./metadata/,./common/,./scheduler/  -o ./main/
+
+# windows
 swag.exe init -g .\main\main.go --parseDependency --exclude .\knife4go\,.\common\secure\utils\,.\metadata\,.\scheduler\
 ```
 
