@@ -5,7 +5,6 @@ go 1.22.7
 toolchain go1.22.9
 
 require (
-	gitee.com/youbeiwuhuan/knife4go/gin-swagger-knife v0.0.0-20240610041527-df1963fb7629
 	github.com/davidbyttow/govips/v2 v2.15.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/labstack/echo/v4 v4.12.0
