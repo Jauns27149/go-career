@@ -3,8 +3,7 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
-	_ "go-career/swag/docs"
-	"go-career/swag/server"
+	"go-career/component-go/swag/server"
 )
 
 // @title Swagger Example API

@@ -18,7 +18,7 @@ goStack项目生成API命令：
 swag init -g ./main/main.go --parseDependency --exclude ./metadata/,./common/,./scheduler/  -o ./main/
 
 # windows
-swag.exe init -g .\main\main.go --parseDependency --exclude .\knife4go\,.\common\secure\utils\,.\metadata\,.\scheduler\
+swag.exe init -g .\main\main.go -o .\main\ --parseDependency --exclude .\knife4go\,.\common\secure\utils\,.\metadata\,.\scheduler\
 ```
 
 # swag cli
