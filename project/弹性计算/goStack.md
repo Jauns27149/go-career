@@ -53,3 +53,20 @@
 - 疑问：快照信息存入的时机待探索
 
 ### 获取虚拟机快照信息
+
+
+
+## 创建虚拟机
+
+1. 请求体数据校验与绑定
+   1. body是否存在，否--return err
+   2. config_drive是否存在，否--ConfigDrive = true
+   3. password 校验，无 --随即生成
+   4. createInstanceRequest 格式校验(validate)
+   5. Metadata校验
+   6. 是否有name，无 name = hostname
+   7. 处理网络，不支持pf网卡
+2. keypair检查
+3. 查找flavor
+4. 创建虚拟机
+5. 提交事务
