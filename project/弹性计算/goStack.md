@@ -70,3 +70,27 @@
 3. 查找flavor
 4. 创建虚拟机
 5. 提交事务
+
+
+
+# gostack项目运转流程
+
+1. 结构
+   - agent : 执行Job
+   - api : 前端请求处理成Task并记录至数据库
+   - engine : 监听并处理Task执行异步处理流程
+   - scheduler : 负责处理资源调度
+   - cron : 周期性任务注册、执行组件
+
+模块之间是通过 etcd 的 watch 机制来时间进行模块之间的交互，实现类似远程调用的效果。
+
+- 流程
+  1. api模块根据请求，决定是否需要需要生成task
+  2. engine模块
+     1. 根据FlowName进行job编排，生成plan，以及决定是否需要scheduler进行调度
+     2. plan下每个jod逐一在agent 执行，返回结果
+     3. task、plan、jod执行过程的相关数据同步到mongo
+     4. 有job有错误，直接返回错误响应，全部执行成功则返回成功响应
+  3. agent执行jod, 
+
+![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)

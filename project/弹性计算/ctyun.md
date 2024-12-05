@@ -231,7 +231,7 @@
 
 # gs
 
-内蒙08 ->  10.8.73.43
+内蒙08 -> 10.8.73.43
 配置环境  . admin-openrc az1
 
 ## gs
@@ -343,4 +343,57 @@
   - vpc
     - port-detach <port-id>
     - -- tenant-id <project-id> 
+
+# gostack执行流程
+
+项目结构
+
+- gostack
+  - agent
+  - api
+  - engine
+  - scheduler
+  - cron
+
+```bash
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods | grep etcd
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get svc gostack-etcd -n az1 -o wide
+NAME           TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)             AGE    SELECTOR
+gostack-etcd   ClusterIP   10.96.27.16   <none>        2379/TCP,2380/TCP   378d   app.kubernetes.io/instance=gostack-etcd
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods -n az1 -l app.kubernetes.io/instance=gostack-etcd -o wide
+NAME                                               READY   STATUS    RESTARTS   AGE   IP           NODE                                   NOMINATED NODE   READINESS GATES
+cn-nm-region1-az1-gostack-etcd2-855574798d-q572f   1/1     Running   0          13d   10.8.73.45   cn-nm-region1-az1-control-10e8e73e45   <none>           <none>
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl exec -it cn-nm-region1-az1-gostack-etcd2-855574798d-q572f  -n az1 -- /bin/sh
+# ls
+bin  boot  dev  etc  etcd-data  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+# cd etcd-d
+/bin/sh: 2: cd: can't cd to etcd-d
+
+
+
+ etcdctl get "/template" --prefix --user=root:2021CTyu
+ 
+ 
+ 
+ [root@cn-nm-region1-az1-control-10e8e73e43 gostack]# cat gsinitrc.yml-az1
+#AZ1
+AppInfo:
+  Username: "root"
+  Password: "2021CTyun!"
+  EndPoint: "gostack-etcd.az1.svc.cluster.net:2379"
+  BakEndPoint: "gostack-etcd-backup.az1.svc.cluster.net:2379"
+  MaxCallSendMsgSize: 10485760
+  MaxCallRecvMsgSize: 107374182400
+  KeepAliveTime: 30
+  KeepAliveTimeout: 10
+MongoConf:
+  EndPoint: "gostack-mongos.az1.svc.cluster.net:27017"
+  EndPoints:
+    - "gostack-mongos.az1.svc.cluster.net:27017"
+  Username: "root"
+  Password: "test"
+  Timeout: 300
+  Worker: 10
+
+```
 
