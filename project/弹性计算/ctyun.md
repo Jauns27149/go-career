@@ -231,7 +231,7 @@
 
 # gs
 
-内蒙08 ->  10.8.73.43
+内蒙08 -> 10.8.73.43
 配置环境  . admin-openrc az1
 
 ## gs
@@ -344,144 +344,56 @@
     - port-detach <port-id>
     - -- tenant-id <project-id> 
 
+# gostack执行流程
+
+项目结构
+
+- gostack
+  - agent
+  - api
+  - engine
+  - scheduler
+  - cron
+
+```bash
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods | grep etcd
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get svc gostack-etcd -n az1 -o wide
+NAME           TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)             AGE    SELECTOR
+gostack-etcd   ClusterIP   10.96.27.16   <none>        2379/TCP,2380/TCP   378d   app.kubernetes.io/instance=gostack-etcd
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods -n az1 -l app.kubernetes.io/instance=gostack-etcd -o wide
+NAME                                               READY   STATUS    RESTARTS   AGE   IP           NODE                                   NOMINATED NODE   READINESS GATES
+cn-nm-region1-az1-gostack-etcd2-855574798d-q572f   1/1     Running   0          13d   10.8.73.45   cn-nm-region1-az1-control-10e8e73e45   <none>           <none>
+[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl exec -it cn-nm-region1-az1-gostack-etcd2-855574798d-q572f  -n az1 -- /bin/sh
+# ls
+bin  boot  dev  etc  etcd-data  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+# cd etcd-d
+/bin/sh: 2: cd: can't cd to etcd-d
 
 
 
+ etcdctl get "/template" --prefix --user=root:2021CTyu
+ 
+ 
+ 
+ [root@cn-nm-region1-az1-control-10e8e73e43 gostack]# cat gsinitrc.yml-az1
+#AZ1
+AppInfo:
+  Username: "root"
+  Password: "2021CTyun!"
+  EndPoint: "gostack-etcd.az1.svc.cluster.net:2379"
+  BakEndPoint: "gostack-etcd-backup.az1.svc.cluster.net:2379"
+  MaxCallSendMsgSize: 10485760
+  MaxCallRecvMsgSize: 107374182400
+  KeepAliveTime: 30
+  KeepAliveTimeout: 10
+MongoConf:
+  EndPoint: "gostack-mongos.az1.svc.cluster.net:27017"
+  EndPoints:
+    - "gostack-mongos.az1.svc.cluster.net:27017"
+  Username: "root"
+  Password: "test"
+  Timeout: 300
+  Worker: 10
 
-```jso
-{
-  "block_devices": [
-    {
-      "boot_index": 0,
-      "cache_mode": "string",
-      "delete_on_termination": true,
-      "destination_type": "string",
-      "device_name": "string",
-      "disk_bus": "string",
-      "disk_io_tune": {
-        "read_bytes_sec": 0,
-        "read_iops_sec": 0,
-        "total_bytes_sec": 0,
-        "total_iops_sec": 0,
-        "write_bytes_sec": 0,
-        "write_iops_sec": 0
-      },
-      "id": "string",
-      "source_type": "string",
-      "volume_size": 50,
-      "volume_type": "string"
-    }
-  ],
-  "config_drive": true,
-  "count": 0,
-  "dedicated_to": "string",
-  "description": "string",
-  "engine_name": "string",
-  "flavor_id": "s7.small.1",
-  "group": [
-    "string"
-  ],
-  "instance_id": "string",
-  "is_pgpu_install": true,
-  "is_trusted": true,
-  "key_name": "string",
-  "metadata": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  },
-  "name": "Janus",
-  "networks": [
-    {
-      "bridge_type": 0,
-      "fixed_ips": [
-        {
-          "ip_address": "string",
-          "subnet_id": "string"
-        }
-      ],
-      "id": "string",
-      "ip_inject_proto": 0,
-      "mac_address": "string",
-      "mtu": 0,
-      "network_index": "string",
-      "pci_type": "type-PCI",
-      "pf_name": "string",
-      "port_id": "port-ustdivjyb0",
-      "qos": "string",
-      "subnet_infos": [
-        {
-          "cidr": "string",
-          "dns_nameservers": [
-            "string"
-          ],
-          "enable_dhcp": true,
-          "gateway_ip": "string",
-          "ip_version": 0,
-          "ipv6_enabled": 0,
-          "subnet_id": "string",
-          "vpc_id": "string"
-        }
-      ],
-      "tags": [
-        "string"
-      ],
-      "vnic_type": 0
-    }
-  ],
-  "only_define": true,
-  "pgpu_driver_kits": "string",
-  "root_password": "string",
-  "scheduler_spec": {
-    "affinities": [
-      {
-        "key": "string",
-        "mode": "HARD",
-        "operator": "IN",
-        "target": "HOST",
-        "type": "TAG",
-        "values": [
-          "string"
-        ],
-        "weight": 0
-      }
-    ],
-    "affinity_mode": "string",
-    "device_type": "string",
-    "dpu_request": {
-      "disk_vf_num": 0,
-      "disk_vf_queue_num": 0,
-      "net_vf_num": 0,
-      "net_vf_queue_num": 0
-    },
-    "host_id": "23d752acc3284677ac00e5320aa8633adfd25ca5",
-    "host_name": "string",
-    "instance_num": 0,
-    "numa_node_num": 0,
-    "numa_nodes": [
-      0
-    ],
-    "purpose": "LIVE_RESIZE_LOCAL",
-    "server_group": "string"
-  },
-  "security_groups": [
-    {
-      "id": "string",
-      "name": "string"
-    }
-  ],
-  "sys_local_info": {
-    "image_id": "string",
-    "size": 0
-  },
-  "tags": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  },
-  "user_data": "string",
-  "user_name": "string",
-  "zone": "SERIES-7-ZONE"
-}
 ```
 

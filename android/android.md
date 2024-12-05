@@ -12,7 +12,7 @@
 - adb shell pm list packages -d : 禁用软件列表
 
 ```bash
-adb shell pm disable-user --user 0 com.oneplus.member
+adb shell pm disable-user --user 0  com.oneplus.bbs
 ```
 
 
