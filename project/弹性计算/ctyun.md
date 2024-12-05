@@ -344,3 +344,144 @@
     - port-detach <port-id>
     - -- tenant-id <project-id> 
 
+
+
+
+
+```jso
+{
+  "block_devices": [
+    {
+      "boot_index": 0,
+      "cache_mode": "string",
+      "delete_on_termination": true,
+      "destination_type": "string",
+      "device_name": "string",
+      "disk_bus": "string",
+      "disk_io_tune": {
+        "read_bytes_sec": 0,
+        "read_iops_sec": 0,
+        "total_bytes_sec": 0,
+        "total_iops_sec": 0,
+        "write_bytes_sec": 0,
+        "write_iops_sec": 0
+      },
+      "id": "string",
+      "source_type": "string",
+      "volume_size": 50,
+      "volume_type": "string"
+    }
+  ],
+  "config_drive": true,
+  "count": 0,
+  "dedicated_to": "string",
+  "description": "string",
+  "engine_name": "string",
+  "flavor_id": "s7.small.1",
+  "group": [
+    "string"
+  ],
+  "instance_id": "string",
+  "is_pgpu_install": true,
+  "is_trusted": true,
+  "key_name": "string",
+  "metadata": {
+    "additionalProp1": "string",
+    "additionalProp2": "string",
+    "additionalProp3": "string"
+  },
+  "name": "Janus",
+  "networks": [
+    {
+      "bridge_type": 0,
+      "fixed_ips": [
+        {
+          "ip_address": "string",
+          "subnet_id": "string"
+        }
+      ],
+      "id": "string",
+      "ip_inject_proto": 0,
+      "mac_address": "string",
+      "mtu": 0,
+      "network_index": "string",
+      "pci_type": "type-PCI",
+      "pf_name": "string",
+      "port_id": "port-ustdivjyb0",
+      "qos": "string",
+      "subnet_infos": [
+        {
+          "cidr": "string",
+          "dns_nameservers": [
+            "string"
+          ],
+          "enable_dhcp": true,
+          "gateway_ip": "string",
+          "ip_version": 0,
+          "ipv6_enabled": 0,
+          "subnet_id": "string",
+          "vpc_id": "string"
+        }
+      ],
+      "tags": [
+        "string"
+      ],
+      "vnic_type": 0
+    }
+  ],
+  "only_define": true,
+  "pgpu_driver_kits": "string",
+  "root_password": "string",
+  "scheduler_spec": {
+    "affinities": [
+      {
+        "key": "string",
+        "mode": "HARD",
+        "operator": "IN",
+        "target": "HOST",
+        "type": "TAG",
+        "values": [
+          "string"
+        ],
+        "weight": 0
+      }
+    ],
+    "affinity_mode": "string",
+    "device_type": "string",
+    "dpu_request": {
+      "disk_vf_num": 0,
+      "disk_vf_queue_num": 0,
+      "net_vf_num": 0,
+      "net_vf_queue_num": 0
+    },
+    "host_id": "23d752acc3284677ac00e5320aa8633adfd25ca5",
+    "host_name": "string",
+    "instance_num": 0,
+    "numa_node_num": 0,
+    "numa_nodes": [
+      0
+    ],
+    "purpose": "LIVE_RESIZE_LOCAL",
+    "server_group": "string"
+  },
+  "security_groups": [
+    {
+      "id": "string",
+      "name": "string"
+    }
+  ],
+  "sys_local_info": {
+    "image_id": "string",
+    "size": 0
+  },
+  "tags": {
+    "additionalProp1": "string",
+    "additionalProp2": "string",
+    "additionalProp3": "string"
+  },
+  "user_data": "string",
+  "user_name": "string",
+  "zone": "SERIES-7-ZONE"
+}
+```
+
