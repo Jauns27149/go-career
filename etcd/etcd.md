@@ -3,3 +3,5 @@
 - etcdctl : 命令行工具
   - get <key> : 获取键值
   - put <key> <value> : 设置键值
+  - del --from-key / : 删除所有键数据
+  - get  "" --prefix  --keys-only / : 查看所有的key值
