@@ -234,88 +234,7 @@
 内蒙08 -> 10.8.73.43
 配置环境  . admin-openrc az1
 
-## gs
-
-- gs : `gs [command]`
-
-  - instance : 虚拟机操作 
-
-    - boot : 创建虚拟机
-
-      - --flavor : 规格
-
-      - --image : 镜像
-
-      - --host <hsot-id>： 宿主机
-
-      - --zone :
-
-      - --name : 虚拟机名称
-
-      - --port ： 虚拟机映射端口
-
-      - --volume <int> : 创建卷大小 ，单位G
-
-        ```bash
-        gs instance boot \
-        --flavor s7.small.1 \
-        --image 65639384-7cc3-4d9d-bf44-c9161ebd3d26  \
-        --host 23d752acc3284677ac00e5320aa8633adfd25ca5 \
-        --zone SERIES-7-ZONE  \
-        --name janus \
-        --port port-ustdivjyb0 \
-        --volume-size 50
-        ```
-
-        
-
-    - password <instance-id> : 更改密码
-
-      - --password <string> 
-      - --username <string>
-
-    - list : 虚拟机列表
-
-      - --name <string> ： 虚拟机名称
-
-    - delete <instance-id> : 删除虚拟机（软删除）
-
-      - --hard ：硬删除
-      - --ignore : 忽略虚拟机ERROR状态（ERROR状态默认不能删除）
-
-    - show <instance-id> : 虚拟详情
-
-    - stop <instance-id> : 关机
-
-    - start <instance-id> : 开机
-
-    - rebuild : `gs instance  <instance_id> rebuild [flags]`, 重建虚拟机
-
-      - --image <image-id> : 镜像 
-
-    - detach-volume <instance-id> [flag] : 卸载磁盘
-
-      -  --volume-id <string>
-
-    - attach-volume <isntance-id> : 挂载磁盘
-
-      - --volume-id <volume-id> : 指定卷id
-
-    - reset <instance-id> [flag] : 重置
-
-      -  --root-device-id <string> :  
-
-    - detach-interface
-
-      - --port <port-id>
-
-    - attach-interface
-
-      - --port<port-id>
-
-  - host : 
-
-    - show <host-id> : Host详情
+- - -
 
 ## virsh
 
@@ -395,5 +314,243 @@ MongoConf:
   Timeout: 300
   Worker: 10
 
+```
+
+# glance
+
+```bash
+usage: glance [--version] [-d] [-v] [--get-schema] [-f]
+              [--os-image-url OS_IMAGE_URL]
+              [--os-image-api-version OS_IMAGE_API_VERSION]
+              [--profile HMAC_KEY] [--key-file OS_KEY] [--ca-file OS_CACERT]
+              [--cert-file OS_CERT] [--os-region-name OS_REGION_NAME]
+              [--os-auth-token OS_AUTH_TOKEN]
+              [--os-service-type OS_SERVICE_TYPE]
+              [--os-endpoint-type OS_ENDPOINT_TYPE] [--insecure]
+              [--os-cacert <ca-certificate>] [--os-cert <certificate>]
+              [--os-key <key>] [--timeout <seconds>] [--os-auth-type <name>]
+              [--os-auth-url OS_AUTH_URL] [--os-system-scope OS_SYSTEM_SCOPE]
+              [--os-domain-id OS_DOMAIN_ID] [--os-domain-name OS_DOMAIN_NAME]
+              [--os-project-id OS_PROJECT_ID]
+              [--os-project-name OS_PROJECT_NAME]
+              [--os-project-domain-id OS_PROJECT_DOMAIN_ID]
+              [--os-project-domain-name OS_PROJECT_DOMAIN_NAME]
+              [--os-trust-id OS_TRUST_ID]
+              [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
+              [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
+              [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
+              [--os-user-domain-id OS_USER_DOMAIN_ID]
+              [--os-user-domain-name OS_USER_DOMAIN_NAME]
+              [--os-password OS_PASSWORD]
+              <subcommand> ...
+
+Command-line interface to the OpenStack Images API.
+
+Positional arguments:
+  <subcommand>
+    backend-list        Show the rbd backends .
+    explain             Describe a specific model.
+    image-create        Create a new image.
+    image-create-via-import
+                        EXPERIMENTAL: Create a new image via image import.
+    image-deactivate    Deactivate specified image.
+    image-delete        Delete specified image.
+    image-download      Download a specific image.
+    image-import        Initiate the image import taskflow.
+    image-list          List images you can access.
+    image-quota         Show the quota of current user.
+    image-reactivate    Reactivate specified image.
+    image-show          Describe a specific image.
+    image-stage         Upload data for a specific image to staging.
+    image-sync          Add a location (and related metadata) to an image.
+    image-tag-delete    Delete the tag associated with the given image.
+    image-tag-update    Update an image with the given tag.
+    image-update        Update an existing image.
+    image-upload        Upload data for a specific image.
+    import-info         Print import methods available from Glance.
+    location-add        Add a location (and related metadata) to an image.
+    location-delete     Remove locations (and related metadata) from an image.
+    location-update     Update metadata of an image's location.
+    md-namespace-create
+                        Create a new metadata definitions namespace.
+    md-namespace-delete
+                        Delete specified metadata definitions namespace with
+                        its contents.
+    md-namespace-import
+                        Import a metadata definitions namespace from file or
+                        standard input.
+    md-namespace-list   List metadata definitions namespaces.
+    md-namespace-objects-delete
+                        Delete all metadata definitions objects inside a
+                        specific namespace.
+    md-namespace-properties-delete
+                        Delete all metadata definitions property inside a
+                        specific namespace.
+    md-namespace-resource-type-list
+                        List resource types associated to specific namespace.
+    md-namespace-show   Describe a specific metadata definitions namespace.
+    md-namespace-tags-delete
+                        Delete all metadata definitions tags inside a specific
+                        namespace.
+    md-namespace-update
+                        Update an existing metadata definitions namespace.
+    md-object-create    Create a new metadata definitions object inside a
+                        namespace.
+    md-object-delete    Delete a specific metadata definitions object inside a
+                        namespace.
+    md-object-list      List metadata definitions objects inside a specific
+                        namespace.
+    md-object-property-show
+                        Describe a specific metadata definitions property
+                        inside an object.
+    md-object-show      Describe a specific metadata definitions object inside
+                        a namespace.
+    md-object-update    Update metadata definitions object inside a namespace.
+    md-property-create  Create a new metadata definitions property inside a
+                        namespace.
+    md-property-delete  Delete a specific metadata definitions property inside
+                        a namespace.
+    md-property-list    List metadata definitions properties inside a specific
+                        namespace.
+    md-property-show    Describe a specific metadata definitions property
+                        inside a namespace.
+    md-property-update  Update metadata definitions property inside a
+                        namespace.
+    md-resource-type-associate
+                        Associate resource type with a metadata definitions
+                        namespace.
+    md-resource-type-deassociate
+                        Deassociate resource type with a metadata definitions
+                        namespace.
+    md-resource-type-list
+                        List available resource type names.
+    md-tag-create       Add a new metadata definitions tag inside a namespace.
+    md-tag-create-multiple
+                        Create new metadata definitions tags inside a
+                        namespace.
+    md-tag-delete       Delete a specific metadata definitions tag inside a
+                        namespace.
+    md-tag-list         List metadata definitions tags inside a specific
+                        namespace.
+    md-tag-show         Describe a specific metadata definitions tag inside a
+                        namespace.
+    md-tag-update       Rename a metadata definitions tag inside a namespace.
+    member-create       Create member for a given image.
+    member-delete       Delete image member.
+    member-list         Describe sharing permissions by image.
+    member-update       Update the status of a member for a given image.
+    stores-info         Print available backends from Glance.
+    task-create         Create a new task.
+    task-list           List tasks you can access.
+    task-show           Describe a specific task.
+    bash-completion     Prints arguments for bash_completion.
+    help                Display help about this program or one of its
+                        subcommands.
+
+Optional arguments:
+  --version             show program's version number and exit
+  -d, --debug           Defaults to env[GLANCECLIENT_DEBUG].
+  -v, --verbose         Print more verbose output.
+  --get-schema          Ignores cached copy and forces retrieval of schema
+                        that generates portions of the help text. Ignored with
+                        API version 1.
+  -f, --force           Prevent select actions from requesting user
+                        confirmation.
+  --os-image-url OS_IMAGE_URL
+                        Defaults to env[OS_IMAGE_URL]. If the provided image
+                        url contains a version number and `--os-image-api-
+                        version` is omitted the version of the URL will be
+                        picked as the image api version to use.
+  --os-image-api-version OS_IMAGE_API_VERSION
+                        Defaults to env[OS_IMAGE_API_VERSION] or 2.
+  --profile HMAC_KEY    HMAC key to use for encrypting context data for
+                        performance profiling of operation. This key should be
+                        the value of HMAC key configured in osprofiler
+                        middleware in glance, it is specified in glance
+                        configuration file at /etc/glance/glance-api.conf and
+                        /etc/glance/glance-registry.conf. Without key the
+                        profiling will not be triggered even if osprofiler is
+                        enabled on server side. Defaults to env[OS_PROFILE].
+  --key-file OS_KEY     DEPRECATED! Use --os-key.
+  --ca-file OS_CACERT   DEPRECATED! Use --os-cacert.
+  --cert-file OS_CERT   DEPRECATED! Use --os-cert.
+  --os-region-name OS_REGION_NAME
+                        Defaults to env[OS_REGION_NAME].
+  --os-auth-token OS_AUTH_TOKEN
+                        Defaults to env[OS_AUTH_TOKEN].
+  --os-service-type OS_SERVICE_TYPE
+                        Defaults to env[OS_SERVICE_TYPE].
+  --os-endpoint-type OS_ENDPOINT_TYPE
+                        Defaults to env[OS_ENDPOINT_TYPE].
+  --os-auth-type <name>, --os-auth-plugin <name>
+                        Authentication type to use
+
+API Connection Options:
+  Options controlling the HTTP API Connections
+
+  --insecure            Explicitly allow client to perform "insecure" TLS
+                        (https) requests. The server's certificate will not be
+                        verified against any certificate authorities. This
+                        option should be used with caution.
+  --os-cacert <ca-certificate>
+                        Specify a CA bundle file to use in verifying a TLS
+                        (https) server certificate. Defaults to
+                        env[OS_CACERT].
+  --os-cert <certificate>
+                        Defaults to env[OS_CERT].
+  --os-key <key>        Defaults to env[OS_KEY].
+  --timeout <seconds>   Set request timeout (in seconds).
+
+Authentication Options:
+  Options specific to the password plugin.
+
+  --os-auth-url OS_AUTH_URL
+                        Authentication URL
+  --os-system-scope OS_SYSTEM_SCOPE
+                        Scope for system operations
+  --os-domain-id OS_DOMAIN_ID
+                        Domain ID to scope to
+  --os-domain-name OS_DOMAIN_NAME
+                        Domain name to scope to
+  --os-project-id OS_PROJECT_ID, --os-tenant-id OS_PROJECT_ID
+                        Project ID to scope to
+  --os-project-name OS_PROJECT_NAME, --os-tenant-name OS_PROJECT_NAME
+                        Project name to scope to
+  --os-project-domain-id OS_PROJECT_DOMAIN_ID
+                        Domain ID containing project
+  --os-project-domain-name OS_PROJECT_DOMAIN_NAME
+                        Domain name containing project
+  --os-trust-id OS_TRUST_ID
+                        Trust ID
+  --os-default-domain-id OS_DEFAULT_DOMAIN_ID
+                        Optional domain ID to use with v3 and v2 parameters.
+                        It will be used for both the user and project domain
+                        in v3 and ignored in v2 authentication.
+  --os-default-domain-name OS_DEFAULT_DOMAIN_NAME
+                        Optional domain name to use with v3 API and v2
+                        parameters. It will be used for both the user and
+                        project domain in v3 and ignored in v2 authentication.
+  --os-user-id OS_USER_ID
+                        User id
+  --os-username OS_USERNAME, --os-user-name OS_USERNAME
+                        Username
+  --os-user-domain-id OS_USER_DOMAIN_ID
+                        User's domain id
+  --os-user-domain-name OS_USER_DOMAIN_NAME
+                        User's domain name
+  --os-password OS_PASSWORD
+                        User's password
+```
+
+## imge-list
+
+```bash
+glance image-list [--limit <LIMIT>] [--page-size <SIZE>]
+                         [--visibility <VISIBILITY>]
+                         [--member-status <MEMBER_STATUS>] [--owner <OWNER>]
+                         [--property-filter <KEY=VALUE>]
+                         [--checksum <CHECKSUM>] [--tag <TAG>]
+                         [--sort-key {name,status,container_format,disk_format,size,id,created_at,updated_at}]
+                         [--sort-dir {asc,desc}] [--sort <key>[:<direction>]]
 ```
 
