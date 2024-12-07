@@ -1,3 +1,30 @@
+# 项目结构
+
+```bash
+gostack
+├── agent
+├── api
+├── benchmark
+├── build
+├── cmd
+├── common
+├── cron
+├── devops
+├── devops-build
+├── engine
+├── event
+├── log
+├── main
+├── metadata
+├── scheduler
+├── scripts
+└── test
+```
+
+
+
+
+
 # 框架和组件功能
 
 ![AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO](assets/AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO.png)

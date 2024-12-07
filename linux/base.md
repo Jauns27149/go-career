@@ -315,6 +315,169 @@ Commands:
 
 ```
 
+## tree
+
+```bash
+tree --help
+usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H  baseHREF]
+        [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore]
+        [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case]
+        [--nolinks] [--hintro[=]file] [--houtro[=]file] [--inodes] [--device]
+        [--sort[=]<name>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si]
+        [--du] [--prune] [--charset[=]X] [--timefmt[=]format] [--fromfile]
+        [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport]
+        [--version] [--help] [--] [directory ...]
+  ------- Listing options -------
+  -a            All files are listed.
+  -d            List directories only.
+  -l            Follow symbolic links like directories.
+  -f            Print the full path prefix for each file.
+  -x            Stay on current filesystem only.
+  -L level      Descend only level directories deep.
+  -R            Rerun tree when max dir level reached.
+  -P pattern    List only those files that match the pattern given.
+  -I pattern    Do not list files that match the given pattern.
+  --gitignore   Filter by using .gitignore files.
+  --gitfile X   Explicitly read gitignore file.
+  --ignore-case Ignore case when pattern matching.
+  --matchdirs   Include directory names in -P pattern matching.
+  --metafirst   Print meta-data at the beginning of each line.
+  --prune       Prune empty directories from the output.
+  --info        Print information about files found in .info files.
+  --infofile X  Explicitly read info file.
+  --noreport    Turn off file/directory count at end of tree listing.
+  --charset X   Use charset X for terminal/HTML and indentation line output.
+  --filelimit # Do not descend dirs with more than # files in them.
+  -o filename   Output to file instead of stdout.
+  ------- File options -------
+  -q            Print non-printable characters as '?'.
+  -N            Print non-printable characters as is.
+  -Q            Quote filenames with double quotes.
+  -p            Print the protections for each file.
+  -u            Displays file owner or UID number.
+  -g            Displays file group owner or GID number.
+  -s            Print the size in bytes of each file.
+  -h            Print the size in a more human readable way.
+  --si          Like -h, but use in SI units (powers of 1000).
+  --du          Compute size of directories by their contents.
+  -D            Print the date of last modification or (-c) status change.
+  --timefmt <f> Print and format time according to the format <f>.
+  -F            Appends '/', '=', '*', '@', '|' or '>' as per ls -F.
+  --inodes      Print inode number of each file.
+  --device      Print device ID number to which each file belongs.
+  ------- Sorting options -------
+  -v            Sort files alphanumerically by version.
+  -t            Sort files by last modification time.
+  -c            Sort files by last status change time.
+  -U            Leave files unsorted.
+  -r            Reverse the order of the sort.
+  --dirsfirst   List directories before files (-U disables).
+  --filesfirst  List files before directories (-U disables).
+  --sort X      Select sort: name,version,size,mtime,ctime.
+  ------- Graphics options -------
+  -i            Don't print indentation lines.
+  -A            Print ANSI lines graphic indentation lines.
+  -S            Print with CP437 (console) graphics indentation lines.
+  -n            Turn colorization off always (-C overrides).
+  -C            Turn colorization on always.
+  ------- XML/HTML/JSON options -------
+  -X            Prints out an XML representation of the tree.
+  -J            Prints out an JSON representation of the tree.
+  -H baseHREF   Prints out HTML format with baseHREF as top directory.
+  -T string     Replace the default HTML title and H1 header with string.
+  --nolinks     Turn off hyperlinks in HTML output.
+  --hintro X    Use file X as the HTML intro.
+  --houtro X    Use file X as the HTML outro.
+  ------- Input options -------
+  --fromfile    Reads paths from files (.=stdin)
+  --fromtabfile Reads trees from tab indented files (.=stdin)
+  --fflinks     Process link information when using --fromfile.
+  ------- Miscellaneous options -------
+  --version     Print version and exit.
+  --help        Print usage and this help message and exit.
+  --            Options processing terminator.
+```
+
+```bash
+用法: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-L 层级 [-R]] [-H  baseHREF]
+        [-T 标题] [-o 文件名] [-P 模式] [-I 模式] [--gitignore]
+        [--gitfile[=]文件] [--matchdirs] [--metafirst] [--ignore-case]
+        [--nolinks] [--hintro[=]文件] [--houtro[=]文件] [--inodes] [--device]
+        [--sort[=]<名称>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si]
+        [--du] [--prune] [--charset[=]X] [--timefmt[=]格式] [--fromfile]
+        [--fromtabfile] [--fflinks] [--info] [--infofile[=]文件] [--noreport]
+        [--version] [--help] [--] [目录 ...]
+  ------- 列表选项 -------
+  -a            列出所有文件。
+  -d            仅列出目录。
+  -l            将符号链接当作目录来跟随。
+  -f            打印每个文件的完整路径前缀。
+  -x            仅停留在当前文件系统上。
+  -L 层级       仅递归到指定层级的目录深度。
+  -R            当达到最大目录层级时重新运行 tree。
+  -P 模式       仅列出符合给定模式的文件。
+  -I 模式       不列出符合给定模式的文件。
+  --gitignore   使用 .gitignore 文件进行过滤。
+  --gitfile X   显式读取 gitignore 文件。
+  --ignore-case 忽略模式匹配时的大小写。
+  --matchdirs   在 -P 模式匹配中包含目录名称。
+  --metafirst   在每行的开头打印元数据。
+  --prune       从输出中剪除空目录。
+  --info        打印在 .info 文件中找到的信息。
+  --infofile X  显式读取 info 文件。
+  --noreport    关闭树状列表末尾的文件/目录计数。
+  --charset X   使用字符集 X 进行终端/HTML 和缩进线输出。
+  --filelimit # 如果目录中的文件超过 #，则不深入其中。
+  -o 文件名     输出到文件而不是标准输出。
+  ------- 文件选项 -------
+  -q            将不可打印的字符打印为 '?'。
+  -N            将不可打印的字符按原样打印。
+  -Q            用双引号引用文件名。
+  -p            打印每个文件的权限。
+  -u            显示文件所有者或用户ID编号。
+  -g            显示文件组所有者或组ID编号。
+  -s            打印每个文件的大小（以字节为单位）。
+  -h            以更易读的方式打印文件大小。
+  --si          类似于 -h，但使用 SI 单位（1000 的幂）。
+  --du          通过其内容计算目录的大小。
+  -D            打印最后修改时间或 (-c) 状态更改时间。
+  --timefmt <f> 按照格式 <f> 打印和格式化时间。
+  -F            根据 ls -F 添加 '/', '=', '*', '@', '|' 或 '>'。
+  --inodes      打印每个文件的 inode 编号。
+  --device      打印每个文件所属的设备 ID 编号。
+  ------- 排序选项 -------
+  -v            按版本对文件进行字母数字排序。
+  -t            按最后修改时间对文件进行排序。
+  -c            按最后状态更改时间对文件进行排序。
+  -U            不对文件进行排序。
+  -r            反转排序顺序。
+  --dirsfirst   在文件之前列出目录 (-U 禁用此功能)。
+  --filesfirst  在目录之前列出文件 (-U 禁用此功能)。
+  --sort X      选择排序方式：名称、版本、大小、mtime、ctime。
+  ------- 图形选项 -------
+  -i            不打印缩进线。
+  -A            使用 ANSI 线条图形进行缩进线打印。
+  -S            使用 CP437（控制台）图形进行缩进线打印。
+  -n            总是关闭颜色化（-C 覆盖此选项）。
+  -C            总是开启颜色化。
+  ------- XML/HTML/JSON 选项 -------
+  -X            以 XML 形式打印树状结构。
+  -J            以 JSON 形式打印树状结构。
+  -H baseHREF   以 HTML 格式打印，并将 baseHREF 作为顶级目录。
+  -T 字符串     用字符串替换默认的 HTML 标题和 H1 头部。
+  --nolinks     在 HTML 输出中关闭超链接。
+  --hintro X    使用文件 X 作为 HTML 引入部分。
+  --houtro X    使用文件 X 作为 HTML 结束部分。
+  ------- 输入选项 -------
+  --fromfile    从文件中读取路径 (.=标准输入)
+  --fromtabfile 从制表符缩进的文件中读取树 (.=标准输入)
+  --fflinks     在使用 --fromfile 时处理链接信息。
+  ------- 杂项选项 -------
+  --version     打印版本并退出。
+  --help        打印用法和本帮助消息并退出。
+  --            选项处理终止符。
+```
+
 
 
 # 权限模式
