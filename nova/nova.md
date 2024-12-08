@@ -46,3 +46,417 @@ nova
 └── venv             # 包含虚拟环境配置，用于隔离 Python 环境，确保依赖项正确安装。
 ```
 
+# 命令
+
+```bash
+[root@gz-txjs-control-55e243e31e29 ~]# nova help
+usage: nova [--version] [--debug] [--os-cache] [--timings]
+            [--os-region-name <region-name>] [--service-type <service-type>]
+            [--service-name <service-name>]
+            [--os-endpoint-type <endpoint-type>]
+            [--os-compute-api-version <compute-api-ver>]
+            [--endpoint-override <bypass-url>] [--profile HMAC_KEY]
+            [--insecure] [--os-cacert <ca-certificate>]
+            [--os-cert <certificate>] [--os-key <key>] [--timeout <seconds>]
+            [--os-auth-type <name>] [--os-auth-url OS_AUTH_URL]
+            [--os-system-scope OS_SYSTEM_SCOPE] [--os-domain-id OS_DOMAIN_ID]
+            [--os-domain-name OS_DOMAIN_NAME] [--os-project-id OS_PROJECT_ID]
+            [--os-project-name OS_PROJECT_NAME]
+            [--os-project-domain-id OS_PROJECT_DOMAIN_ID]
+            [--os-project-domain-name OS_PROJECT_DOMAIN_NAME]
+            [--os-trust-id OS_TRUST_ID]
+            [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
+            [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
+            [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
+            [--os-user-domain-id OS_USER_DOMAIN_ID]
+            [--os-user-domain-name OS_USER_DOMAIN_NAME]
+            [--os-password OS_PASSWORD]
+            <subcommand> ...
+
+Command-line interface to the OpenStack Nova API.
+
+Positional arguments:
+  <subcommand>
+    add-secgroup                Add a Security Group to a server.
+    agent-create                Create new agent build.
+    agent-delete                Delete existing agent build.
+    agent-list                  List all builds.
+    agent-modify                Modify existing agent build.
+    aggregate-add-host          Add the host to the specified aggregate.
+    aggregate-create            Create a new aggregate with the specified
+                                details.
+    aggregate-delete            Delete the aggregate.
+    aggregate-list              Print a list of all aggregates.
+    aggregate-remove-host       Remove the specified host from the specified
+                                aggregate.
+    aggregate-set-metadata      Update the metadata associated with the
+                                aggregate.
+    aggregate-show              Show details of the specified aggregate.
+    aggregate-update            Update the aggregate's name and optionally
+                                availability zone.
+    attach-usb-device
+    availability-zone-list      List all the availability zones.
+    backup                      Backup a server by creating a 'backup' type
+                                snapshot.
+    bind-keypair
+    boot                        Boot a new server.
+    cell-capacities             Get cell capacities for all cells or a given
+                                cell.
+    cell-show                   Show details of a given cell.
+    cgroup-cpu-show             show cgroup vcpu of server for a tenant or a
+                                server. only specify <instance_uuid> or
+                                <tenant_id>.
+    cgroup-cpu-update           update cgroup vcpu of server for a tenant or a
+                                server. only specify <instance_uuid> or
+                                <tenant_id>.
+    clear-password              Clear the admin password for a server from the
+                                metadata server. This action does not actually
+                                change the instance server password.
+    clone                       Clone a server.
+    console-log                 Get console log output of a server.
+    dedicated-cloud-add-host    Add the host to the specified dedicated cloud.
+    dedicated-cloud-available-host-list
+                                Print a list of available host for dedicated
+                                cloud.
+    dedicated-cloud-create      Create a new dedicated cloud with the
+                                specified details.
+    dedicated-cloud-delete      Delete the dedicated cloud.
+    dedicated-cloud-host-list   Print a list of all hosts in dedicated cloud.
+    dedicated-cloud-host-show   Show details of the specified host in
+                                dedicated cloud.
+    dedicated-cloud-host-statistics
+                                Count the resources of all hosts.
+    dedicated-cloud-host-update
+                                Update the dedicated cloud's display name or
+                                cpu ratio or auto deployed.
+    dedicated-cloud-list        Print a list of all dedicated clouds.
+    dedicated-cloud-remove-host
+                                Remove the specified host from the specified
+                                dedicated cloud.
+    dedicated-cloud-server-boot
+                                Boot a new server.
+    dedicated-cloud-server-list
+                                List servers in dedicated cloud.
+    dedicated-cloud-server-show
+                                Show details about the given server in
+                                dedicated cloud.
+    dedicated-cloud-show        Show details of the specified dedicated cloud.
+    dedicated-cloud-update      Update the dedicated cloud's name.
+    dedicated-host-create       Create a dedicated host.
+    dedicated-host-delete       Delete the dedicated host.
+    dedicated-host-list         Print a list of all dedicated hosts.
+    dedicated-host-show         Display the details of the dedicated host.
+    delete                      Immediately shut down and delete specified
+                                server(s).
+    detach-usb-device
+    diagnostics                 Retrieve server diagnostics.
+    disk-qoses                  Get disk qos for a server.
+    estimate-migration-time
+    evacuate                    Evacuate server from failed host.
+    extra-specs                 Show details about the given server.
+    flavor-access-add           Add flavor access for the given tenant.
+    flavor-access-list          Print access information about the given
+                                flavor.
+    flavor-access-remove        Remove flavor access for the given tenant.
+    flavor-create               Create a new flavor.
+    flavor-delete               Delete a specific flavor
+    flavor-key                  Set or unset extra_spec for a flavor.
+    flavor-list                 Print a list of available 'flavors' (sizes of
+                                servers).
+    flavor-show                 Show details about the given flavor.
+    flavor-tag-add              Add one or more tags to a flavor.
+    flavor-tag-delete           Delete one or more tags from a flavor.
+    flavor-update               Update the description of an existing flavor.
+                                (Supported by API versions '2.55' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    flavor-zone
+    force-delete                Force delete a server.
+    get-disk-qos                Get a volume disk qos for a server.
+    get-mks-console             Get an MKS console to a server. (Supported by
+                                API versions '2.8' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    get-password                Get the admin password for a server. This
+                                operation calls the metadata service to query
+                                metadata information and does not read
+                                password information from the server itself.
+    get-rdp-console             Get a rdp console to a server.
+    get-serial-console          Get a serial console to a server.
+    get-spice-console           Get a spice console to a server.
+    get-vnc-console             Get a vnc console to a server.
+    host-evacuate               Evacuate all instances from failed host.
+    host-evacuate-live          Live migrate all instances of the specified
+                                host to other available hosts.
+    host-meta                   Set or Delete metadata on all instances of a
+                                host.
+    host-servers-migrate        Cold migrate all instances off the specified
+                                host to other available hosts.
+    hypervisor-extra-specs      Get hypervisor extra specs.
+    hypervisor-get-ratio        Get hypervisor allocation ratio.
+    hypervisor-hostinfo         Display the hostinfo of the specified
+                                hypervisor.
+    hypervisor-list             List hypervisors. (Supported by API versions
+                                '2.0' - '2.latest') [hint: use '--os-compute-
+                                api-version' flag to show help message for
+                                proper version]
+    hypervisor-local-disks      Get hypervisor local disks.
+    hypervisor-servers          List servers belonging to specific
+                                hypervisors.
+    hypervisor-set-instances-limit
+                                Set hypervisor instances limit.
+    hypervisor-set-ratio        Set hypervisor allocation ratio.
+    hypervisor-show             Display the details of the specified
+                                hypervisor.
+    hypervisor-stats            Get hypervisor statistics over all compute
+                                nodes.
+    hypervisor-uptime           Display the uptime of the specified
+                                hypervisor.
+    image-create                Create a new image by taking a snapshot of a
+                                running server.
+    instance-action             Show an action.
+    instance-action-list        List actions on a server. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    instance-backup-create      Create an instance backup.
+    instance-backup-delete      Delete an instance backup.
+    instance-backup-force-delete
+                                Force delete a instance backup.
+    instance-backup-list        Get a list of instance backup.
+    instance-backup-restore     Restore an instance backup to the previous
+                                instance.
+    instance-backup-show        Get an instance backup details.
+    instance-backup-update      Update an instance backup.
+    interface-attach            Attach a network interface to a server.
+    interface-detach            Detach a network interface from a server.
+    interface-list              List interfaces attached to a server.
+    keypair-add                 Create a new key pair for use with servers.
+    keypair-delete              Delete keypair given by its name. (Supported
+                                by API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    keypair-list                Print a list of keypairs for a user (Supported
+                                by API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    keypair-show                Show details about the given keypair.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    limits                      Print rate and absolute limits.
+    list                        List servers.
+    list-extensions             List all the os-api extensions that are
+                                available.
+    list-file-system            List file system for a server.
+    list-secgroup               List Security Group(s) of a server.
+    list-usb-devices
+    live-migrate-volume-notify
+    live-migration              Migrate running server to a new machine.
+    live-migration-abort        Abort an on-going live migration. (Supported
+                                by API versions '2.24' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    live-migration-force-complete
+                                Force on-going live migration to complete.
+                                (Supported by API versions '2.22' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    live-resize-flavors         Get the flavors list that the server can
+                                execute live resize.
+    local-disks                 Get local disk for a server.
+    lock                        Lock a server. A normal (non-admin) user will
+                                not be able to execute actions on a locked
+                                server.
+    meta                        Set or delete metadata on a server.
+    migrate                     Migrate a server.
+    migration-list              Print a list of migrations. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    mount-file-system           Mount file system for a server.
+    offline-compute-host        offline the compute host.
+    pause                       Pause a server.
+    quota-class-show            List the quotas for a quota class.
+    quota-class-update          Update the quotas for a quota class.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    quota-defaults              List the default quotas for a tenant.
+    quota-delete                Delete quota for a tenant/user so their quota
+                                will Revert back to default.
+    quota-show                  List the quotas for a tenant/user.
+    quota-update                Update the quotas for a tenant/user.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    reboot                      Reboot a server.
+    rebuild                     Shutdown, re-image, and re-boot a server.
+    refresh-network             Refresh server network information.
+    remove-secgroup             Remove a Security Group from a server.
+    request-spec-az-show        show request spec of the server.
+    request-spec-az-update      update request spec of the server.
+    rescue                      Reboots a server into rescue mode, which
+                                starts the machine from either the initial
+                                image or a specified image, attaching the
+                                current boot disk as secondary.
+    reset-failed-build          Reset failed_builds for the compute host.
+    reset-network               Reset network of a server.
+    reset-state                 Reset the state of a server.
+    resize                      Resize a server.
+    resize-confirm              Confirm a previous resize.
+    resize-revert               Revert a previous resize (and return to the
+                                previous VM).
+    restore                     Restore a soft-deleted server.
+    resume                      Resume a server.
+    server-group-add-member     Add the server to the specified server_group.
+    server-group-create         Create a new server group with the specified
+                                details.
+    server-group-delete         Delete specific server group(s).
+    server-group-get            Get a specific server group.
+    server-group-has-enough-resources
+    server-group-list           Print a list of all server groups.
+    server-group-need-migrate
+    server-group-remove-member  Remove the server from the specified
+                                server_group.
+    server-health-check         Health check for a server.
+    server-migration-list       Get the migrations list of specified server.
+                                (Supported by API versions '2.23' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-migration-show       Get the migration of specified server.
+                                (Supported by API versions '2.23' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-snapshot-create      Create a server snapshot.
+    server-snapshot-delete      Delete a server snapshot.
+    server-snapshot-list        Print a list of server snapshots.
+    server-snapshot-reset-state
+                                Reset a server snapshot to the special state.
+    server-snapshot-restore     Restore a server snapshot to the server.
+    server-snapshot-show        Get a server snapshot details.
+    server-snapshot-update      Update a server snapshot.
+    server-tag-add              Add one or more tags to a server. (Supported
+                                by API versions '2.26' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    server-tag-delete           Delete one or more tags from a server.
+                                (Supported by API versions '2.26' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-tag-delete-all       Delete all tags from a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    server-tag-list             Get list of tags from a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    server-tag-set              Set list of tags to a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-delete              Delete the service by UUID ID. (Supported by
+                                API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-disable             Disable the service. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    service-enable              Enable the service. (Supported by API versions
+                                '2.0' - '2.latest') [hint: use '--os-compute-
+                                api-version' flag to show help message for
+                                proper version]
+    service-force-down          Force service to down. (Supported by API
+                                versions '2.11' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-list                Show a list of all running services. Filter by
+                                host & binary.
+    set-disk-qos                Set one disk qos of a server.
+    set-password                Change the user password for a server.
+    shelve                      Shelve a server.
+    shelve-offload              Remove a shelved server from the compute node.
+    show                        Show details about the given server.
+    show-credit                 show credit of the server.
+    ssh                         SSH into a server.
+    start                       Start the server(s).
+    stop                        Stop the server(s).
+    suspend                     Suspend a server.
+    sync                        Sync cache for an server.
+    trigger-crash-dump          Trigger crash dump in an instance. (Supported
+                                by API versions '2.17' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    unbind-keypair
+    unlock                      Unlock a server.
+    unmount-file-system         Mount file system for a server.
+    unpause                     Unpause a server.
+    unrescue                    Restart the server from normal boot disk
+                                again.
+    unshelve                    Unshelve a server.
+    update                      Update some attr for a server.
+    usage                       Show usage data for a single tenant.
+    usage-list                  List usage data for all tenants.
+    version-list                List all API versions.
+    volume-attach               Attach a volume to a server.
+    volume-attachments          List all the volumes attached to a server.
+    volume-detach               Detach a volume from a server.
+    volume-live-migrate
+    volume-update               Update the attachment on the server. Migrates
+                                the data from an attached volume to the
+                                specified available volume and swaps out the
+                                active attachment to the new volume.
+    bash-completion             Prints all of the commands and options to
+                                stdout so that the nova.bash_completion script
+                                doesn't have to hard code them.
+    help                        Display help about this program or one of its
+                                subcommands.
+
+Optional arguments:
+  --version                     show program's version number and exit
+  --debug                       Print debugging output.
+  --os-cache                    Use the auth token cache. Defaults to False if
+                                env[OS_CACHE] is not set.
+  --timings                     Print call timing info.
+  --os-region-name <region-name>
+                                Defaults to env[OS_REGION_NAME].
+  --service-type <service-type>
+                                Defaults to compute for most actions.
+  --service-name <service-name>
+                                Defaults to env[NOVA_SERVICE_NAME].
+  --os-endpoint-type <endpoint-type>
+                                Defaults to env[NOVA_ENDPOINT_TYPE],
+                                env[OS_ENDPOINT_TYPE] or publicURL.
+  --os-compute-api-version <compute-api-ver>
+                                Accepts X, X.Y (where X is major and Y is
+                                minor part) or "X.latest", defaults to
+                                env[OS_COMPUTE_API_VERSION].
+  --endpoint-override <bypass-url>
+                                Use this API endpoint instead of the Service
+                                Catalog. Defaults to
+                                env[NOVACLIENT_ENDPOINT_OVERRIDE].
+  --profile HMAC_KEY            HMAC key to use for encrypting context data
+                                for performance profiling of operation. This
+                                key should be the value of the HMAC key
+                                configured for the OSprofiler middleware in
+                                nova; it is specified in the Nova
+                                configuration file at "/etc/nova/nova.conf".
+                                Without the key, profiling will not be
+                                triggered even if OSprofiler is enabled on the
+                                server side.
+  --os-auth-type <name>, --os-auth-plugin <name>
+                                Authentication type to use
+
+See "nova help COMMAND" for help on a specific command.
+```
+
+# 热迁问题
+
+## bug复现
