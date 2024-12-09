@@ -94,6 +94,7 @@ grep [options...] "pattern" filename
   - -r  : 递归搜索目录
   - -E : 使用扩展正则表达式
   - -P : 使用 Perl 正则表达式。
+  - -C：显示匹配行前后行数
 
 ### 基本正则
 
