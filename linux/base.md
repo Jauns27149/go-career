@@ -160,6 +160,40 @@ grep [options...] "pattern" filename
   - -P : 使用 Perl 正则表达式。
   - -C：显示匹配行前后行数
 
+### awk
+
+```bash
+Usage: mawk [Options] [Program] [file ...]
+
+Program:
+    The -f option value is the name of a file containing program text.
+    If no -f option is given, a "--" ends option processing; the following
+    parameters are the program text.
+
+Options:
+    -f program-file  Program  text is read from file instead of from the
+                     command-line.  Multiple -f options are accepted.
+    -F value         sets the field separator, FS, to value.
+    -v var=value     assigns value to program variable var.
+    --               unambiguous end of options.
+
+    Implementation-specific options are prefixed with "-W".  They can be
+    abbreviated:
+
+    -W version       show version information and exit.
+    -W compat        pre-POSIX 2001.
+    -W dump          show assembler-like listing of program and exit.
+    -W help          show this message and exit.
+    -W interactive   set unbuffered output, line-buffered input.
+    -W exec file     use file as program as well as last option.
+    -W posix         stricter POSIX checking.
+    -W random=number set initial random seed.
+    -W sprintf=number adjust size of sprintf buffer.
+    -W usage         show this message and exit.
+```
+
+
+
 ### 基本正则
 
 - .（点）: 匹配任何单个字符（除了换行符），a.c 可以匹配 "abc"、"axc" 
@@ -195,6 +229,80 @@ wc [options] [flie...]
   - `-c : 统计字符数（Character count）
   - `-m` : 统计字符数（按字符计）
   - `-L` : 统计文件中最长一行的长度
+
+### dirname
+
+```bash
+dirname [option] name...
+-z, --zero		输出不换行
+--help				帮助
+--version			版本
+```
+
+```bash
+Usage: dirname [OPTION] NAME...
+Output each NAME with its last non-slash component and trailing slashes
+removed; if NAME contains no /'s, output '.' (meaning the current directory).
+
+  -z, --zero     end each output line with NUL, not newline
+      --help        display this help and exit
+      --version     output version information and exit
+
+Examples:
+  dirname /usr/bin/          -> "/usr"
+  dirname dir1/str dir2/str  -> "dir1" followed by "dir2"
+  dirname stdio.h            -> "."
+  
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/dirname>
+or available locally via: info '(coreutils) dirname invocation'
+```
+
+### cut
+
+```bash
+cut [option] [file]
+```
+
+```bash
+Usage: cut OPTION... [FILE]...
+Print selected parts of lines from each FILE to standard output.
+
+With no FILE, or when FILE is -, read standard input.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -b, --bytes=LIST        select only these bytes
+  -c, --characters=LIST   select only these characters
+  -d, --delimiter=DELIM   use DELIM instead of TAB for field delimiter
+  -f, --fields=LIST       select only these fields;  also print any line
+                            that contains no delimiter character, unless
+                            the -s option is specified
+  -n                      (ignored)
+      --complement        complement the set of selected bytes, characters
+                            or fields
+  -s, --only-delimited    do not print lines not containing delimiters
+      --output-delimiter=STRING  use STRING as the output delimiter
+                            the default is to use the input delimiter
+  -z, --zero-terminated   line delimiter is NUL, not newline
+      --help        display this help and exit
+      --version     output version information and exit
+
+Use one, and only one of -b, -c or -f.  Each LIST is made up of one
+range, or many ranges separated by commas.  Selected input is written
+in the same order that it is read, and is written exactly once.
+Each range is one of:
+
+  N     N'th byte, character or field, counted from 1
+  N-    from N'th byte, character or field, to end of line
+  N-M   from N'th to M'th (included) byte, character or field
+  -M    from first to M'th (included) byte, character or field
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/cut>
+or available locally via: info '(coreutils) cut invocation'
+```
+
+
 
 ## 系统操作
 

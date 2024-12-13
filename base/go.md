@@ -40,3 +40,11 @@ func main() {
 
 # go命令
 
+## build
+
+```bash
+go build -o janus
+```
+
+
+
