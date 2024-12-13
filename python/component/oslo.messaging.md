@@ -1,0 +1,1 @@
+​	`oslo.messaging` 是OpenStack项目中用于组件间通信的消息传递库。它为开发者提供了一种简单而统一的方式，来实现分布式系统中的服务调用和消息传递。`oslo.messaging` 支持多种传输协议（如AMQP、RabbitMQ、Qpid等），并且可以与不同的消息代理集成。

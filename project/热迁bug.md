@@ -66,49 +66,17 @@
 
 
 
-```bash
-[api_database]
-connection = CTYUN_SECRET@IyHuWZgPOfEgnZ5trJl7skIPeHQdbTmcQ+J2ekhaPLixjDeMAis5iQ84rMJ0aWk8K4Y98UvBMs8qEkL8yXolcTimf0PfBSy+ev/Py4a13LM=
-```
-
-```bash
-
-[root@gz-txjs-control-55e243e31e30 Encrypt_tools]# python decrypt.py --decrypt_data  CTYUN_SECRET@IyHuWZgPOfEgnZ5trJl7skIPeHQdbTmcQ+J2ekhaPLixjDeMAis5iQ84rMJ0aWk8K4Y98UvBMs8qEkL8yXolcTimf0PfBSy+ev/Py4a13LM=
-mysql+pymysql://nova:S43NGltg0817@mariadb.cty.os:10024/nova_api
-[root@gz-txjs-control-55e243e31e30 Encrypt_tools]#
-
-
-python /root/zyc/Encrypt_tools/decrypt.py --decrypt_data "CTYUN_SECRET@IyHuWZgPOfEgnZ5trJl7skIPeHQdbTmcQ+J2ekhaPLixjDeMAis5iQ84rMJ0aWk8K4Y98UvBMs8qEkL8yXolcTimf0PfBSy+ev/Py4a13LM="
-
-
-echo "mysql+pymysql://nova:S43NGltg0817@mariadb.cty.os:10024/nova_api" | cut -d'/' -f3 | cut -d'@' -f1 | cut -d':' -f2
-```
-
-```bash
-[root@gz-txjs-control-55e243e31e30 etc]# cat hosts |grep db
-55.243.31.11 mariadb.cty.os
-[root@gz-txjs-control-55e243e31e30 etc]# mysql -unova -pS43NGltg0817 -P 10024 -h 55.243.31.11
-
-
-nova ->  block_device_mapping
-```
 
 
 
-```sql
-select volume_id, instance_uuid
-	from block_device_mapping 
-	where deleted=0
-	and volume_id in ( select volume_id from block_device_mapping where deleted=0 group by volume_id having count(*)>1 )
-    and boot_index=0;
-	
-select count(*) from block_device_mapping group by volume_id having count(*)>1
-
-1352852d-41e1-480e-87fa-d30be21ad382
-select volume_id, instance_uuid from block_device_mapping where volume_id='1352852d-41e1-480e-87fa-d30be21ad382';
-
-select volume_id from block_device_mapping where deleted=0 group by count(*)>1 ;
 
 
-```
+
+
+
+
+
+
+
+
 

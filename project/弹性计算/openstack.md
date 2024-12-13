@@ -2178,7 +2178,7 @@ commands:
 	show
 ```
 
-#### list
+### list
 
 ```bash
 usage: openstack host list [flags]

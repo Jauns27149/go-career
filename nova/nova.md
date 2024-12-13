@@ -10,8 +10,8 @@ nova
 ├── etc              # 包含配置文件模板，这些文件是运行 Nova 所必需的。
 ├── gate             # 包含用于执行自动化测试的脚本和配置，特别是与 CI/CD 流程相关的部分。
 ├── nova             # 包含 Nova 的主要源代码，这是项目的主代码库。
-│   ├── api                # 包含 API 的实现代码，处理来自用户的 HTTP 请求。
-│		├── cells              # 实现 Cells v2 功能的代码，Cells 是一种用于水平扩展 Nova 的机制。
+│   ├── api                # 包含 API 的实现代码，处理来自用户的 HTTP 请求。
+│   ├── cells              # 实现 Cells v2 功能的代码，Cells 是一种用于水平扩展 Nova 的机制。
 │   ├── cmd                # 包含启动不同 Nova 组件（如 nova-api, nova-compute）的命令行脚本。
 │   ├── common             # 包含多个模块共享的通用代码或工具函数。
 │   ├── compute            # 包含与计算节点相关的逻辑，负责虚拟机的生命周期管理。
@@ -457,6 +457,145 @@ Optional arguments:
 See "nova help COMMAND" for help on a specific command.
 ```
 
-# 热迁问题
+# 组件
 
-## bug复现
+nova-api
+
+    作用：接收和处理来自用户的API请求。
+    通信方式：通过消息队列与其他Nova服务通信，如 nova-conductor 和 nova-scheduler。
+
+nova-compute
+
+    作用：负责实例的实际创建、管理和销毁。
+    通信方式：通过消息队列与 nova-conductor 通信，并可能与 nova-network 和其他计算节点通信。
+
+nova-conductor
+
+    作用：充当计算节点和其他Nova服务之间的中介，减少直接数据库访问，提高性能和安全性。
+    通信方式：通过消息队列与 nova-compute 和 nova-api 通信。
+
+nova-scheduler
+
+    作用：选择最适合运行新实例的计算节点。
+    通信方式：通过消息队列与 nova-conductor 和 nova-api 通信。
+
+# 热迁流程
+
+1. pre_live_migration 阶段：
+
+   ​	热迁移前的准备阶段，主要在目的计算节点上提前准备虚拟机资源，包括网络资源，例如：建立虚拟机的网卡，然后将网卡加入 OvS br-int 网桥。如果该阶段失败，会有回滚操作。
+
+   - _migrate_live	nova/api/openstack/compute/migrate_server.py 
+
+   - live_migrate	  nova/compute/api.py
+
+   - live_migrate_instance	nova/conductor/api.py
+
+     - 同步：live_migrate_instance	nova/conductor/manager.py
+       - _live_migrate
+       - _execute	nova/conductor/tasks/live_migrate.py
+       - live_migration	nova/compute/rpcapi.py
+       - live_migration	nova/compute/manager.py
+     - 异步
+     
+     
+
+2. 内存迁移阶段：
+
+   ​	该阶段完全虚拟机虚拟内存数据的迁移，如果虚拟机的系统盘在计算节点本地，那么系统盘数据也会在此时进行迁移。如果该阶段失败，会有回滚操作，回滚流程和 pre_live_migration 阶段一致。
+
+3. post_live_migration 阶段：
+
+   ​	热迁移完成后资源清理阶段，源计算节点主要是断开源计算节点上虚拟机的卷连接、清理源计算节点虚拟机的网卡资源；目的节点主要是调用 neutronclient，更新 Port Host 属性为目的计算节点。(NOTE：该阶段无需回滚流程，因为虚拟机实际上已经成功迁移，再回滚没有意义）
+
+   
+
+![image-20241212165939659](assets/image-20241212165939659.png)
+
+
+
+1. 用户或管理员通过OpenStack CLI、Horizon Dashboard或直接向Nova API发送热迁移请求。
+
+2. Nova API
+
+   - 接收请求：Nova API接收到热迁移请求后，解析请求参数，确定要迁移的虚拟机ID。
+
+   - 验证权限：检查发起请求的用户是否有权限执行热迁移操作。
+
+   - 调用Conductor：Nova API通过内部API调用Nova Conductor服务，将热迁移请求转发给它。
+
+3. Nova Conductor
+   - 任务分配：Nova Conductor接收到请求后，负责协调整个热迁移过程。
+   - 查询数据库：根据虚拟机ID查询数据库，获取虚拟机的详细信息，包括其当前所在的计算节点信息。
+   - 调度决策：根据策略选择一个合适的计算节点作为目标节点。这可能涉及到资源池的评估，如CPU、内存、存储等资源的可用性。
+   - 启动迁*：Nova Conductor向源计算节点和目标计算节点的Nova Compute服务发送指令，开始热迁移过程。
+
+
+4. Nova Compute (源节点)
+
+- **准备迁移**：
+  - **暂停I/O操作**：源计算节点上的Nova Compute服务接收到迁移指令后，暂停虚拟机的I/O操作，准备迁移所需的数据。
+  - **内存复制**：源计算节点将虚拟机的内存数据复制到目标计算节点。这个过程可能需要多次迭代，以确保所有内存页面都被成功复制。
+  - **关闭虚拟机**：在最后一次内存复制完成后，源计算节点会暂停虚拟机，完成最后的内存同步。
+
+### 5. Nova Compute (目标节点)
+
+- **接收内存数据**：
+  - **接收数据**：目标计算节点上的Nova Compute服务接收来自源计算节点的内存数据。
+  - **重建虚拟机**：在接收到所有必要的数据后，目标计算节点会在本地重建虚拟机的状态，包括设置虚拟机的网络接口、磁盘等。
+  - **启动虚拟机**：一旦虚拟机状态完全重建，目标计算节点会启动虚拟机，使虚拟机在新的计算节点上继续运行。
+
+### 6. Nova Conductor
+
+- **更新状态**：
+  - **更新数据库**：Nova Conductor接收到热迁移成功的通知后，更新数据库中虚拟机的信息，如更改其所在计算节点。
+  - **清理资源**：Nova Conductor还负责通知源计算节点清理虚拟机相关的资源，如释放内存、删除虚拟机的网络配置等。
+
+### 7. Neutron
+
+- **网络迁移**：
+  - **更新端口绑定**：在整个过程中，Neutron负责管理虚拟机的网络迁移。具体来说，Neutron会确保虚拟机的网络端口在迁移前后保持一致，包括更新端口绑定信息，确保虚拟机在新的计算节点上能够正常通信。
+
+### 8. Cinder (可选)
+
+- **块存储迁移**：
+  - **卷复制或迁移**：如果虚拟机使用了Cinder提供的块存储服务，Cinder会参与迁移过程。Cinder需要确保虚拟机的卷在目标计算节点上可用，这可能涉及到卷的复制或迁移。
+
+### 详细API调用流程
+
+1. **用户请求 -> Nova API**
+   - 用户通过CLI或Dashboard发送热迁移请求。
+   - Nova API接收请求并验证权限。
+   - Nova API调用Nova Conductor API。
+
+2. **Nova API -> Nova Conductor**
+   - Nova Conductor查询数据库获取虚拟机信息。
+   - Nova Conductor选择目标计算节点。
+   - Nova Conductor调用源计算节点的Nova Compute API。
+
+3. **Nova Conductor -> Nova Compute (源节点)**
+   - 源计算节点暂停虚拟机I/O操作。
+   - 源计算节点开始内存复制，调用目标计算节点的Nova Compute API。
+
+4. **Nova Compute (源节点) -> Nova Compute (目标节点)**
+   - 目标计算节点接收内存数据。
+   - 目标计算节点重建虚拟机状态。
+   - 目标计算节点启动虚拟机。
+
+5. **Nova Compute (目标节点) -> Nova Conductor**
+   - 目标计算节点通知Nova Conductor热迁移成功。
+   - Nova Conductor更新数据库中虚拟机信息。
+   - Nova Conductor调用源计算节点的Nova Compute API清理资源。
+
+6. **Nova Conductor -> Nova Compute (源节点)**
+   - 源计算节点清理虚拟机相关资源。
+
+7. **Nova Conductor -> Neutron**
+   - Neutron更新虚拟机的网络端口绑定信息。
+
+8. **Nova Conductor -> Cinder (可选)**
+   - Cinder确保虚拟机的卷在目标计算节点上可用。
+
+### 总结
+
+热迁移是一个高度协调的过程，涉及多个组件之间的API调用和数据交换。每个组件都有明确的职责，通过这些组件的协同工作，确保虚拟机能够在不中断服务的情况下从一个计算节点迁移到另一个计算节点。正确的配置和良好的网络连接对于实现平稳的热迁移至关重要。
