@@ -44,30 +44,34 @@ func main() {
 	}
 }
 
+/*
+1. 初始化t,两个额外的行临时储存结果
+2. 遍历计算累加值
+3. t变量回填源矩阵
+*/
 func gameOfLife(board [][]int) {
+	// 1.
 	t := make([][]int, 2)
-	t[0] = make([]int, len(board[0]))
-	t[1] = make([]int, len(board[0]))
-
+	for i, _ := range t {
+		t[i] = make([]int, len(board[0]))
+	}
+	// 2.
 	for i, r := range board {
 		for j, _ := range r {
 			if i > 1 {
 				board[i-2][j] = t[i%2][j]
 			}
-			t[i%2][j] = count(board, i, j)
+			t[i%2][j] = compute(board, i, j)
 		}
 	}
-	n := len(board) - 1
-	for range [2]struct{}{} {
-		if n < 0 {
-			break
-		}
+	// 3.
+	for n, i := len(board)-1, 0; n >= 0 && i < 2; i, n = i+1, n-1 {
 		board[n] = t[n%2]
-		n--
 	}
 }
 
-func count(b [][]int, r, v int) (res int) {
+// 当前位置经过生命游戏规格变换后的结果
+func compute(b [][]int, r, v int) (res int) {
 	r--
 	v--
 	c := 0
