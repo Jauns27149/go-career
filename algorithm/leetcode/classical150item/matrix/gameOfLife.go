@@ -59,9 +59,10 @@ func gameOfLife(board [][]int) {
 	}
 	n := len(board) - 1
 	for range [2]struct{}{} {
-		if n >= 0 {
-			board[n] = t[n%2]
+		if n < 0 {
+			break
 		}
+		board[n] = t[n%2]
 		n--
 	}
 }
