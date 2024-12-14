@@ -479,7 +479,9 @@ nova-scheduler
     作用：选择最适合运行新实例的计算节点。
     通信方式：通过消息队列与 nova-conductor 和 nova-api 通信。
 
-# 热迁流程
+# 业务
+
+## 热迁流程
 
 1. pre_live_migration 阶段：
 
@@ -576,4 +578,52 @@ nova-scheduler
 21. **Nova Conductor -> Nova API**: 通过消息队列通知迁移失败并已回滚
 22. **Nova API -> User**: 反馈迁移失败并已回滚的结果
 ```
+
+## 查询快照列表
+
+```mermaid
+sequenceDiagram
+	participant api
+	participant	mongo
+	api->>mongo: GetInstanceSnapshots()
+	mongo->>api: []model.InstanceSnapshot
+```
+
+```go
+入参：
+type QueryInstanceSnapshots struct {
+    Skip             uint   
+    Limit            uint  
+    Name             string 
+    UserId           string 
+    ProjectId        string 
+    Marker           string 
+    Invisible        bool   
+    Status           string
+    ForceConsistency bool  
+}
+
+出参：
+type InstanceSnapshot struct {
+    InstanceSnapshotId string                 
+    Name               string                 
+    Description        string                 
+    InstanceId         string                 
+    ProjectId          string                 
+    UserId             string                 
+    Status             InstanceSnapshotStatus 
+    ErrorCode          int                    
+    Invisible          bool                   
+    ForceConsistency   bool                 
+    IsFrozen           bool                 
+    StateInfo          string               
+    CreatedAt          int64                
+    UpdatedAt          int64                
+    Members            []Members           
+    Size               int                  
+    Version            Version        
+}
+```
+
+
 
