@@ -10,11 +10,10 @@
 go 命令
 
 ```bash
-go <command> [arguments]
+
 ```
 
-- arguments
-  - `-gcflags=-l` : 禁用所有函数的内联优化
+- - 
 
 # 内联优化
 
@@ -40,11 +39,40 @@ func main() {
 
 # go命令
 
+```bash
+go <command> [arguments]
+
+arguments
+	-gcflags=-l		禁用所有函数的内联优化
+```
+
 ## build
 
 ```bash
 go build -o janus
 ```
+
+## env
+
+| 变量名        | 描述                                                  |
+| ------------- | ----------------------------------------------------- |
+| `GOOS`        | 目标操作系统的名称（如 `linux`, `windows`, `darwin`） |
+| `GOARCH`      | 目标架构（如 `amd64`, `arm64`）                       |
+| `GOPATH`      | Go 工作区路径，默认为 `$HOME/go`                      |
+| `GOROOT`      | Go 安装路径                                           |
+| `CGO_ENABLED` | 是否启用 CGO（`1` 表示启用，`0` 表示禁用）            |
+| `GO111MODULE` | 控制模块支持的行为（`on`, `off`, `auto`）             |
+| `GOMODCACHE`  | 模块缓存路径                                          |
+| `GOPROXY`     | Go 模块代理地址                                       |
+| `GONOPROXY`   | 不通过代理获取模块的模式列表                          |
+| `GONOSUMDB`   | 不检查校验和数据库的模块列表                          |
+
+```bash
+go env # 查看环境变量
+	-w 设置环境变量值
+```
+
+
 
 
 
