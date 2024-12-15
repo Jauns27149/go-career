@@ -72,7 +72,33 @@ go env # 查看环境变量
 	-w 设置环境变量值
 ```
 
+# 标准包
 
+## strings
+
+### Split
+
+```go
+func Split(s, sep string) []string
+/*sep作为分隔符,把s切割为[]string
+fmt.Print(strings.Split("a,b,c", ",")) 
+Output:
+[a b c]
+```
+
+## slices
+
+### Sort
+
+```go
+func Sort[S interface{ ~[] E }, E cmp.Ordered](x S)
+/* 
+smallInts := []int8{0, 42, -10, 8}
+slices.Sort(smallInts) 
+fmt.Println(smallInts) 
+Output:
+[-10 0 8 42]
+```
 
 
 

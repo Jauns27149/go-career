@@ -20,9 +20,41 @@ s 只包含小写英文字母和 ' '
 s 不包含任何前导或尾随对空格
 s 中每个单词都被单个空格分隔
 */
-
 package main
 
-func wordPattern(pattern string, s string) bool {
+import (
+	"go-career/algorithm/leetcode"
+	"strings"
+)
 
+type exampleWordPattern struct {
+	pattern string
+	c       string
+	answer  bool
+}
+
+func main() {
+	s := []exampleWordPattern{{"abba", "dog dog dog dog", false}}
+	for _, v := range s {
+		leetcode.Printf(wordPattern(v.pattern, v.c), v.answer)
+	}
+}
+func wordPattern(pattern string, s string) bool {
+	sl := strings.Split(s, " ")
+	if len(sl) != len(pattern) {
+		return false
+	}
+
+	mx, my := make(map[byte]string), make(map[string]byte)
+	for i := 0; i < len(sl); i++ {
+		x, y := pattern[i], sl[i]
+		if w, ok := mx[x]; ok && w != sl[i] {
+			return false
+		}
+		if w, ok := my[y]; ok && w != pattern[i] {
+			return false
+		}
+		mx[x], my[y] = y, x
+	}
+	return true
 }

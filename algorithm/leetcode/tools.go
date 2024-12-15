@@ -1,6 +1,9 @@
 package leetcode
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 // s := "[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]"
 func To2intSlice(s string) [][]int {
@@ -29,4 +32,8 @@ func To2intSlice(s string) [][]int {
 		}
 	}
 	return ss
+}
+
+func Printf(compute, answer interface{}) {
+	fmt.Printf("%v\n%v\n-------------------\n", compute, answer)
 }
