@@ -27,7 +27,7 @@ gostack
 
 # 框架和组件功能
 
-![AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO](assets/AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO.png)
+![AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO](../弹性计算/assets/AgAAMBUoAXPt5c7EdR5OK5Tvg9nbQxeO.png)
 
 | 组件          | 功能                                                         |
 | ------------- | ------------------------------------------------------------ |
@@ -46,11 +46,11 @@ gostack
 
 时序图
 
-![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)
+![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](../弹性计算/assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)
 
-<img src="assets/AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW.png" alt="AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW" style="zoom:67%;" />
+<img src="../弹性计算/assets/AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW.png" alt="AgAAMBUoAXMbRp-uue9Kw6MixBrhyUCW" style="zoom:67%;" />
 
-![image-20241120174806266](assets/image-20241120174806266.png)
+![image-20241120174806266](../弹性计算/assets/image-20241120174806266.png)
 
 # 运行流程
 
@@ -122,7 +122,7 @@ gostack
      4. 有job有错误，直接返回错误响应，全部执行成功则返回成功响应
   3. agent执行jod, 
 
-![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)
+![AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8](../弹性计算/assets/AgAAMBUoAXOF5m3zyM1JRZCrIzeNylj8.png)
 
 # gs
 
@@ -569,3 +569,28 @@ gs version
   - host : 
 
     - show <host-id> : Host详情
+
+# 时序图
+
+## 删除虚机快照
+
+```mermaid
+sequenceDiagram
+	participant Api # api/service/instance.go DeleteInstanceSnapshot()
+	participant Etcd 
+	participant Task
+	participant Plan
+	participant Jod
+	participant Agent
+	Api ->> Etcd: checkInstanceSnapshotExists()
+	Etcd ->> Api: model.InstanceSnapshot
+	Api ->> Etcd: create task: deleteInstanceSnapshot
+	Etcd ->> Task: task: deleteInstanceSnapshot
+	Task ->> Etcd: create plan: deleteInstanceSnapshot
+	Etcd ->> Plan: plan: deleteInstanceSnapshot
+	Plan ->> Etcd: plan status: Job/Job status: Ready
+	Etcd ->> Agent: Job status: Ready
+	Agent ->> Etcd: Job status: Success
+	Etcd ->> Jod: Job status: Success
+```
+

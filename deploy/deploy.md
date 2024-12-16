@@ -38,3 +38,18 @@ flags:
 kubectl exec -it -n az3 gostack-mongos-0 -- /bin/sh #进入pod内部
 ```
 
+```bash
+MongoConf:
+  EndPoint: "gostack-mongos-0.gostack-mongos.az3.svc.cluster.net:27017"
+  EndPoints:
+    - "gostack-mongos-0.gostack-mongos.az3.svc.cluster.net:27017" 
+  Username: "root"
+  Password: "testaz3"
+  Timeout: 300
+
+```
+
+```bash
+mongo -u "root" -p "testaz3" --authenticationDatabase "admin"
+```
+

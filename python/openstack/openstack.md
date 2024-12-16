@@ -2167,6 +2167,63 @@ optional arguments:
   --wait      Wait for delete to complete
 ```
 
+### resize
+
+```bash
+
+```
+
+```bash
+[root@gz-txjs-control-55e243e31e29 ~]# openstack help server resize
+usage: openstack server resize [-h] [--flavor <flavor> | --confirm | --revert]
+                               [--wait]
+                               <server>
+
+Scale server to a new flavor. A resize operation is implemented by creating a
+new server and copying the contents of the original disk into a new one. It is
+also a two-step process for the user: the first is to perform the resize, the
+second is to either confirm (verify) success and release the old server, or to
+declare a revert to release the new server and restart the old one.
+
+positional arguments:
+  <server>           Server (name or ID)
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --flavor <flavor>  Resize server to specified flavor
+  --confirm          Confirm server resize is complete
+  --revert           Restore server state before resize
+  --wait             Wait for resize to complete
+```
+
+### stop
+
+### set
+
+```bash
+[root@gz-txjs-control-55e243e31e29 ~]# openstack help server set
+usage: openstack server set [-h] [--name <new-name>] [--root-password]
+                            [--property <key=value>] [--state <state>]
+                            <server>
+
+Set server properties
+
+positional arguments:
+  <server>              Server (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --name <new-name>     New server name
+  --root-password       Set new root password (interactive only)
+  --property <key=value>
+                        Property to add/change for this server (repeat option
+                        to set multiple properties)
+  --state <state>       New server state (valid value: active, error)
+
+```
+
+
+
 ## host
 
 ```bash
@@ -2188,6 +2245,151 @@ List hosts
 optional arguments:
   -h, --help            show this help message and exit
   --zone <zone>         Only return hosts in the availability zone
+
+output formatters:
+  output formatter options
+
+  -f {csv,json,table,value,yaml}, --format {csv,json,table,value,yaml}
+                        the output format, defaults to table
+  -c COLUMN, --column COLUMN
+                        specify the column(s) to include, can be repeated
+  --sort-column SORT_COLUMN
+                        specify the column(s) to sort the data (columns
+                        specified first have a priority, non-existing columns
+                        are ignored), can be repeated
+
+table formatter:
+  --max-width <integer>
+                        Maximum display width, <1 to disable. You can also use
+                        the CLIFF_MAX_TERM_WIDTH environment variable, but the
+                        parameter takes precedence.
+  --fit-width           Fit the table to the display width. Implied if --max-
+                        width greater than 0. Set the environment variable
+                        CLIFF_FIT_WIDTH=1 to always enable
+  --print-empty         Print empty table if there is no data to show.
+
+json formatter:
+  --noindent            whether to disable indenting the JSON
+
+CSV Formatter:
+  --quote {all,minimal,none,nonnumeric}
+                        when to include quotes, defaults to nonnumeric
+```
+
+
+
+## availability zone list 
+
+```bash
+[root@gz-txjs-control-55e243e31e29 ~]# openstack help availability zone list 
+usage: openstack availability zone list [-h] [-f {csv,json,table,value,yaml}]
+                                        [-c COLUMN] [--max-width <integer>]
+                                        [--fit-width] [--print-empty]
+                                        [--noindent]
+                                        [--quote {all,minimal,none,nonnumeric}]
+                                        [--sort-column SORT_COLUMN]
+                                        [--compute] [--network] [--volume]
+                                        [--long]
+
+List availability zones and their status
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --compute             List compute availability zones
+  --network             List network availability zones
+  --volume              List volume availability zones
+  --long                List additional fields in output
+
+output formatters:
+  output formatter options
+
+  -f {csv,json,table,value,yaml}, --format {csv,json,table,value,yaml}
+                        the output format, defaults to table
+  -c COLUMN, --column COLUMN
+                        specify the column(s) to include, can be repeated
+  --sort-column SORT_COLUMN
+                        specify the column(s) to sort the data (columns
+                        specified first have a priority, non-existing columns
+                        are ignored), can be repeated
+
+table formatter:
+  --max-width <integer>
+                        Maximum display width, <1 to disable. You can also use
+                        the CLIFF_MAX_TERM_WIDTH environment variable, but the
+                        parameter takes precedence.
+  --fit-width           Fit the table to the display width. Implied if --max-
+                        width greater than 0. Set the environment variable
+                        CLIFF_FIT_WIDTH=1 to always enable
+  --print-empty         Print empty table if there is no data to show.
+
+json formatter:
+  --noindent            whether to disable indenting the JSON
+
+CSV Formatter:
+  --quote {all,minimal,none,nonnumeric}
+                        when to include quotes, defaults to nonnumeric
+[root@gz-txjs-control-55e243e31e29 ~]# openstack help availability zone list  -long
+usage: openstack help [-h] [cmd [cmd ...]]
+openstack help: error: unrecognized arguments: -long
+
+```
+
+
+
+## server migrate
+
+```bash
+usage: openstack server migrate [-h] [--live <hostname>]
+                                [--shared-migration | --block-migration]
+                                [--disk-overcommit | --no-disk-overcommit]
+                                [--wait] [--migration-type <migration-type>]
+                                <server>
+
+Migrate server to different host
+
+positional arguments:
+  <server>              Server (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --live <hostname>     Target hostname
+  --shared-migration    Perform a shared live migration (default)
+  --block-migration     Perform a block live migration
+  --disk-overcommit     Allow disk over-commit on the destination host
+  --no-disk-overcommit  Do not over-commit disk on the destination host
+                        (default)
+  --wait                Wait for migrate to complete
+  --migration-type <migration-type>
+                        For local storage migration to shared storage. e.g.
+                        to_<volume_type_name>(see 'cinder type-list'): migrate
+                        all the disks of the instance to the volume.
+```
+
+
+
+## hypervisor
+
+### list
+
+```bash
+openstack hypervisor list --long
+```
+
+```bash
+usage: openstack hypervisor list [-h] [-f {csv,json,table,value,yaml}]
+                                 [-c COLUMN] [--max-width <integer>]
+                                 [--fit-width] [--print-empty] [--noindent]
+                                 [--quote {all,minimal,none,nonnumeric}]
+                                 [--sort-column SORT_COLUMN]
+                                 [--matching <hostname>] [--long]
+
+List hypervisors
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --matching <hostname>
+                        Filter hypervisors using <hostname> substring
+  --long                List additional fields in output
 
 output formatters:
   output formatter options

@@ -627,3 +627,16 @@ type InstanceSnapshot struct {
 
 
 
+# 热迁
+
+## 流程图
+
+```mermaid
+sequenceDiagram
+	participant nova-api
+	participant nova-conductor
+	participant nova-compute-source
+	participant nova-compute-destination
+	nova-api ->> nova-conductor: _migrate_live()
+```
+
