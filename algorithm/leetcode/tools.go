@@ -5,6 +5,22 @@ import (
 	"strconv"
 )
 
+// s:="[100,4,200,1,3,2]"
+func ToIntSlice(s string) []int {
+	element := make([]byte, 0, 4)
+	result := make([]int, 0, 8)
+	for i := 1; i < len(s); i++ {
+		if s[i] == ',' || s[i] == ']' {
+			number, _ := strconv.Atoi(string(element))
+			result = append(result, number)
+			element = make([]byte, 0, 4)
+			continue
+		}
+		element = append(element, s[i])
+	}
+	return result
+}
+
 // s := "[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]"
 func To2intSlice(s string) [][]int {
 	n := len(s) - 1

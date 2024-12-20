@@ -11,6 +11,82 @@
 | raise  | 手动引发（抛出）异常         |
 | and    | 逻辑运算符and                |
 | pass   | 占位语句                     |
+| in     | 用于成员资格测试和迭代       |
+
+## in
+
+在 Python 中，`in` 关键字有多种用途，主要用于成员资格测试和迭代。下面是 `in` 的主要用法：
+
+### 成员资格测试
+
+`in` 可以用来检查一个值是否存在于序列（如字符串、列表、元组）或集合类型（如集合、字典的键）中。它返回一个布尔值：如果找到则为 `True`，否则为 `False`。
+
+```python
+# str 字符串
+s = "hello" 
+print('h' in s)  # 输出: True
+print('z' in s)  # 输出: False
+```
+
+```python
+# list 列表
+my_list = ['apple', 'banana', 'cherry']
+print('banana' in my_list)  # 输出: True
+print('orange' in my_list)  # 输出: False
+```
+
+```python
+# tuple 元组
+my_tuple = (1, 2, 3)
+print(2 in my_tuple)  # 输出: True
+print(4 in my_tuple)  # 输出: False
+```
+
+```python
+# conllection 集合
+my_set = {'apple', 'banana', 'cherry'}
+print('apple' in my_set)  # 输出: True
+print('orange' in my_set)  # 输出: False
+```
+
+```python
+# dirc 字典
+my_dict = {'name': 'Alice', 'age': 25}
+print('name' in my_dict)  # 输出: True
+print('height' in my_dict)  # 输出: False
+```
+
+### 迭代（for 循环）
+
+`in` 关键字也用于 `for` 循环中，遍历序列或其他可迭代对象中的元素。
+
+```python
+for item in ['apple', 'banana', 'cherry']:
+    print(item)
+
+for letter in 'Python':
+    print(letter)
+
+for key in {'name': 'Alice', 'age': 25}:
+    print(key)
+
+# 如果想要遍历字典的值或键值对，可以使用 .values() 或 .items()
+for value in {'name': 'Alice', 'age': 25}.values():
+    print(value)
+
+for key, value in {'name': 'Alice', 'age': 25}.items():
+    print(f'{key}: {value}')
+```
+
+### 在条件语句中结合 not 使用
+
+`not in` 是 `in` 的否定形式，用于检查某个值是否**不在**序列或集合中。
+
+ ```python
+fruits = ['apple', 'banana', 'cherry']
+if 'orange' not in fruits:
+    print("Orange is not in the list.")
+ ```
 
 
 
@@ -36,6 +112,105 @@
 | `tuple` | 元组   | 有序、不可变的序列，通常用于存储异构数据             |
 | `dict`  | 字典   | 键值对集合，键必须是唯一的且不可变，值可以是任意类型 |
 | set     | 集合   | 无序、不重复的元素集合，支持集合操作如并集、交集等   |
+
+## dict
+
+### 声明
+
+1. 使用花括号 `{}` 创建字典：
+
+   ```python
+   # 创建一个空字典
+    empty_dict = {}  
+   #	创建一个带有初始键值对的字典
+    person_info = {	
+         'name': 'Alice',
+        'age': 30,
+        'city': 'Beijing'
+    }
+   ```
+
+2. 使用 `dict()` 构造函数创建字典：
+
+    ```python
+    empty_dict = dict()  # 创建一个空字典
+    
+    # 使用关键字参数创建字典
+    person_info = dict(name='Alice', age=30, city='Beijing')
+    
+    # 使用包含键值对的可迭代对象创建字典
+    list_of_tuples = [('name', 'Alice'), ('age', 30), ('city', 'Beijing')]
+    person_info = dict(list_of_tuples)
+    ```
+
+3. 使用字典推导式 (Dictionary Comprehensions) 创建字典：
+
+    ```python
+    # 从已有的列表创建字典
+    keys = ['name', 'age', 'city']
+    values = ['Alice', 30, 'Beijing']
+    person_info = {k: v for k, v in zip(keys, values)}
+    ```
+
+4. 使用 `fromkeys()` 方法创建新字典，给定默认值：
+
+    ```python
+    # 创建一个所有值都是 None 的字典
+    keys = ['name', 'age', 'city']
+    person_info = dict.fromkeys(keys)
+    
+    # 创建一个具有相同默认值的字典
+    person_info_default = dict.fromkeys(keys, 'default_value')
+    ```
+
+### 遍历
+
+1. 遍历所有键
+
+   ```python
+   person_info = {'name': 'Alice', 'age': 30, 'city': 'Beijing'}
+   
+   for key in person_info:
+       print(key)
+   ```
+
+2. 使用 `keys()` 方法遍历所有键
+
+   ```python
+   for key in person_info.keys():
+       print(key)
+   ```
+
+3. 使用 `values()` 方法遍历所有值
+
+   ```python
+   for value in person_info.values():
+       print(value)
+   ```
+
+4. 使用 `items()` 方法遍历键值对
+
+   ```python
+   for key, value in person_info.items():
+       print(f"{key}: {value}")
+   ```
+
+5. 列表推导式或其他推导式
+
+   ```python
+   # 创建一个新的列表，其中包含原字典中每个键值对组成的字符串
+   pairs = [f"{key}={value}" for key, value in person_info.items()]
+   print(pairs)  # 输出: ['name=Alice', 'age=30', 'city=Beijing']
+   ```
+
+   注意事项
+
+   - 如果在遍历字典的过程中尝试添加或删除键（除了改变现有键的值），会引发运行时错误。
+
+   - 如果需要在遍历时修改字典，一种常见做法是先创建字典的副本再进行修改，或者收集要添加或移除的键，在遍历完成后执行这些操作。
+
+
+
 
 # 语句
 
@@ -77,7 +252,22 @@ print(counter)
 # 输出: Counter({'a': 5, 'b': 2, 'r': 2, 'c': 1, 'd': 1})
 ```
 
-# 内建函数
+# 内置函数
+
+## 三元表达式
+
+```python
+value_if_true if condition else value_if_false
+```
+
+```python
+x = 10
+y = 20
+
+# 使用三元表达式选择较大的数
+max_value = x if x > y else y
+print(max_value)  # 输出: 20
+```
 
 ## sorted()
 
@@ -90,5 +280,39 @@ print(sorted_numbers)
 # 输出: [1, 2, 5, 5, 6, 9]
 ```
 
+## enumerate()
 
+用于将一个可迭代对象（如列表、元组、字符串等）组合为一个索引序列，常用于在 `for` 循环中获取元素的索引及其对应的值。它返回的是一个枚举对象，该对象是一个迭代器，可以生成由索引和值组成的元组对。
 
+```python
+enumerate(iterable, start=0)
+# iterable：需要遍历的对象，例如列表、元组、字符串等。
+# start：索引起始位置，默认是 `0`，也可以指定其他整数值作为起始索引。
+```
+
+```python
+# 基本用法
+for index, value in enumerate(['apple', 'banana', 'cherry']):
+    print(f'Index {index}: {value}')
+"""
+Index 0: apple
+Index 1: banana
+Index 2: cherry
+"""
+```
+
+```python
+# 指定起始索引
+for index, value in enumerate(['apple', 'banana', 'cherry'], start=1):
+    print(f'Index {index}: {value}')
+"""
+Index 1: apple
+Index 2: banana
+Index 3: cherry
+"""
+```
+
+```python
+print(list(enumerate(['apple', 'banana', 'cherry'])))
+# [(0, 'apple'), (1, 'banana'), (2, 'cherry')]
+```
