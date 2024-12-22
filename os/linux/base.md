@@ -639,6 +639,33 @@ usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H  baseHREF]
   --            选项处理终止符。
 ```
 
+## fallocate
+
+```bash
+root@janus-a:~# fallocate --help
+
+Usage:
+ fallocate [options] <filename>
+
+Preallocate space to, or deallocate space from a file.
+
+Options:
+ -c, --collapse-range remove a range from the file
+ -d, --dig-holes      detect zeroes and replace with holes
+ -l, --length <num>   length for range operations, in bytes
+ -n, --keep-size      maintain the apparent size of the file
+ -o, --offset <num>   offset for range operations, in bytes
+ -p, --punch-hole     replace a range with a hole (implies -n)
+ -z, --zero-range     zero and ensure allocation of a range
+ -v, --verbose        verbose mode
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+For more details see fallocate(1).
+root@janus-a:~# 
+```
+
 
 
 # 权限模式

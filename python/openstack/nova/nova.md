@@ -638,5 +638,56 @@ sequenceDiagram
 	participant nova-compute-source
 	participant nova-compute-destination
 	nova-api ->> nova-conductor: _migrate_live()
+	nova-conductor ->> nova-compute-source: conductor_migrate_server
+	nova-compute-source ->> nova-conductor: compute_check_can_live_migrate_source
+	nova-conductor ->> nova-compute-destination: conductor_migrate_server
+	nova-compute-destination ->> nova-conductor: compute_check_can_live_migrate_destination
+	nova-conductor ->> nova-compute-source : compute_pre_live_migration
+	nova-compute-source ->> nova-compute-destination : compute_post_live_migration_at_destination
+```
+
+```bash
++---------------+------------------------------------------------------------+
+| Property      | Value                                                      |
++---------------+------------------------------------------------------------+
+| action        | live-migration                                             |
+| events        | [{u'event': u'compute_post_live_migration_at_destination', |
+|               |   u'finish_time': u'2024-12-16T15:15:13.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:15:05.000000',            |
+|               |   u'traceback': None},                                     |
+|               |  {u'event': u'compute_pre_live_migration',                 |
+|               |   u'finish_time': u'2024-12-16T15:14:53.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:14:51.000000',            |
+|               |   u'traceback': None},                                     |
+|               |  {u'event': u'compute_check_can_live_migrate_destination', |
+|               |   u'finish_time': u'2024-12-16T15:14:49.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:14:51.000000',            |
+|               |   u'traceback': None},                                     |
+|               |  {u'event': u'compute_live_migration',                     |
+|               |   u'finish_time': u'2024-12-16T15:14:50.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:14:50.000000',            |
+|               |   u'traceback': None},                                     |
+|               |  {u'event': u'compute_check_can_live_migrate_source',      |
+|               |   u'finish_time': u'2024-12-16T15:14:51.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:14:49.000000',            |
+|               |   u'traceback': None},                                     |
+|               |  {u'event': u'conductor_migrate_server',                   |
+|               |   u'finish_time': u'2024-12-16T15:14:50.000000',           |
+|               |   u'result': u'Success',                                   |
+|               |   u'start_time': u'2024-12-16T15:14:48.000000',            |
+|               |   u'traceback': None}]                                     |
+| instance_uuid | f7f35b85-d625-4afd-91af-ec26d163625c                       |
+| message       | -                                                          |
+| project_id    | 28e5517d27ea4e568b3d5cfd6dd625f8                           |
+| request_id    | req-58a7dac2-eca9-4375-b0cc-08eef538246e                   |
+| start_time    | 2024-12-16T15:14:47.000000                                 |
+| updated_at    | 2024-12-16T15:15:13.000000                                 |
+| user_id       | 6dc03c066d3149e5b19baeb92948a755                           |
++---------------+------------------------------------------------------------+
 ```
 

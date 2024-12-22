@@ -1,74 +1,826 @@
-
-
-# 云计算服务模型
-
-- **IaaS（Infrastructure as a Service）**：提供基础计算资源，用户管理操作系统及之上的一切。
-- **PaaS（Platform as a Service）**：提供开发和部署平台，用户管理应用程序和数据。
-- **SaaS（Software as a Service）**：提供完整应用程序，用户直接使用应用程序。
-- **FaaS（Functions as a Service）**：提供无服务器计算服务，用户上传代码片段按需执行。
-- **DaaS（Data as a Service）**：提供数据管理和分析服务，用户访问和使用数据。
-- **CaaS（Containers as a Service）**：提供容器管理服务，用户管理容器化的应用程序。
-
 # openStack
 
 ​	OpenStack是一个云操作系统，通过数据中心可控制大型的计算、存储、网络等资源池。所有的管理通过前端界面管理员就可以完成，同样也可以通过web接口让最终用户部署资源。
 
-- Nova : 计算服务，负责管理虚拟机的生命周期
-  - nova-api：处理 API 请求
-  - nova-compute：管理虚拟机的生命周期
-  - nova-scheduler：选择最适合运行虚拟机的主机
-  - nova-conductor：处理数据库操作。
+1. 云计算服务模型
+   - IaaS（Infrastructure as a Service）: 提供基础计算资源，用户管理操作系统及之上的一切
+   - PaaS（Platform as a Service）: 提供开发和部署平台，用户管理应用程序和数据
+   - SaaS（Software as a Service）: 提供完整应用程序，用户直接使用应用程序
+   - FaaS（Functions as a Service）: 提供无服务器计算服务，用户上传代码片段按需执行
+   - DaaS（Data as a Service）: 提供数据管理和分析服务，用户访问和使用数据
+   - CaaS（Containers as a Service）: 提供容器管理服务，用户管理容器化的应用程序。
 
-- Neutron: 网络服务，负责管理虚拟网络
-  - neutron-server：处理 API 请求
-  - neutron-linuxbridge-agent：管理 Linux 桥接网络
-  - neutron-dhcp-agent：提供 DHCP 服务
-  - neutron-l3-agent：管理路由和 NAT
-  - neutron-metadata-agent：提供元数据服务
+2. 项目结构
 
-- Glance : 镜像服务，存储和检索虚拟机镜像
-  - glance-api：处理 API 请求
-  - glance-registry：管理镜像元数据
+   - Nova : 计算服务，负责管理虚拟机的生命周期
 
-- Cinder : 块存储服务，提供持久性存储卷
-  - cinder-api：处理 API 请求
-  - cinder-volume：管理块存储卷
-  - cinder-scheduler：选择最适合创建卷的主机
+     - nova-api: 处理 API 请求
 
-- Keystone :  身份认证服务，管理用户和权限
-- Swift(对象存储服务): 提供了一个可扩展的、冗余的对象存储系统，用于存储非结构化的数据，如图片或视频文件。
-- Heat(编排服务): 一个编排引擎，允许用户定义和管理复杂的云应用，通过模板描述应用的资源需求和依赖关系，Heat 自动化资源的创建和配置过程。
-- Trove(数据库服务): 提供了一个数据库即服务的解决方案，使用户能够轻松地管理和部署关系型数据库。
-- Horizon：Web 控制面板，提供图形界面
+     - nova-compute: 管理虚拟机的生命周期
 
-## nova
+     - nova-scheduler: 选择最适合运行虚拟机的主机
 
-- 概念
+     - nova-conductor: 处理数据库操作。
 
-1. Nova和Swift是OpenStack最早的两个组件，nova分为控制节点和计算节点。
-2. 计算节点通过Nova Compute进行虚拟机创建，通过libvirt调用kvm创建虚拟机，nova之间通信通过rabbitMQ队列进行通信。
-3. Nova位于Openstack架构的中心，其他服务或者组件（比如Glance、Cinder、Neutron等）对它提供支持，另外它本身的架构也比较复杂。
+   - Neutron: 网络服务，负责管理虚拟网络
+     - neutron-server: 处理 API 请求
+     - neutron-linuxbridge-agent: 管理 Linux 桥接网络
+     - neutron-dhcp-agent: 提供 DHCP 服务
+     - neutron-l3-agent: 管理路由和 NAT
+     - neutron-metadata-agent: 提供元数据服务
 
-- 作用
+   - Glance : 镜像服务，存储和检索虚拟机镜像
+     - glance-api: 处理 API 请求
+     - glance-registry: 管理镜像元数据
+   - Cinder : 块存储服务，提供持久性存储卷
+     - cinder-api: 处理 API 请求
+     - cinder-volume: 管理块存储卷
+     - cinder-scheduler: 选择最适合创建卷的主机
 
-1. Nova是OpenStack最核心的服务模块，负责管理和维护云计算环境的计算资源，负责整个云环境虚拟机生命周期的管理。
-2. Nova是OpenStack的计算服务，负责维护和管理的网络和存储，提供计算服务。
+   - Keystone :  身份认证服务，管理用户和权限
 
-- 组件
+   - Swift(对象存储服务): 提供了一个可扩展的、冗余的对象存储系统，用于存储非结构化的数据，如图片或视频文件
 
-  ![stickPicture](assets/stickPicture-1731554014520-1.png)
+   - Heat(编排服务): 一个编排引擎，允许用户通过模板描述应用的资源需求和依赖关系，Heat 自动化资源的创建和配置过程
 
-![stickPicture](assets/stickPicture.png)
+   - Trove(数据库服务): 提供了一个数据库即服务的解决方案，使用户能够轻松地管理和部署关系型数据库。
 
-### 工作流程
+   - Horizon: Web 控制面板，提供图形界面
 
-![stickPicture](assets/stickPicture-1731403108838-10.png)
+## 亲和性
 
-![stickPicture](assets/stickPicture-1731403218807-15.png)
 
-![stickPicture](assets/stickPicture-1731403224722-17.png)
 
-![stickPicture](assets/stickPicture-1731403231405-19.png)
+# nova
+
+## 项目结构
+
+```bash
+nova
+├── api-guide        # 包含 Nova API 的使用指南文档。
+├── api-ref          # 包含 Nova API 参考文档，通常为自动生成的 REST API 文档。
+├── contrib          # 包含贡献者添加的代码或模块，可能是一些实验性功能或是社区贡献的功能。
+├── devstack         # 包含用于快速设置开发环境的脚本和配置文件，通常是通过 DevStack 工具。
+├── doc              # 包含项目的各种文档，可能是开发者文档、设计文档等。
+├── etc              # 包含配置文件模板，这些文件是运行 Nova 所必需的。
+├── gate             # 包含用于执行自动化测试的脚本和配置，特别是与 CI/CD 流程相关的部分。
+├── nova             # 包含 Nova 的主要源代码，这是项目的主代码库。
+│   ├── api                # 包含 API 的实现代码，处理来自用户的 HTTP 请求。
+│		├── cells              # 实现 Cells v2 功能的代码，Cells 是一种用于水平扩展 Nova 的机制。
+│   ├── cmd                # 包含启动不同 Nova 组件（如 nova-api, nova-compute）的命令行脚本。
+│   ├── common             # 包含多个模块共享的通用代码或工具函数。
+│   ├── compute            # 包含与计算节点相关的逻辑，负责虚拟机的生命周期管理。
+│   ├── conductor          # 包含 Conductor 服务的实现，Conductor 负责协调多个计算节点之间的任务。
+│   ├── conf               # 包含配置文件模板或配置项定义，用于指导 Nova 的行为。
+│   ├── console            # 包含控制台代理服务的代码，提供用户通过 VNC 或其他协议访问实例的能力。
+│   ├── consoleauth        # 包含控制台认证服务的代码，验证用户对控制台访问的权限。
+│   ├── db                 # 包含数据库访问层的代码，负责与 Nova 使用的数据库进行交互。
+│   ├── hacking            # 包含开发指南、代码风格检查规则等，帮助贡献者遵循项目规范。
+│   ├── image              # 包含与镜像服务（Glance）交互的代码，用于管理虚拟机的镜像。
+│   ├── ipv6               # 包含与 IPv6 地址管理有关的代码。
+│   ├── keymgr             # 包含密钥管理服务的接口，用于加密相关操作。
+│   ├── localdisk          # 包含与本地磁盘操作相关的代码。
+│   ├── locale             # 包含国际化和本地化资源，支持多语言。
+│   ├── network            # 包含网络服务的代码，负责管理虚拟机的网络连接。
+│   ├── notifications      # 包含事件通知机制的代码，用于记录系统中发生的事件。
+│   ├── objects            # 包含 Nova 中使用的所有对象模型，通常是指数据库表对应的 ORM 模型。
+│   ├── pci                # 包含 PCI 设备管理的相关代码，用于直通或 SR-IOV 等功能。
+│   ├── policies           # 包含策略引擎的代码，定义了哪些用户可以执行哪些操作。
+│   ├── privsep            # 包含特权分离的代码，允许某些需要更高权限的操作在更安全的环境中执行。
+│   ├── scheduler          # 包含调度器的实现，决定新实例应该被放置在哪一个计算节点上。
+│   ├── servicegroup       # 包含服务组管理的代码，用于监控 Nova 服务的状态。
+│   ├── tests              # 包含单元测试、集成测试和其他类型的测试代码。
+│   ├── vendor             # 包含外部依赖库或供应商提供的代码，有时是为了解决特定版本兼容性问题而保留的。
+│   ├── virt               # 包含虚拟化驱动程序的代码，负责与不同的 hypervisor 进行交互。
+│   ├── vnc                # 包含 VNC 访问的支持代码，使得用户可以通过 VNC 协议访问实例的控制台。
+│   └── volume             # 包含卷服务的代码，负责管理持久存储卷，通常与 Cinder 集成。
+├── placement-api-ref# 包含 Placement API 的参考文档，Placement 是负责资源追踪的服务。
+├── playbooks        # 包含 Ansible Playbook 或类似的配置管理剧本，用于部署或维护操作。
+├── releasenotes     # 包含版本发布说明，记录了每次版本更新的内容、改进和已知问题。
+├── tools            # 包含各种工具脚本，如构建、测试或其他辅助工具。
+└── venv             # 包含虚拟环境配置，用于隔离 Python 环境，确保依赖项正确安装。
+```
+
+## nova命令
+
+```bash
+usage: nova [command]
+nova help command
+Command-line interface to the OpenStack Nova API.
+
+Positional arguments:
+  <subcommand>
+    add-secgroup                Add a Security Group to a server.
+    agent-create                Create new agent build.
+    agent-delete                Delete existing agent build.
+    agent-list                  List all builds.
+    agent-modify                Modify existing agent build.
+    aggregate-add-host          Add the host to the specified aggregate.
+    aggregate-create            Create a new aggregate with the specified
+                                details.
+    aggregate-delete            Delete the aggregate.
+    aggregate-list              Print a list of all aggregates.
+    aggregate-remove-host       Remove the specified host from the specified
+                                aggregate.
+    aggregate-set-metadata      Update the metadata associated with the
+                                aggregate.
+    aggregate-show              Show details of the specified aggregate.
+    aggregate-update            Update the aggregate's name and optionally
+                                availability zone.
+    attach-usb-device
+    availability-zone-list      List all the availability zones.
+    backup                      Backup a server by creating a 'backup' type
+                                snapshot.
+    bind-keypair
+    boot                        Boot a new server.
+    cell-capacities             Get cell capacities for all cells or a given
+                                cell.
+    cell-show                   Show details of a given cell.
+    cgroup-cpu-show             show cgroup vcpu of server for a tenant or a
+                                server. only specify <instance_uuid> or
+                                <tenant_id>.
+    cgroup-cpu-update           update cgroup vcpu of server for a tenant or a
+                                server. only specify <instance_uuid> or
+                                <tenant_id>.
+    clear-password              Clear the admin password for a server from the
+                                metadata server. This action does not actually
+                                change the instance server password.
+    clone                       Clone a server.
+    console-log                 Get console log output of a server.
+    dedicated-cloud-add-host    Add the host to the specified dedicated cloud.
+    dedicated-cloud-available-host-list
+                                Print a list of available host for dedicated
+                                cloud.
+    dedicated-cloud-create      Create a new dedicated cloud with the
+                                specified details.
+    dedicated-cloud-delete      Delete the dedicated cloud.
+    dedicated-cloud-host-list   Print a list of all hosts in dedicated cloud.
+    dedicated-cloud-host-show   Show details of the specified host in
+                                dedicated cloud.
+    dedicated-cloud-host-statistics
+                                Count the resources of all hosts.
+    dedicated-cloud-host-update
+                                Update the dedicated cloud's display name or
+                                cpu ratio or auto deployed.
+    dedicated-cloud-list        Print a list of all dedicated clouds.
+    dedicated-cloud-remove-host
+                                Remove the specified host from the specified
+                                dedicated cloud.
+    dedicated-cloud-server-boot
+                                Boot a new server.
+    dedicated-cloud-server-list
+                                List servers in dedicated cloud.
+    dedicated-cloud-server-show
+                                Show details about the given server in
+                                dedicated cloud.
+    dedicated-cloud-show        Show details of the specified dedicated cloud.
+    dedicated-cloud-update      Update the dedicated cloud's name.
+    dedicated-host-create       Create a dedicated host.
+    dedicated-host-delete       Delete the dedicated host.
+    dedicated-host-list         Print a list of all dedicated hosts.
+    dedicated-host-show         Display the details of the dedicated host.
+    delete                      Immediately shut down and delete specified
+                                server(s).
+    detach-usb-device
+    diagnostics                 Retrieve server diagnostics.
+    disk-qoses                  Get disk qos for a server.
+    estimate-migration-time
+    evacuate                    Evacuate server from failed host.
+    extra-specs                 Show details about the given server.
+    flavor-access-add           Add flavor access for the given tenant.
+    flavor-access-list          Print access information about the given
+                                flavor.
+    flavor-access-remove        Remove flavor access for the given tenant.
+    flavor-create               Create a new flavor.
+    flavor-delete               Delete a specific flavor
+    flavor-key                  Set or unset extra_spec for a flavor.
+    flavor-list                 Print a list of available 'flavors' (sizes of
+                                servers).
+    flavor-show                 Show details about the given flavor.
+    flavor-tag-add              Add one or more tags to a flavor.
+    flavor-tag-delete           Delete one or more tags from a flavor.
+    flavor-update               Update the description of an existing flavor.
+                                (Supported by API versions '2.55' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    flavor-zone
+    force-delete                Force delete a server.
+    get-disk-qos                Get a volume disk qos for a server.
+    get-mks-console             Get an MKS console to a server. (Supported by
+                                API versions '2.8' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    get-password                Get the admin password for a server. This
+                                operation calls the metadata service to query
+                                metadata information and does not read
+                                password information from the server itself.
+    get-rdp-console             Get a rdp console to a server.
+    get-serial-console          Get a serial console to a server.
+    get-spice-console           Get a spice console to a server.
+    get-vnc-console             Get a vnc console to a server.
+    host-evacuate               Evacuate all instances from failed host.
+    host-evacuate-live          Live migrate all instances of the specified
+                                host to other available hosts.
+    host-meta                   Set or Delete metadata on all instances of a
+                                host.
+    host-servers-migrate        Cold migrate all instances off the specified
+                                host to other available hosts.
+    hypervisor-extra-specs      Get hypervisor extra specs.
+    hypervisor-get-ratio        Get hypervisor allocation ratio.
+    hypervisor-hostinfo         Display the hostinfo of the specified
+                                hypervisor.
+    hypervisor-list             List hypervisors. (Supported by API versions
+                                '2.0' - '2.latest') [hint: use '--os-compute-
+                                api-version' flag to show help message for
+                                proper version]
+    hypervisor-local-disks      Get hypervisor local disks.
+    hypervisor-servers          List servers belonging to specific
+                                hypervisors.
+    hypervisor-set-instances-limit
+                                Set hypervisor instances limit.
+    hypervisor-set-ratio        Set hypervisor allocation ratio.
+    hypervisor-show             Display the details of the specified
+                                hypervisor.
+    hypervisor-stats            Get hypervisor statistics over all compute
+                                nodes.
+    hypervisor-uptime           Display the uptime of the specified
+                                hypervisor.
+    image-create                Create a new image by taking a snapshot of a
+                                running server.
+    instance-action             Show an action.
+    instance-action-list        List actions on a server. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    instance-backup-create      Create an instance backup.
+    instance-backup-delete      Delete an instance backup.
+    instance-backup-force-delete
+                                Force delete a instance backup.
+    instance-backup-list        Get a list of instance backup.
+    instance-backup-restore     Restore an instance backup to the previous
+                                instance.
+    instance-backup-show        Get an instance backup details.
+    instance-backup-update      Update an instance backup.
+    interface-attach            Attach a network interface to a server.
+    interface-detach            Detach a network interface from a server.
+    interface-list              List interfaces attached to a server.
+    keypair-add                 Create a new key pair for use with servers.
+    keypair-delete              Delete keypair given by its name. (Supported
+                                by API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    keypair-list                Print a list of keypairs for a user (Supported
+                                by API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    keypair-show                Show details about the given keypair.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    limits                      Print rate and absolute limits.
+    list                        List servers.
+    list-extensions             List all the os-api extensions that are
+                                available.
+    list-file-system            List file system for a server.
+    list-secgroup               List Security Group(s) of a server.
+    list-usb-devices
+    live-migrate-volume-notify
+    live-migration              Migrate running server to a new machine.
+    live-migration-abort        Abort an on-going live migration. (Supported
+                                by API versions '2.24' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    live-migration-force-complete
+                                Force on-going live migration to complete.
+                                (Supported by API versions '2.22' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    live-resize-flavors         Get the flavors list that the server can
+                                execute live resize.
+    local-disks                 Get local disk for a server.
+    lock                        Lock a server. A normal (non-admin) user will
+                                not be able to execute actions on a locked
+                                server.
+    meta                        Set or delete metadata on a server.
+    migrate                     Migrate a server.
+    migration-list              Print a list of migrations. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    mount-file-system           Mount file system for a server.
+    offline-compute-host        offline the compute host.
+    pause                       Pause a server.
+    quota-class-show            List the quotas for a quota class.
+    quota-class-update          Update the quotas for a quota class.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    quota-defaults              List the default quotas for a tenant.
+    quota-delete                Delete quota for a tenant/user so their quota
+                                will Revert back to default.
+    quota-show                  List the quotas for a tenant/user.
+    quota-update                Update the quotas for a tenant/user.
+                                (Supported by API versions '2.0' - '2.latest')
+                                [hint: use '--os-compute-api-version' flag to
+                                show help message for proper version]
+    reboot                      Reboot a server.
+    rebuild                     Shutdown, re-image, and re-boot a server.
+    refresh-network             Refresh server network information.
+    remove-secgroup             Remove a Security Group from a server.
+    request-spec-az-show        show request spec of the server.
+    request-spec-az-update      update request spec of the server.
+    rescue                      Reboots a server into rescue mode, which
+                                starts the machine from either the initial
+                                image or a specified image, attaching the
+                                current boot disk as secondary.
+    reset-failed-build          Reset failed_builds for the compute host.
+    reset-network               Reset network of a server.
+    reset-state                 Reset the state of a server.
+    resize                      Resize a server.
+    resize-confirm              Confirm a previous resize.
+    resize-revert               Revert a previous resize (and return to the
+                                previous VM).
+    restore                     Restore a soft-deleted server.
+    resume                      Resume a server.
+    server-group-add-member     Add the server to the specified server_group.
+    server-group-create         Create a new server group with the specified
+                                details.
+    server-group-delete         Delete specific server group(s).
+    server-group-get            Get a specific server group.
+    server-group-has-enough-resources
+    server-group-list           Print a list of all server groups.
+    server-group-need-migrate
+    server-group-remove-member  Remove the server from the specified
+                                server_group.
+    server-health-check         Health check for a server.
+    server-migration-list       Get the migrations list of specified server.
+                                (Supported by API versions '2.23' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-migration-show       Get the migration of specified server.
+                                (Supported by API versions '2.23' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-snapshot-create      Create a server snapshot.
+    server-snapshot-delete      Delete a server snapshot.
+    server-snapshot-list        Print a list of server snapshots.
+    server-snapshot-reset-state
+                                Reset a server snapshot to the special state.
+    server-snapshot-restore     Restore a server snapshot to the server.
+    server-snapshot-show        Get a server snapshot details.
+    server-snapshot-update      Update a server snapshot.
+    server-tag-add              Add one or more tags to a server. (Supported
+                                by API versions '2.26' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    server-tag-delete           Delete one or more tags from a server.
+                                (Supported by API versions '2.26' -
+                                '2.latest') [hint: use '--os-compute-api-
+                                version' flag to show help message for proper
+                                version]
+    server-tag-delete-all       Delete all tags from a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    server-tag-list             Get list of tags from a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    server-tag-set              Set list of tags to a server. (Supported by
+                                API versions '2.26' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-delete              Delete the service by UUID ID. (Supported by
+                                API versions '2.0' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-disable             Disable the service. (Supported by API
+                                versions '2.0' - '2.latest') [hint: use '--os-
+                                compute-api-version' flag to show help message
+                                for proper version]
+    service-enable              Enable the service. (Supported by API versions
+                                '2.0' - '2.latest') [hint: use '--os-compute-
+                                api-version' flag to show help message for
+                                proper version]
+    service-force-down          Force service to down. (Supported by API
+                                versions '2.11' - '2.latest') [hint: use
+                                '--os-compute-api-version' flag to show help
+                                message for proper version]
+    service-list                Show a list of all running services. Filter by
+                                host & binary.
+    set-disk-qos                Set one disk qos of a server.
+    set-password                Change the user password for a server.
+    shelve                      Shelve a server.
+    shelve-offload              Remove a shelved server from the compute node.
+    show                        Show details about the given server.
+    show-credit                 show credit of the server.
+    ssh                         SSH into a server.
+    start                       Start the server(s).
+    stop                        Stop the server(s).
+    suspend                     Suspend a server.
+    sync                        Sync cache for an server.
+    trigger-crash-dump          Trigger crash dump in an instance. (Supported
+                                by API versions '2.17' - '2.latest') [hint:
+                                use '--os-compute-api-version' flag to show
+                                help message for proper version]
+    unbind-keypair
+    unlock                      Unlock a server.
+    unmount-file-system         Mount file system for a server.
+    unpause                     Unpause a server.
+    unrescue                    Restart the server from normal boot disk
+                                again.
+    unshelve                    Unshelve a server.
+    update                      Update some attr for a server.
+    usage                       Show usage data for a single tenant.
+    usage-list                  List usage data for all tenants.
+    version-list                List all API versions.
+    volume-attach               Attach a volume to a server.
+    volume-attachments          List all the volumes attached to a server.
+    volume-detach               Detach a volume from a server.
+    volume-live-migrate
+    volume-update               Update the attachment on the server. Migrates
+                                the data from an attached volume to the
+                                specified available volume and swaps out the
+                                active attachment to the new volume.
+    bash-completion             Prints all of the commands and options to
+                                stdout so that the nova.bash_completion script
+                                doesn't have to hard code them.
+    help                        Display help about this program or one of its
+                                subcommands.
+
+Optional arguments:
+  --version                     show program's version number and exit
+  --debug                       Print debugging output.
+  --os-cache                    Use the auth token cache. Defaults to False if
+                                env[OS_CACHE] is not set.
+  --timings                     Print call timing info.
+  --os-region-name <region-name>
+                                Defaults to env[OS_REGION_NAME].
+  --service-type <service-type>
+                                Defaults to compute for most actions.
+  --service-name <service-name>
+                                Defaults to env[NOVA_SERVICE_NAME].
+  --os-endpoint-type <endpoint-type>
+                                Defaults to env[NOVA_ENDPOINT_TYPE],
+                                env[OS_ENDPOINT_TYPE] or publicURL.
+  --os-compute-api-version <compute-api-ver>
+                                Accepts X, X.Y (where X is major and Y is
+                                minor part) or "X.latest", defaults to
+                                env[OS_COMPUTE_API_VERSION].
+  --endpoint-override <bypass-url>
+                                Use this API endpoint instead of the Service
+                                Catalog. Defaults to
+                                env[NOVACLIENT_ENDPOINT_OVERRIDE].
+  --profile HMAC_KEY            HMAC key to use for encrypting context data
+                                for performance profiling of operation. This
+                                key should be the value of the HMAC key
+                                configured for the OSprofiler middleware in
+                                nova; it is specified in the Nova
+                                configuration file at "/etc/nova/nova.conf".
+                                Without the key, profiling will not be
+                                triggered even if OSprofiler is enabled on the
+                                server side.
+  --os-auth-type <name>, --os-auth-plugin <name>
+                                Authentication type to use
+
+See "nova help COMMAND" for help on a specific command.
+```
+
+### show
+
+```bash
+usage: nova show [flags] <server>
+
+Show details about the given server.
+
+Positional arguments:
+  <server>          Name or ID of server.
+  
+Optional arguments:
+  --minimal         Skips flavor/image lookups when showing servers.
+  --deleted         show deleted servers (Admin only).
+  --wrap <integer>  Wrap the output to a specified length, or 0 to disable.
+```
+
+
+
+### list
+
+```bash
+nova list --name janus
+```
+
+```bash
+nova list [falg]
+
+Optional arguments:
+  --reservation-id <reservation-id>  Only return servers that match reservation-id.
+  --ip <ip-regexp>              Search with regular expression match by IP address.
+  --ip6 <ip6-regexp>            Search with regular expression match by IPv6 address.
+  --name <name-regexp>          Search with regular expression match by name.
+  --instance-name <name-regexp>	Search with regular expression match by server name.
+  --status <status>             Search by server status, status: ACTIVE
+  --flavor <flavor>             Search by flavor name or ID.
+  --image <image>               Search by image name or ID.
+  --host <hostname>             Search servers by hostname to which they are assigned (Admin only).
+  --all-tenants [<0|1>]         Display information from all tenants (Admin only).
+  --tenant [<tenant>]           Display information from single tenant (Admin only).
+  --user [<user>]               Display information from single user (Admin only).
+  --deleted                     Only display deleted servers (Admin only).
+  --fields <fields>             Comma-separated list of fields to display. Use
+                                the show command to see which fields are
+                                available.
+  --minimal                     Get only UUID and name.
+  --sort <key>[:<direction>]    Comma-separated list of sort keys and
+                                directions in the form of <key>[:<asc|desc>].
+                                The direction defaults to descending if not
+                                specified.
+  --marker <marker>             The last server UUID of the previous page;
+                                displays list of servers after "marker".
+  --limit <limit>               Maximum number of servers to display. If limit
+                                == -1, all servers will be displayed. If limit
+                                is bigger than 'CONF.api.max_limit' option of
+                                Nova API, limit 'CONF.api.max_limit' will be
+                                used instead.
+  --changes-since <changes_since>
+                                List only servers changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+  --tags <tags>                 The given tags must all be present for a
+                                server to be included in the list result.
+                                Boolean expression in this case is 't1 AND
+                                t2'. Tags must be separated by commas: --tags
+                                <tag1,tag2> (Supported by API versions '2.26'
+                                - '2.latest')
+  --tags-any <tags-any>         If one of the given tags is present the server
+                                will be included in the list result. Boolean
+                                expression in this case is 't1 OR t2'. Tags
+                                must be separated by commas: --tags-any
+                                <tag1,tag2> (Supported by API versions '2.26'
+                                - '2.latest')
+  --not-tags <not-tags>         Only the servers that do not have any of the
+                                given tags will be included in the list
+                                results. Boolean expression in this case is
+                                'NOT(t1 AND t2)'. Tags must be separated by
+                                commas: --not-tags <tag1,tag2> (Supported by
+                                API versions '2.26' - '2.latest')
+  --not-tags-any <not-tags-any>
+                                Only the servers that do not have at least one
+                                of the given tags will be included in the list
+                                result. Boolean expression in this case is
+                                'NOT(t1 OR t2)'. Tags must be separated by
+                                commas: --not-tags-any <tag1,tag2> (Supported
+                                by API versions '2.26' - '2.latest')
+```
+
+### live-migration
+
+```bash
+usage: nova live-migration [flags] <server> [<host>]
+
+Migrate running server to a new machine.
+
+Positional arguments:
+  <server>                      Name or ID of server.
+  <host>                        Destination host name.
+
+Optional arguments:
+  --block-migrate               True in case of block_migration.
+                                (Default=auto:live_migration) (Supported by
+                                API versions '2.25' - '2.latest')
+  --force                       Force to not verify the scheduler if a host is
+                                provided. (Supported by API versions '2.30' -
+                                '2.latest')
+  --migration-type <migration-type>
+                                For local storage migration to shared storage.
+                                e.g. to_<volume_type_name>(see 'cinder type-
+                                list'): migrate all the disks of the instance
+                                to the volume.
+```
+
+### live-migration-abort
+
+```bash
+[root@gz-txjs-control-55e243e31e30 ~]# nova help live-migration-abort
+usage: nova live-migration-abort <server> <migration>
+
+Abort an on-going live migration. (Supported by API versions '2.24' -
+'2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>     Name or ID of server.
+  <migration>  ID of migration.
+```
+
+### server-migration-list
+
+```bash
+[root@gz-txjs-control-55e243e31e30 ~]# nova help server-migration-list
+usage: nova server-migration-list <server>
+
+Get the migrations list of specified server. (Supported by API versions '2.23'
+- '2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+### migration-list
+
+```bash
+usage: nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
+                           [--status <status>] [--marker <marker>]
+                           [--limit <limit>] [--changes-since <changes_since>]
+
+Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Optional arguments:
+  --instance-uuid <instance_uuid>
+                                Fetch migrations for the given instance.
+  --host <host>                 Fetch migrations for the given host.
+  --status <status>             Fetch migrations for the given status.
+  --marker <marker>             The last migration of the previous page;
+                                displays list of migrations after "marker".
+                                Note that the marker is the migration UUID.
+  --limit <limit>               Maximum number of migrations to display. Note
+                                that there is a configurable max limit on the
+                                server, and the limit that is used will be the
+                                minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only migrations changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+```
+
+
+
+### reset-state
+
+```bash
+usage: nova reset-state [plags] <server> [<server> ...]
+
+Reset the state of a server.
+
+Positional arguments:
+  <server>       Name or ID of server(s).
+
+Optional arguments:
+  --all-tenants  Reset state server(s) in another tenant by name (Admin only).
+  --active       Request the server be reset to "active" state instead of
+                 "error" state (the default).
+  --stopped      Request the server be reset to "stopped" state
+```
+
+### instance-action-list 
+
+```bash
+nova instance-action-list  <server>
+```
+
+```bash
+usage: nova instance-action-list [--marker <marker>] [--limit <limit>]
+                                 [--changes-since <changes_since>]
+                                 <server>
+
+List actions on a server. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Positional arguments:
+  <server>                      Name or UUID of the server to list actions
+                                for. Only UUID can be used to list actions on
+                                a deleted server.
+
+Optional arguments:
+  --marker <marker>             The last instance action of the previous page;
+                                displays list of actions after "marker".
+  --limit <limit>               Maximum number of instance actions to display.
+                                Note that there is a configurable max limit on
+                                the server, and the limit that is used will be
+                                the minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only instance actions changed after a
+                                certain point of time. The provided time
+                                should be an ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z
+```
+
+###  instance-action
+
+```bash
+nova instance-action <server> <request_id>
+```
+
+```bash
+usage: nova instance-action <server> <request_id>
+
+Show an action.
+
+Positional arguments:
+  <server>      Name or UUID of the server to show actions for. Only UUID can
+                be used to show actions for a deleted server. (Supported by
+                API versions '2.21' - '2.latest')
+  <request_id>  Request ID of the action to get.
+```
+
+### rebuild
+
+```bash
+usage: nova rebuild [--image <image>] [--rebuild-password <rebuild-password>]
+                    [--poll] [--minimal] [--preserve-ephemeral]
+                    [--name <name>] [--description <description>]
+                    [--meta <key=value>] [--key-name <key-name>] [--key-unset]
+                    [--user-data <user-data>] [--user-data-unset]
+                    [--volume <volume>]
+                    <server>
+
+Shutdown, re-image, and re-boot a server.
+
+Positional arguments:
+  <server>                      Name or ID of server.
+
+Optional arguments:
+  --image <image>               Name or ID of new image.
+  --rebuild-password <rebuild-password>
+                                Set the provided admin password on the rebuilt
+                                server.
+  --poll                        Report the server rebuild progress until it
+                                completes.
+  --minimal                     Skips flavor/image lookups when showing
+                                servers.
+  --preserve-ephemeral          Preserve the default ephemeral storage
+                                partition on rebuild.
+  --name <name>                 Name for the new server.
+  --description <description>   New description for the server. (Supported by
+                                API versions '2.19' - '2.latest')
+  --meta <key=value>            Record arbitrary key/value metadata to
+                                /meta_data.json on the metadata server. Can be
+                                specified multiple times.
+  --key-name <key-name>         Keypair name to set in the server. Cannot be
+                                specified with the '--key-unset' option.
+                                (Supported by API versions '2.54' -
+                                '2.latest')
+  --key-unset                   Unset keypair in the server. Cannot be
+                                specified with the '--key-name' option.
+                                (Supported by API versions '2.54' -
+                                '2.latest')
+  --user-data <user-data>       User data file to pass to be exposed by the
+                                metadata server. (Supported by API versions
+                                '2.57' - '2.latest')
+  --user-data-unset             Unset user_data in the server. Cannot be
+                                specified with the '--user-data' option.
+                                (Supported by API versions '2.57' -
+                                '2.latest')
+  --volume <volume>             ID of the volume to rebuild. (Supported by API
+                                versions '2.61' - '2.latest')
+```
+
+### volume-attach  
+
+```bash
+nova volume-attach janus 447522bf-5f8c-41c1-9b10-a629efac9a9c
+```
+
+```bash
+usage: nova volume-attach [--tag <tag>] [--disk_bus <disk_bus>]
+                          <server> <volume> [<device>]
+
+Attach a volume to a server.
+
+Positional arguments:
+  <server>               Name or ID of server.
+  <volume>               ID of the volume to attach.
+  <device>               Name of the device e.g. /dev/vdb. Use "auto" for
+                         autoassign (if supported). Libvirt driver will use
+                         default device name.
+
+Optional arguments:
+  --tag <tag>            Tag for the attached volume. (Supported by API
+                         versions '2.49' - '2.latest')
+  --disk_bus <disk_bus>  Disk bus for the attached volume, can be chosen from
+                         ide, sata,scsi, virtio and etc. (Supported by API
+                         versions '2.49' - '2.latest')
+```
+
+
+
+
+
+
+
+
 
 ## 虚拟机创建流程
 
@@ -78,7 +830,7 @@
 2. keystone通过用户请求认证信息，并生成auth-token返回给对应的认证请求。
 3. 界面或命令行通过RESTful API向nova-api发送一个boot instance的请求（携带auth-token）。
 4. nova-api接受请求后向keystone发送认证请求，查看token是否为有效用户和token。
-5. keystone验证token是否有效，如有效则返回有效的认证和对应的角色（注：有些操作需要有角色权限才能操作）。
+5. keystone验证token是否有效，如有效则返回有效的认证和对应的角色（注: 有些操作需要有角色权限才能操作）。
 6. 通过认证后nova-api和数据库通讯。
 7. 初始化新建虚拟机的数据库记录。
 8. nova-api通过rpc.call向nova-scheduler请求是否有创建虚拟机的资源(Host ID)。
@@ -109,18 +861,18 @@
 ​	Libvirt是一个开源项目，提供了一组API、工具、库，用于管理和控制虚拟化平台。
 ​	在Openstack环境中，Libvirt是一个至关重要的组件，它为各种虚拟化技术（如 KVM、QUME、Xen和LXC）提供统一的接口，使得Openstack能够和底层虚拟化技术进行交互。
 
-- Libvirt 主要功能包括：
-  1. API提供：Libvirt 提供一个C语言的API，同时也支持多种高级编程语言的绑定。这些API允许开发者编写应用程序来创建、配置和管理虚拟机。
-  2. 虚拟化管理接口：Libvirt 提供了一个统一的接口，可以透明地处理不同的虚拟化技术。这意味着Openstack不需要知道具体的虚拟化实现，而是通过libvirt进行操作，简化了开发和维护工作。
-  3. 安全隔离：Libvirt 支持安全策略，确保各个虚拟机之间的隔离，提高系统的安全性。
-  4. 资源管理：Libvirt 可以控制和调整虚拟机的资源分配，包括CPU、内存、磁盘和网络。这对于优化虚拟化环境中的资源利用率至关重要。
-  5. 网络管理：Libvirt 提供了网络抽象层，能够创建和配置网络桥联、网络过滤器等，支持虚拟网络设备的管理。
-  6. 存储管理：Libvirt 支持多种存储类型，如块设备、文件系统、网络存储，以及Openstack中的Cinder存储服务。
+- Libvirt 主要功能包括: 
+  1. API提供: Libvirt 提供一个C语言的API，同时也支持多种高级编程语言的绑定。这些API允许开发者编写应用程序来创建、配置和管理虚拟机。
+  2. 虚拟化管理接口: Libvirt 提供了一个统一的接口，可以透明地处理不同的虚拟化技术。这意味着Openstack不需要知道具体的虚拟化实现，而是通过libvirt进行操作，简化了开发和维护工作。
+  3. 安全隔离: Libvirt 支持安全策略，确保各个虚拟机之间的隔离，提高系统的安全性。
+  4. 资源管理: Libvirt 可以控制和调整虚拟机的资源分配，包括CPU、内存、磁盘和网络。这对于优化虚拟化环境中的资源利用率至关重要。
+  5. 网络管理: Libvirt 提供了网络抽象层，能够创建和配置网络桥联、网络过滤器等，支持虚拟网络设备的管理。
+  6. 存储管理: Libvirt 支持多种存储类型，如块设备、文件系统、网络存储，以及Openstack中的Cinder存储服务。
 
-- Openstack中，Libvirt 主要与以下服务交互：
-  1. nova：作为Openstack计算服务，nova 通过调用 Libvirt 的API来执行这些操作，包括创建、启动、停止和迁移虚拟机实例。
-  2. neutron：Openstack网络服务 neutron 可以利用Libvirt 来配置虚拟网络，如设置网络连接、端口安全规则和负载均衡。
-  3. cinder：cinder 直接与后端存储系统交互，但 Libvirt 参与了卷的挂载和卸载，以及在虚拟机内部使用的cinder卷。
+- Openstack中，Libvirt 主要与以下服务交互: 
+  1. nova: 作为Openstack计算服务，nova 通过调用 Libvirt 的API来执行这些操作，包括创建、启动、停止和迁移虚拟机实例。
+  2. neutron: Openstack网络服务 neutron 可以利用Libvirt 来配置虚拟网络，如设置网络连接、端口安全规则和负载均衡。
+  3. cinder: cinder 直接与后端存储系统交互，但 Libvirt 参与了卷的挂载和卸载，以及在虚拟机内部使用的cinder卷。
 
  	Libvirt 还包含了一些命令行工具，如virsh 等，允许管理员直接对虚拟机进行操作，如查看状态、编辑配置、挂载磁盘等。Libvirt 是 Openstack 架构中的关键组件，它作为中间层连接上层服务和底层虚拟化技术，提供高效、灵活和安全的虚拟化管理能力。
 
@@ -141,25 +893,47 @@
 | virsh domstate <domain-name>   | 查看虚拟机状态        |
 | virsh vncdisplay <domain-name> | 查看虚拟机的 VNC 端口 |
 
-# QGA（Qemu Guest Agent）
+## QGA（Qemu Guest Agent）
 
-- 定义与作用：
+- 定义与作用: 
   1. QGA是一个运行在虚拟机内部的普通应用程序（可执行文件名称默认为qemu-ga，服务名称默认为qemu-guest-agent）。
   2. 其主要目的是实现宿主机和虚拟机之间的一种不依赖于网络的交互方式，而是依赖于virtio-serial（默认首选方式）或者isa-serial。
   3. QGA通过读写串口设备与宿主机上的socket通道进行交互，交互的协议与QMP（QEMU Monitor Protocol）相同，即使用JSON格式进行数据交换。
 
-- 功能特点：
+- 功能特点: 
   1. QGA提供了虚拟机内部状态信息（如文件系统信息、网络信息等）的查询和修改能力。
   2. 它可以执行一些宿主机发起的操作，如文件操作、磁盘管理、网络配置等。
   3. QGA的功能扩展较为方便，开发者可以通过修改源码来添加新的命令或功能。
 
+## virsh命令
+
+### list
+
+```bash
+virsh list
+```
+
+### console
+
+```bash
+virsh console <instance-id>
+```
+
+
+
 #  openstack 命令
 
 ```bash
-openstack [command]
-```
+openstack <object> <action> [options] [--flags] [arguments]
 
-```bash
+openstack：这是所有 OpenStack CLI 命令的前缀。
+<object>：表示你要操作的对象类型，如 server、image、volume、network 等。
+<action>：表示你想要对对象执行的动作，如 list、create、delete、show 等。
+[options]：可选参数，用于指定额外的行为或配置，如 --name、--flavor、--image 等。
+[--flags]：布尔标志，通常不带值，仅用以启用或禁用某些功能，如 --debug、--all-projects 等。
+[arguments]：传递给命令的具体参数，如对象的ID、名称等。
+
+
 usage: openstack [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
                  [--os-cloud <cloud-config-name>]
                  [--os-region-name <auth-region-name>]
@@ -1408,7 +2182,7 @@ CSV Formatter:
   
       - --availability-zone :
   
-      - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none> ：
+      - --nic <net-id=net-uuid,v4-fixed-ip=ip-addr,v6-fixed-ip=ip-addr,port-id=port-uuid,auto,none> : 
   
       - <server-name>
   
@@ -1444,7 +2218,7 @@ CSV Formatter:
   
     
 
-模拟环境：2022年-贵州多AZ测试环境-POC2 ->  
+模拟环境: 2022年-贵州多AZ测试环境-POC2 ->  
 
 2022年-贵州多AZ测试环境-POC2 -> 55.249.31.26
 
@@ -1468,7 +2242,6 @@ commands:
 
 ```bash
 openstack flavor list --limit 10 --public
-# | 214d0281-6fb5-48ae-9ca7-64f2a11b5db6 | s6.small.1          |   1024 |    0 |         0 |     1 | True  
 ```
 
 ```bash
@@ -1522,6 +2295,135 @@ CSV Formatter:
   --quote {all,minimal,none,nonnumeric}
                         when to include quotes, defaults to nonnumeric
 ```
+
+### show
+
+```bash
+openstack flavor show s2.xlarge.2
+```
+
+### create
+
+```bash
+openstack flavor create --ram 65536 --vcpus 4 janus
+openstack flavor create janus --ram 163 --vcpus 2 \
+--property DISK:VOLUMES_QUOTA='8' \
+--property NIC:QoS='aaaaaaaa-aaaa-aaaa-aaaa-000000001024' \
+--property NIC:multiqueue='1'
+```
+
+```bash
+usage: openstack flavor create [-h] [-f {json,shell,table,value,yaml}]
+                               [-c COLUMN] [--max-width <integer>]
+                               [--fit-width] [--print-empty] [--noindent]
+                               [--prefix PREFIX] [--id <id>] [--ram <size-mb>]
+                               [--disk <size-gb>] [--ephemeral <size-gb>]
+                               [--swap <size-mb>] [--vcpus <vcpus>]
+                               [--rxtx-factor <factor>] [--public | --private]
+                               [--property <key=value>] [--project <project>]
+                               [--project-domain <project-domain>]
+                               <flavor-name>
+
+Create new flavor
+
+positional arguments:
+  <flavor-name>         New flavor name
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --id <id>             Unique flavor ID; 'auto' creates a UUID (default:
+                        auto)
+  --ram <size-mb>       Memory size in MB (default 256M)
+  --disk <size-gb>      Disk size in GB (default 0G)
+  --ephemeral <size-gb>
+                        Ephemeral disk size in GB (default 0G)
+  --swap <size-mb>      Additional swap space size in MB (default 0M)
+  --vcpus <vcpus>       Number of vcpus (default 1)
+  --rxtx-factor <factor>
+                        RX/TX factor (default 1.0)
+  --public              Flavor is available to other projects (default)
+  --private             Flavor is not available to other projects
+  --property <key=value>
+                        Property to add for this flavor (repeat option to set
+                        multiple properties)
+  --project <project>   Allow <project> to access private flavor (name or ID)
+                        (Must be used with --private option)
+  --project-domain <project-domain>
+                        Domain the project belongs to (name or ID). This can
+                        be used in case collisions between project names
+                        exist.
+
+output formatters:
+  output formatter options
+
+  -f {json,shell,table,value,yaml}, --format {json,shell,table,value,yaml}
+                        the output format, defaults to table
+  -c COLUMN, --column COLUMN
+                        specify the column(s) to include, can be repeated
+
+table formatter:
+  --max-width <integer>
+                        Maximum display width, <1 to disable. You can also use
+                        the CLIFF_MAX_TERM_WIDTH environment variable, but the
+                        parameter takes precedence.
+  --fit-width           Fit the table to the display width. Implied if --max-
+                        width greater than 0. Set the environment variable
+                        CLIFF_FIT_WIDTH=1 to always enable
+  --print-empty         Print empty table if there is no data to show.
+
+json formatter:
+  --noindent            whether to disable indenting the JSON
+
+shell formatter:
+  a format a UNIX shell can parse (variable="value")
+
+  --prefix PREFIX       add a prefix to all variable names
+```
+
+### set 
+
+```bash
+openstack flavor set --no-property janus
+openstack flavor set --property DISK:VOLUMES_QUOTA='24' janus
+openstack flavor set --property NIC:QoS='aaaaaaaa-aaaa-aaaa-aaaa-000000005120' janus
+openstack flavor set --property NIC:multiqueue='6' janus
+```
+
+### delete
+
+```bash
+openstack flavor delete janus
+```
+
+
+
+```bash
+[root@gz-txjs-control-55e243e31e31 ~]# openstack flavor set -h
+usage: openstack flavor set [-h] [--no-property] [--property <key=value>]
+                            [--project <project>]
+                            [--project-domain <project-domain>]
+                            <flavor>
+
+Set flavor properties
+
+positional arguments:
+  <flavor>              Flavor to modify (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --no-property         Remove all properties from this flavor (specify both
+                        --no-property and --property to remove the current
+                        properties before setting new properties.)
+  --property <key=value>
+                        Property to add or modify for this flavor (repeat
+                        option to set multiple properties)
+  --project <project>   Set flavor access to project (name or ID) (admin only)
+  --project-domain <project-domain>
+                        Domain the project belongs to (name or ID). This can
+                        be used in case collisions between project names
+```
+
+
 
 ## network
 
@@ -2085,6 +2987,7 @@ shell formatter:
 
 ```bash
 openstack server list --name janus
+openstack server list --host gz15-txjs-szj-55e243e16e108 --limit 3 --status ACTIVE
 ```
 
 ```bash
@@ -2170,12 +3073,11 @@ optional arguments:
 ### resize
 
 ```bash
-
+openstack server resize --wait --flaovr 
 ```
 
 ```bash
-[root@gz-txjs-control-55e243e31e29 ~]# openstack help server resize
-usage: openstack server resize [-h] [--flavor <flavor> | --confirm | --revert]
+openstack server resize [-h] [--flavor <flavor> | --confirm | --revert]
                                [--wait]
                                <server>
 
@@ -2198,6 +3100,21 @@ optional arguments:
 
 ### stop
 
+```bash
+root@gz-txjs-control-55e243e31e31 ~]# openstack server stop -h
+usage: openstack server stop [-h] <server> [<server> ...]
+
+Stop server(s).
+
+positional arguments:
+  <server>    Server(s) to stop (name or ID)
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+
+
 ### set
 
 ```bash
@@ -2219,7 +3136,103 @@ optional arguments:
                         Property to add/change for this server (repeat option
                         to set multiple properties)
   --state <state>       New server state (valid value: active, error)
+```
 
+### restore
+
+```bash
+root@gz-txjs-control-55e243e31e31 ~]# openstack server restore -h
+usage: openstack server restore [-h] <server> [<server> ...]
+
+Restore server(s)
+
+positional arguments:
+  <server>    Server(s) to restore (name or ID)
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+### rebuild
+
+```bash
+openstack server rebuild [flag...] <server>
+                                
+positional arguments:
+  <server>              Server (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --image <image>       Recreate server from the specified image (name or ID).
+                        Defaults to the currently used one.
+  --password <password>
+                        Set the password on the rebuilt instance
+  --wait                Wait for rebuild to complete
+
+output formatters:
+  output formatter options
+
+  -f {json,shell,table,value,yaml}, --format {json,shell,table,value,yaml}
+                        the output format, defaults to table
+  -c COLUMN, --column COLUMN
+                        specify the column(s) to include, can be repeated
+
+table formatter:
+  --max-width <integer>
+                        Maximum display width, <1 to disable. You can also use
+                        the CLIFF_MAX_TERM_WIDTH environment variable, but the
+                        parameter takes precedence.
+  --fit-width           Fit the table to the display width. Implied if --max-
+                        width greater than 0. Set the environment variable
+                        CLIFF_FIT_WIDTH=1 to always enable
+  --print-empty         Print empty table if there is no data to show.
+
+json formatter:
+  --noindent            whether to disable indenting the JSON
+
+shell formatter:
+  a format a UNIX shell can parse (variable="value")
+
+  --prefix PREFIX       add a prefix to all variable names
+```
+
+### resume
+
+```bash
+[root@gz-txjs-control-55e243e31e31 ~]# openstack server resume -h
+usage: openstack server resume [-h] <server> [<server> ...]
+
+Resume server(s)
+
+positional arguments:
+  <server>    Server(s) to resume (name or ID)
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+```
+
+### migrate
+
+```bash
+openstack server migrate [flag...] <server>
+
+positional arguments:
+  <server>              Server (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --live <hostname>     Target hostname
+  --shared-migration    Perform a shared live migration (default)
+  --block-migration     Perform a block live migration
+  --disk-overcommit     Allow disk over-commit on the destination host
+  --no-disk-overcommit  Do not over-commit disk on the destination host
+                        (default)
+  --wait                Wait for migrate to complete
+  --migration-type <migration-type>
+                        For local storage migration to shared storage. e.g.
+                        to_<volume_type_name>(see 'cinder type-list'): migrate
+                        all the disks of the instance to the volume.
 ```
 
 
@@ -2236,6 +3249,10 @@ commands:
 ```
 
 ### list
+
+`````bash
+openstack host list --sort-column "Host Name"
+`````
 
 ```bash
 usage: openstack host list [flags]
@@ -2279,6 +3296,12 @@ CSV Formatter:
 
 
 ## availability zone list 
+
+```bash
+openstack availability zone list --compute --long
+```
+
+
 
 ```bash
 [root@gz-txjs-control-55e243e31e29 ~]# openstack help availability zone list 
@@ -2372,7 +3395,7 @@ optional arguments:
 ### list
 
 ```bash
-openstack hypervisor list --long
+openstack hypervisor list --long --sort-column  "Hypervisor Hostname"
 ```
 
 ```bash
@@ -2387,8 +3410,7 @@ List hypervisors
 
 optional arguments:
   -h, --help            show this help message and exit
-  --matching <hostname>
-                        Filter hypervisors using <hostname> substring
+  --matching <hostname>	Filter hypervisors using <hostname> substring
   --long                List additional fields in output
 
 output formatters:
@@ -2421,93 +3443,54 @@ CSV Formatter:
                         when to include quotes, defaults to nonnumeric
 ```
 
-
-
-# gs
-
-内蒙08 -> 10.8.73.43
-配置环境  . admin-openrc az1
-
-- - -
-
-## virsh
-
-- virsh
-  - list : 虚拟机列表
-    - --limit <int> : 限制返回条目数量
-    - --status <string> ：按状态过滤卷，常见的状态包括 `available`, `in-use`, `error` 
-    - --tenant <tenant-id> : 按租户ID过滤卷（虚拟机的 project_id 为 tenant_id）
-  - console <instance-id> : 进入虚拟机
-
-## cinder
-
-- cinder
-  - list : 查看卷列表
-    - --limit <int> : 限制返回条目数量
-    - --name <string> : 指定卷名称
-  - show <volume-id> : 卷详情
-  - delete <volume-id> : 删除卷
-  - create [flag] <size> :  新建卷
-    - --name <string> : 卷名称
-
-## vnetops
-
-- vnetops
-  - vpc
-    - port-detach <port-id>
-    - -- tenant-id <project-id> 
-
-# gostack执行流程
-
-项目结构
-
-- gostack
-  - agent
-  - api
-  - engine
-  - scheduler
-  - cron
+### show
 
 ```bash
-[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods | grep etcd
-[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get svc gostack-etcd -n az1 -o wide
-NAME           TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)             AGE    SELECTOR
-gostack-etcd   ClusterIP   10.96.27.16   <none>        2379/TCP,2380/TCP   378d   app.kubernetes.io/instance=gostack-etcd
-[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl get pods -n az1 -l app.kubernetes.io/instance=gostack-etcd -o wide
-NAME                                               READY   STATUS    RESTARTS   AGE   IP           NODE                                   NOMINATED NODE   READINESS GATES
-cn-nm-region1-az1-gostack-etcd2-855574798d-q572f   1/1     Running   0          13d   10.8.73.45   cn-nm-region1-az1-control-10e8e73e45   <none>           <none>
-[root@cn-nm-region1-az1-control-10e8e73e43 etc]# kubectl exec -it cn-nm-region1-az1-gostack-etcd2-855574798d-q572f  -n az1 -- /bin/sh
-# ls
-bin  boot  dev  etc  etcd-data  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-# cd etcd-d
-/bin/sh: 2: cd: can't cd to etcd-d
+openstack hypervisor show --fit-width gz15-txjs-szj-55e243e16e108
+```
 
 
 
- etcdctl get "/template" --prefix --user=root:2021CTyu
- 
- 
- 
- [root@cn-nm-region1-az1-control-10e8e73e43 gostack]# cat gsinitrc.yml-az1
-#AZ1
-AppInfo:
-  Username: "root"
-  Password: "2021CTyun!"
-  EndPoint: "gostack-etcd.az1.svc.cluster.net:2379"
-  BakEndPoint: "gostack-etcd-backup.az1.svc.cluster.net:2379"
-  MaxCallSendMsgSize: 10485760
-  MaxCallRecvMsgSize: 107374182400
-  KeepAliveTime: 30
-  KeepAliveTimeout: 10
-MongoConf:
-  EndPoint: "gostack-mongos.az1.svc.cluster.net:27017"
-  EndPoints:
-    - "gostack-mongos.az1.svc.cluster.net:27017"
-  Username: "root"
-  Password: "test"
-  Timeout: 300
-  Worker: 10
+```bash
+usage: openstack hypervisor show [-h] [-f {json,shell,table,value,yaml}]
+                                 [-c COLUMN] [--max-width <integer>]
+                                 [--fit-width] [--print-empty] [--noindent]
+                                 [--prefix PREFIX]
+                                 <hypervisor>
 
+Display hypervisor details
+
+positional arguments:
+  <hypervisor>          Hypervisor to display (name or ID)
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+output formatters:
+  output formatter options
+
+  -f {json,shell,table,value,yaml}, --format {json,shell,table,value,yaml}
+                        the output format, defaults to table
+  -c COLUMN, --column COLUMN
+                        specify the column(s) to include, can be repeated
+
+table formatter:
+  --max-width <integer>
+                        Maximum display width, <1 to disable. You can also use
+                        the CLIFF_MAX_TERM_WIDTH environment variable, but the
+                        parameter takes precedence.
+  --fit-width           Fit the table to the display width. Implied if --max-
+                        width greater than 0. Set the environment variable
+                        CLIFF_FIT_WIDTH=1 to always enable
+  --print-empty         Print empty table if there is no data to show.
+
+json formatter:
+  --noindent            whether to disable indenting the JSON
+
+shell formatter:
+  a format a UNIX shell can parse (variable="value")
+
+  --prefix PREFIX       add a prefix to all variable names
 ```
 
 # glance
@@ -2783,761 +3766,6 @@ Optional arguments:
 ```
 
 
-
-# nova
-
-## 项目结构
-
-```bash
-nova
-├── api-guide        # 包含 Nova API 的使用指南文档。
-├── api-ref          # 包含 Nova API 参考文档，通常为自动生成的 REST API 文档。
-├── contrib          # 包含贡献者添加的代码或模块，可能是一些实验性功能或是社区贡献的功能。
-├── devstack         # 包含用于快速设置开发环境的脚本和配置文件，通常是通过 DevStack 工具。
-├── doc              # 包含项目的各种文档，可能是开发者文档、设计文档等。
-├── etc              # 包含配置文件模板，这些文件是运行 Nova 所必需的。
-├── gate             # 包含用于执行自动化测试的脚本和配置，特别是与 CI/CD 流程相关的部分。
-├── nova             # 包含 Nova 的主要源代码，这是项目的主代码库。
-│   ├── api                # 包含 API 的实现代码，处理来自用户的 HTTP 请求。
-│		├── cells              # 实现 Cells v2 功能的代码，Cells 是一种用于水平扩展 Nova 的机制。
-│   ├── cmd                # 包含启动不同 Nova 组件（如 nova-api, nova-compute）的命令行脚本。
-│   ├── common             # 包含多个模块共享的通用代码或工具函数。
-│   ├── compute            # 包含与计算节点相关的逻辑，负责虚拟机的生命周期管理。
-│   ├── conductor          # 包含 Conductor 服务的实现，Conductor 负责协调多个计算节点之间的任务。
-│   ├── conf               # 包含配置文件模板或配置项定义，用于指导 Nova 的行为。
-│   ├── console            # 包含控制台代理服务的代码，提供用户通过 VNC 或其他协议访问实例的能力。
-│   ├── consoleauth        # 包含控制台认证服务的代码，验证用户对控制台访问的权限。
-│   ├── db                 # 包含数据库访问层的代码，负责与 Nova 使用的数据库进行交互。
-│   ├── hacking            # 包含开发指南、代码风格检查规则等，帮助贡献者遵循项目规范。
-│   ├── image              # 包含与镜像服务（Glance）交互的代码，用于管理虚拟机的镜像。
-│   ├── ipv6               # 包含与 IPv6 地址管理有关的代码。
-│   ├── keymgr             # 包含密钥管理服务的接口，用于加密相关操作。
-│   ├── localdisk          # 包含与本地磁盘操作相关的代码。
-│   ├── locale             # 包含国际化和本地化资源，支持多语言。
-│   ├── network            # 包含网络服务的代码，负责管理虚拟机的网络连接。
-│   ├── notifications      # 包含事件通知机制的代码，用于记录系统中发生的事件。
-│   ├── objects            # 包含 Nova 中使用的所有对象模型，通常是指数据库表对应的 ORM 模型。
-│   ├── pci                # 包含 PCI 设备管理的相关代码，用于直通或 SR-IOV 等功能。
-│   ├── policies           # 包含策略引擎的代码，定义了哪些用户可以执行哪些操作。
-│   ├── privsep            # 包含特权分离的代码，允许某些需要更高权限的操作在更安全的环境中执行。
-│   ├── scheduler          # 包含调度器的实现，决定新实例应该被放置在哪一个计算节点上。
-│   ├── servicegroup       # 包含服务组管理的代码，用于监控 Nova 服务的状态。
-│   ├── tests              # 包含单元测试、集成测试和其他类型的测试代码。
-│   ├── vendor             # 包含外部依赖库或供应商提供的代码，有时是为了解决特定版本兼容性问题而保留的。
-│   ├── virt               # 包含虚拟化驱动程序的代码，负责与不同的 hypervisor 进行交互。
-│   ├── vnc                # 包含 VNC 访问的支持代码，使得用户可以通过 VNC 协议访问实例的控制台。
-│   └── volume             # 包含卷服务的代码，负责管理持久存储卷，通常与 Cinder 集成。
-├── placement-api-ref# 包含 Placement API 的参考文档，Placement 是负责资源追踪的服务。
-├── playbooks        # 包含 Ansible Playbook 或类似的配置管理剧本，用于部署或维护操作。
-├── releasenotes     # 包含版本发布说明，记录了每次版本更新的内容、改进和已知问题。
-├── tools            # 包含各种工具脚本，如构建、测试或其他辅助工具。
-└── venv             # 包含虚拟环境配置，用于隔离 Python 环境，确保依赖项正确安装。
-```
-
-## nova命令
-
-```bash
-usage: nova [command]
-nova help command
-Command-line interface to the OpenStack Nova API.
-
-Positional arguments:
-  <subcommand>
-    add-secgroup                Add a Security Group to a server.
-    agent-create                Create new agent build.
-    agent-delete                Delete existing agent build.
-    agent-list                  List all builds.
-    agent-modify                Modify existing agent build.
-    aggregate-add-host          Add the host to the specified aggregate.
-    aggregate-create            Create a new aggregate with the specified
-                                details.
-    aggregate-delete            Delete the aggregate.
-    aggregate-list              Print a list of all aggregates.
-    aggregate-remove-host       Remove the specified host from the specified
-                                aggregate.
-    aggregate-set-metadata      Update the metadata associated with the
-                                aggregate.
-    aggregate-show              Show details of the specified aggregate.
-    aggregate-update            Update the aggregate's name and optionally
-                                availability zone.
-    attach-usb-device
-    availability-zone-list      List all the availability zones.
-    backup                      Backup a server by creating a 'backup' type
-                                snapshot.
-    bind-keypair
-    boot                        Boot a new server.
-    cell-capacities             Get cell capacities for all cells or a given
-                                cell.
-    cell-show                   Show details of a given cell.
-    cgroup-cpu-show             show cgroup vcpu of server for a tenant or a
-                                server. only specify <instance_uuid> or
-                                <tenant_id>.
-    cgroup-cpu-update           update cgroup vcpu of server for a tenant or a
-                                server. only specify <instance_uuid> or
-                                <tenant_id>.
-    clear-password              Clear the admin password for a server from the
-                                metadata server. This action does not actually
-                                change the instance server password.
-    clone                       Clone a server.
-    console-log                 Get console log output of a server.
-    dedicated-cloud-add-host    Add the host to the specified dedicated cloud.
-    dedicated-cloud-available-host-list
-                                Print a list of available host for dedicated
-                                cloud.
-    dedicated-cloud-create      Create a new dedicated cloud with the
-                                specified details.
-    dedicated-cloud-delete      Delete the dedicated cloud.
-    dedicated-cloud-host-list   Print a list of all hosts in dedicated cloud.
-    dedicated-cloud-host-show   Show details of the specified host in
-                                dedicated cloud.
-    dedicated-cloud-host-statistics
-                                Count the resources of all hosts.
-    dedicated-cloud-host-update
-                                Update the dedicated cloud's display name or
-                                cpu ratio or auto deployed.
-    dedicated-cloud-list        Print a list of all dedicated clouds.
-    dedicated-cloud-remove-host
-                                Remove the specified host from the specified
-                                dedicated cloud.
-    dedicated-cloud-server-boot
-                                Boot a new server.
-    dedicated-cloud-server-list
-                                List servers in dedicated cloud.
-    dedicated-cloud-server-show
-                                Show details about the given server in
-                                dedicated cloud.
-    dedicated-cloud-show        Show details of the specified dedicated cloud.
-    dedicated-cloud-update      Update the dedicated cloud's name.
-    dedicated-host-create       Create a dedicated host.
-    dedicated-host-delete       Delete the dedicated host.
-    dedicated-host-list         Print a list of all dedicated hosts.
-    dedicated-host-show         Display the details of the dedicated host.
-    delete                      Immediately shut down and delete specified
-                                server(s).
-    detach-usb-device
-    diagnostics                 Retrieve server diagnostics.
-    disk-qoses                  Get disk qos for a server.
-    estimate-migration-time
-    evacuate                    Evacuate server from failed host.
-    extra-specs                 Show details about the given server.
-    flavor-access-add           Add flavor access for the given tenant.
-    flavor-access-list          Print access information about the given
-                                flavor.
-    flavor-access-remove        Remove flavor access for the given tenant.
-    flavor-create               Create a new flavor.
-    flavor-delete               Delete a specific flavor
-    flavor-key                  Set or unset extra_spec for a flavor.
-    flavor-list                 Print a list of available 'flavors' (sizes of
-                                servers).
-    flavor-show                 Show details about the given flavor.
-    flavor-tag-add              Add one or more tags to a flavor.
-    flavor-tag-delete           Delete one or more tags from a flavor.
-    flavor-update               Update the description of an existing flavor.
-                                (Supported by API versions '2.55' -
-                                '2.latest') [hint: use '--os-compute-api-
-                                version' flag to show help message for proper
-                                version]
-    flavor-zone
-    force-delete                Force delete a server.
-    get-disk-qos                Get a volume disk qos for a server.
-    get-mks-console             Get an MKS console to a server. (Supported by
-                                API versions '2.8' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    get-password                Get the admin password for a server. This
-                                operation calls the metadata service to query
-                                metadata information and does not read
-                                password information from the server itself.
-    get-rdp-console             Get a rdp console to a server.
-    get-serial-console          Get a serial console to a server.
-    get-spice-console           Get a spice console to a server.
-    get-vnc-console             Get a vnc console to a server.
-    host-evacuate               Evacuate all instances from failed host.
-    host-evacuate-live          Live migrate all instances of the specified
-                                host to other available hosts.
-    host-meta                   Set or Delete metadata on all instances of a
-                                host.
-    host-servers-migrate        Cold migrate all instances off the specified
-                                host to other available hosts.
-    hypervisor-extra-specs      Get hypervisor extra specs.
-    hypervisor-get-ratio        Get hypervisor allocation ratio.
-    hypervisor-hostinfo         Display the hostinfo of the specified
-                                hypervisor.
-    hypervisor-list             List hypervisors. (Supported by API versions
-                                '2.0' - '2.latest') [hint: use '--os-compute-
-                                api-version' flag to show help message for
-                                proper version]
-    hypervisor-local-disks      Get hypervisor local disks.
-    hypervisor-servers          List servers belonging to specific
-                                hypervisors.
-    hypervisor-set-instances-limit
-                                Set hypervisor instances limit.
-    hypervisor-set-ratio        Set hypervisor allocation ratio.
-    hypervisor-show             Display the details of the specified
-                                hypervisor.
-    hypervisor-stats            Get hypervisor statistics over all compute
-                                nodes.
-    hypervisor-uptime           Display the uptime of the specified
-                                hypervisor.
-    image-create                Create a new image by taking a snapshot of a
-                                running server.
-    instance-action             Show an action.
-    instance-action-list        List actions on a server. (Supported by API
-                                versions '2.0' - '2.latest') [hint: use '--os-
-                                compute-api-version' flag to show help message
-                                for proper version]
-    instance-backup-create      Create an instance backup.
-    instance-backup-delete      Delete an instance backup.
-    instance-backup-force-delete
-                                Force delete a instance backup.
-    instance-backup-list        Get a list of instance backup.
-    instance-backup-restore     Restore an instance backup to the previous
-                                instance.
-    instance-backup-show        Get an instance backup details.
-    instance-backup-update      Update an instance backup.
-    interface-attach            Attach a network interface to a server.
-    interface-detach            Detach a network interface from a server.
-    interface-list              List interfaces attached to a server.
-    keypair-add                 Create a new key pair for use with servers.
-    keypair-delete              Delete keypair given by its name. (Supported
-                                by API versions '2.0' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    keypair-list                Print a list of keypairs for a user (Supported
-                                by API versions '2.0' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    keypair-show                Show details about the given keypair.
-                                (Supported by API versions '2.0' - '2.latest')
-                                [hint: use '--os-compute-api-version' flag to
-                                show help message for proper version]
-    limits                      Print rate and absolute limits.
-    list                        List servers.
-    list-extensions             List all the os-api extensions that are
-                                available.
-    list-file-system            List file system for a server.
-    list-secgroup               List Security Group(s) of a server.
-    list-usb-devices
-    live-migrate-volume-notify
-    live-migration              Migrate running server to a new machine.
-    live-migration-abort        Abort an on-going live migration. (Supported
-                                by API versions '2.24' - '2.latest') [hint:
-                                use '--os-compute-api-version' flag to show
-                                help message for proper version]
-    live-migration-force-complete
-                                Force on-going live migration to complete.
-                                (Supported by API versions '2.22' -
-                                '2.latest') [hint: use '--os-compute-api-
-                                version' flag to show help message for proper
-                                version]
-    live-resize-flavors         Get the flavors list that the server can
-                                execute live resize.
-    local-disks                 Get local disk for a server.
-    lock                        Lock a server. A normal (non-admin) user will
-                                not be able to execute actions on a locked
-                                server.
-    meta                        Set or delete metadata on a server.
-    migrate                     Migrate a server.
-    migration-list              Print a list of migrations. (Supported by API
-                                versions '2.0' - '2.latest') [hint: use '--os-
-                                compute-api-version' flag to show help message
-                                for proper version]
-    mount-file-system           Mount file system for a server.
-    offline-compute-host        offline the compute host.
-    pause                       Pause a server.
-    quota-class-show            List the quotas for a quota class.
-    quota-class-update          Update the quotas for a quota class.
-                                (Supported by API versions '2.0' - '2.latest')
-                                [hint: use '--os-compute-api-version' flag to
-                                show help message for proper version]
-    quota-defaults              List the default quotas for a tenant.
-    quota-delete                Delete quota for a tenant/user so their quota
-                                will Revert back to default.
-    quota-show                  List the quotas for a tenant/user.
-    quota-update                Update the quotas for a tenant/user.
-                                (Supported by API versions '2.0' - '2.latest')
-                                [hint: use '--os-compute-api-version' flag to
-                                show help message for proper version]
-    reboot                      Reboot a server.
-    rebuild                     Shutdown, re-image, and re-boot a server.
-    refresh-network             Refresh server network information.
-    remove-secgroup             Remove a Security Group from a server.
-    request-spec-az-show        show request spec of the server.
-    request-spec-az-update      update request spec of the server.
-    rescue                      Reboots a server into rescue mode, which
-                                starts the machine from either the initial
-                                image or a specified image, attaching the
-                                current boot disk as secondary.
-    reset-failed-build          Reset failed_builds for the compute host.
-    reset-network               Reset network of a server.
-    reset-state                 Reset the state of a server.
-    resize                      Resize a server.
-    resize-confirm              Confirm a previous resize.
-    resize-revert               Revert a previous resize (and return to the
-                                previous VM).
-    restore                     Restore a soft-deleted server.
-    resume                      Resume a server.
-    server-group-add-member     Add the server to the specified server_group.
-    server-group-create         Create a new server group with the specified
-                                details.
-    server-group-delete         Delete specific server group(s).
-    server-group-get            Get a specific server group.
-    server-group-has-enough-resources
-    server-group-list           Print a list of all server groups.
-    server-group-need-migrate
-    server-group-remove-member  Remove the server from the specified
-                                server_group.
-    server-health-check         Health check for a server.
-    server-migration-list       Get the migrations list of specified server.
-                                (Supported by API versions '2.23' -
-                                '2.latest') [hint: use '--os-compute-api-
-                                version' flag to show help message for proper
-                                version]
-    server-migration-show       Get the migration of specified server.
-                                (Supported by API versions '2.23' -
-                                '2.latest') [hint: use '--os-compute-api-
-                                version' flag to show help message for proper
-                                version]
-    server-snapshot-create      Create a server snapshot.
-    server-snapshot-delete      Delete a server snapshot.
-    server-snapshot-list        Print a list of server snapshots.
-    server-snapshot-reset-state
-                                Reset a server snapshot to the special state.
-    server-snapshot-restore     Restore a server snapshot to the server.
-    server-snapshot-show        Get a server snapshot details.
-    server-snapshot-update      Update a server snapshot.
-    server-tag-add              Add one or more tags to a server. (Supported
-                                by API versions '2.26' - '2.latest') [hint:
-                                use '--os-compute-api-version' flag to show
-                                help message for proper version]
-    server-tag-delete           Delete one or more tags from a server.
-                                (Supported by API versions '2.26' -
-                                '2.latest') [hint: use '--os-compute-api-
-                                version' flag to show help message for proper
-                                version]
-    server-tag-delete-all       Delete all tags from a server. (Supported by
-                                API versions '2.26' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    server-tag-list             Get list of tags from a server. (Supported by
-                                API versions '2.26' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    server-tag-set              Set list of tags to a server. (Supported by
-                                API versions '2.26' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    service-delete              Delete the service by UUID ID. (Supported by
-                                API versions '2.0' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    service-disable             Disable the service. (Supported by API
-                                versions '2.0' - '2.latest') [hint: use '--os-
-                                compute-api-version' flag to show help message
-                                for proper version]
-    service-enable              Enable the service. (Supported by API versions
-                                '2.0' - '2.latest') [hint: use '--os-compute-
-                                api-version' flag to show help message for
-                                proper version]
-    service-force-down          Force service to down. (Supported by API
-                                versions '2.11' - '2.latest') [hint: use
-                                '--os-compute-api-version' flag to show help
-                                message for proper version]
-    service-list                Show a list of all running services. Filter by
-                                host & binary.
-    set-disk-qos                Set one disk qos of a server.
-    set-password                Change the user password for a server.
-    shelve                      Shelve a server.
-    shelve-offload              Remove a shelved server from the compute node.
-    show                        Show details about the given server.
-    show-credit                 show credit of the server.
-    ssh                         SSH into a server.
-    start                       Start the server(s).
-    stop                        Stop the server(s).
-    suspend                     Suspend a server.
-    sync                        Sync cache for an server.
-    trigger-crash-dump          Trigger crash dump in an instance. (Supported
-                                by API versions '2.17' - '2.latest') [hint:
-                                use '--os-compute-api-version' flag to show
-                                help message for proper version]
-    unbind-keypair
-    unlock                      Unlock a server.
-    unmount-file-system         Mount file system for a server.
-    unpause                     Unpause a server.
-    unrescue                    Restart the server from normal boot disk
-                                again.
-    unshelve                    Unshelve a server.
-    update                      Update some attr for a server.
-    usage                       Show usage data for a single tenant.
-    usage-list                  List usage data for all tenants.
-    version-list                List all API versions.
-    volume-attach               Attach a volume to a server.
-    volume-attachments          List all the volumes attached to a server.
-    volume-detach               Detach a volume from a server.
-    volume-live-migrate
-    volume-update               Update the attachment on the server. Migrates
-                                the data from an attached volume to the
-                                specified available volume and swaps out the
-                                active attachment to the new volume.
-    bash-completion             Prints all of the commands and options to
-                                stdout so that the nova.bash_completion script
-                                doesn't have to hard code them.
-    help                        Display help about this program or one of its
-                                subcommands.
-
-Optional arguments:
-  --version                     show program's version number and exit
-  --debug                       Print debugging output.
-  --os-cache                    Use the auth token cache. Defaults to False if
-                                env[OS_CACHE] is not set.
-  --timings                     Print call timing info.
-  --os-region-name <region-name>
-                                Defaults to env[OS_REGION_NAME].
-  --service-type <service-type>
-                                Defaults to compute for most actions.
-  --service-name <service-name>
-                                Defaults to env[NOVA_SERVICE_NAME].
-  --os-endpoint-type <endpoint-type>
-                                Defaults to env[NOVA_ENDPOINT_TYPE],
-                                env[OS_ENDPOINT_TYPE] or publicURL.
-  --os-compute-api-version <compute-api-ver>
-                                Accepts X, X.Y (where X is major and Y is
-                                minor part) or "X.latest", defaults to
-                                env[OS_COMPUTE_API_VERSION].
-  --endpoint-override <bypass-url>
-                                Use this API endpoint instead of the Service
-                                Catalog. Defaults to
-                                env[NOVACLIENT_ENDPOINT_OVERRIDE].
-  --profile HMAC_KEY            HMAC key to use for encrypting context data
-                                for performance profiling of operation. This
-                                key should be the value of the HMAC key
-                                configured for the OSprofiler middleware in
-                                nova; it is specified in the Nova
-                                configuration file at "/etc/nova/nova.conf".
-                                Without the key, profiling will not be
-                                triggered even if OSprofiler is enabled on the
-                                server side.
-  --os-auth-type <name>, --os-auth-plugin <name>
-                                Authentication type to use
-
-See "nova help COMMAND" for help on a specific command.
-```
-
-### show
-
-```bash
-usage: nova show [flags] <server>
-
-Show details about the given server.
-
-Positional arguments:
-  <server>          Name or ID of server.
-  
-Optional arguments:
-  --minimal         Skips flavor/image lookups when showing servers.
-  --deleted         show deleted servers (Admin only).
-  --wrap <integer>  Wrap the output to a specified length, or 0 to disable.
-```
-
-
-
-### list
-
-```bash
-nova list --name janus
-```
-
-```bash
-nova list [falg]
-
-Optional arguments:
-  --reservation-id <reservation-id>  Only return servers that match reservation-id.
-  --ip <ip-regexp>              Search with regular expression match by IP address.
-  --ip6 <ip6-regexp>            Search with regular expression match by IPv6 address.
-  --name <name-regexp>          Search with regular expression match by name.
-  --instance-name <name-regexp>	Search with regular expression match by server name.
-  --status <status>             Search by server status, status: ACTIVE
-  --flavor <flavor>             Search by flavor name or ID.
-  --image <image>               Search by image name or ID.
-  --host <hostname>             Search servers by hostname to which they are assigned (Admin only).
-  --all-tenants [<0|1>]         Display information from all tenants (Admin only).
-  --tenant [<tenant>]           Display information from single tenant (Admin only).
-  --user [<user>]               Display information from single user (Admin only).
-  --deleted                     Only display deleted servers (Admin only).
-  --fields <fields>             Comma-separated list of fields to display. Use
-                                the show command to see which fields are
-                                available.
-  --minimal                     Get only UUID and name.
-  --sort <key>[:<direction>]    Comma-separated list of sort keys and
-                                directions in the form of <key>[:<asc|desc>].
-                                The direction defaults to descending if not
-                                specified.
-  --marker <marker>             The last server UUID of the previous page;
-                                displays list of servers after "marker".
-  --limit <limit>               Maximum number of servers to display. If limit
-                                == -1, all servers will be displayed. If limit
-                                is bigger than 'CONF.api.max_limit' option of
-                                Nova API, limit 'CONF.api.max_limit' will be
-                                used instead.
-  --changes-since <changes_since>
-                                List only servers changed after a certain
-                                point of time. The provided time should be an
-                                ISO 8061 formatted time. ex
-                                2016-03-04T06:27:59Z .
-  --tags <tags>                 The given tags must all be present for a
-                                server to be included in the list result.
-                                Boolean expression in this case is 't1 AND
-                                t2'. Tags must be separated by commas: --tags
-                                <tag1,tag2> (Supported by API versions '2.26'
-                                - '2.latest')
-  --tags-any <tags-any>         If one of the given tags is present the server
-                                will be included in the list result. Boolean
-                                expression in this case is 't1 OR t2'. Tags
-                                must be separated by commas: --tags-any
-                                <tag1,tag2> (Supported by API versions '2.26'
-                                - '2.latest')
-  --not-tags <not-tags>         Only the servers that do not have any of the
-                                given tags will be included in the list
-                                results. Boolean expression in this case is
-                                'NOT(t1 AND t2)'. Tags must be separated by
-                                commas: --not-tags <tag1,tag2> (Supported by
-                                API versions '2.26' - '2.latest')
-  --not-tags-any <not-tags-any>
-                                Only the servers that do not have at least one
-                                of the given tags will be included in the list
-                                result. Boolean expression in this case is
-                                'NOT(t1 OR t2)'. Tags must be separated by
-                                commas: --not-tags-any <tag1,tag2> (Supported
-                                by API versions '2.26' - '2.latest')
-```
-
-### live-migration
-
-```bash
-usage: nova live-migration [flags] <server> [<host>]
-
-Migrate running server to a new machine.
-
-Positional arguments:
-  <server>                      Name or ID of server.
-  <host>                        Destination host name.
-
-Optional arguments:
-  --block-migrate               True in case of block_migration.
-                                (Default=auto:live_migration) (Supported by
-                                API versions '2.25' - '2.latest')
-  --force                       Force to not verify the scheduler if a host is
-                                provided. (Supported by API versions '2.30' -
-                                '2.latest')
-  --migration-type <migration-type>
-                                For local storage migration to shared storage.
-                                e.g. to_<volume_type_name>(see 'cinder type-
-                                list'): migrate all the disks of the instance
-                                to the volume.
-```
-
-### live-migration-abort
-
-```bash
-[root@gz-txjs-control-55e243e31e30 ~]# nova help live-migration-abort
-usage: nova live-migration-abort <server> <migration>
-
-Abort an on-going live migration. (Supported by API versions '2.24' -
-'2.latest') [hint: use '--os-compute-api-version' flag to show help message
-for proper version]
-
-Positional arguments:
-  <server>     Name or ID of server.
-  <migration>  ID of migration.
-```
-
-### server-migration-list
-
-```bash
-[root@gz-txjs-control-55e243e31e30 ~]# nova help server-migration-list
-usage: nova server-migration-list <server>
-
-Get the migrations list of specified server. (Supported by API versions '2.23'
-- '2.latest') [hint: use '--os-compute-api-version' flag to show help message
-for proper version]
-
-Positional arguments:
-  <server>  Name or ID of server.
-```
-
-### migration-list
-
-```bash
-usage: nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
-                           [--status <status>] [--marker <marker>]
-                           [--limit <limit>] [--changes-since <changes_since>]
-
-Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
-[hint: use '--os-compute-api-version' flag to show help message for proper
-version]
-
-Optional arguments:
-  --instance-uuid <instance_uuid>
-                                Fetch migrations for the given instance.
-  --host <host>                 Fetch migrations for the given host.
-  --status <status>             Fetch migrations for the given status.
-  --marker <marker>             The last migration of the previous page;
-                                displays list of migrations after "marker".
-                                Note that the marker is the migration UUID.
-  --limit <limit>               Maximum number of migrations to display. Note
-                                that there is a configurable max limit on the
-                                server, and the limit that is used will be the
-                                minimum between what is requested here and
-                                what is configured in the server.
-  --changes-since <changes_since>
-                                List only migrations changed after a certain
-                                point of time. The provided time should be an
-                                ISO 8061 formatted time. ex
-                                2016-03-04T06:27:59Z .
-```
-
-
-
-### reset-state
-
-```bash
-usage: nova reset-state [plags] <server> [<server> ...]
-
-Reset the state of a server.
-
-Positional arguments:
-  <server>       Name or ID of server(s).
-
-Optional arguments:
-  --all-tenants  Reset state server(s) in another tenant by name (Admin only).
-  --active       Request the server be reset to "active" state instead of
-                 "error" state (the default).
-  --stopped      Request the server be reset to "stopped" state
-```
-
-### instance-action-list 
-
-```bash
-usage: nova instance-action-list [--marker <marker>] [--limit <limit>]
-                                 [--changes-since <changes_since>]
-                                 <server>
-
-List actions on a server. (Supported by API versions '2.0' - '2.latest')
-[hint: use '--os-compute-api-version' flag to show help message for proper
-version]
-
-Positional arguments:
-  <server>                      Name or UUID of the server to list actions
-                                for. Only UUID can be used to list actions on
-                                a deleted server.
-
-Optional arguments:
-  --marker <marker>             The last instance action of the previous page;
-                                displays list of actions after "marker".
-  --limit <limit>               Maximum number of instance actions to display.
-                                Note that there is a configurable max limit on
-                                the server, and the limit that is used will be
-                                the minimum between what is requested here and
-                                what is configured in the server.
-  --changes-since <changes_since>
-                                List only instance actions changed after a
-                                certain point of time. The provided time
-                                should be an ISO 8061 formatted time. ex
-                                2016-03-04T06:27:59Z
-```
-
-###  instance-action
-
-```bash
-usage: nova instance-action <server> <request_id>
-
-Show an action.
-
-Positional arguments:
-  <server>      Name or UUID of the server to show actions for. Only UUID can
-                be used to show actions for a deleted server. (Supported by
-                API versions '2.21' - '2.latest')
-  <request_id>  Request ID of the action to get.
-```
-
-### rebuild
-
-```bash
-usage: nova rebuild [--image <image>] [--rebuild-password <rebuild-password>]
-                    [--poll] [--minimal] [--preserve-ephemeral]
-                    [--name <name>] [--description <description>]
-                    [--meta <key=value>] [--key-name <key-name>] [--key-unset]
-                    [--user-data <user-data>] [--user-data-unset]
-                    [--volume <volume>]
-                    <server>
-
-Shutdown, re-image, and re-boot a server.
-
-Positional arguments:
-  <server>                      Name or ID of server.
-
-Optional arguments:
-  --image <image>               Name or ID of new image.
-  --rebuild-password <rebuild-password>
-                                Set the provided admin password on the rebuilt
-                                server.
-  --poll                        Report the server rebuild progress until it
-                                completes.
-  --minimal                     Skips flavor/image lookups when showing
-                                servers.
-  --preserve-ephemeral          Preserve the default ephemeral storage
-                                partition on rebuild.
-  --name <name>                 Name for the new server.
-  --description <description>   New description for the server. (Supported by
-                                API versions '2.19' - '2.latest')
-  --meta <key=value>            Record arbitrary key/value metadata to
-                                /meta_data.json on the metadata server. Can be
-                                specified multiple times.
-  --key-name <key-name>         Keypair name to set in the server. Cannot be
-                                specified with the '--key-unset' option.
-                                (Supported by API versions '2.54' -
-                                '2.latest')
-  --key-unset                   Unset keypair in the server. Cannot be
-                                specified with the '--key-name' option.
-                                (Supported by API versions '2.54' -
-                                '2.latest')
-  --user-data <user-data>       User data file to pass to be exposed by the
-                                metadata server. (Supported by API versions
-                                '2.57' - '2.latest')
-  --user-data-unset             Unset user_data in the server. Cannot be
-                                specified with the '--user-data' option.
-                                (Supported by API versions '2.57' -
-                                '2.latest')
-  --volume <volume>             ID of the volume to rebuild. (Supported by API
-                                versions '2.61' - '2.latest')
-```
-
-### volume-attach  
-
-```bash
-nova volume-attach janus 447522bf-5f8c-41c1-9b10-a629efac9a9c
-```
-
-```bash
-usage: nova volume-attach [--tag <tag>] [--disk_bus <disk_bus>]
-                          <server> <volume> [<device>]
-
-Attach a volume to a server.
-
-Positional arguments:
-  <server>               Name or ID of server.
-  <volume>               ID of the volume to attach.
-  <device>               Name of the device e.g. /dev/vdb. Use "auto" for
-                         autoassign (if supported). Libvirt driver will use
-                         default device name.
-
-Optional arguments:
-  --tag <tag>            Tag for the attached volume. (Supported by API
-                         versions '2.49' - '2.latest')
-  --disk_bus <disk_bus>  Disk bus for the attached volume, can be chosen from
-                         ide, sata,scsi, virtio and etc. (Supported by API
-                         versions '2.49' - '2.latest')
-```
 
 
 
@@ -3894,14 +4122,7 @@ Optional arguments:
 ## list
 
 ```bash
-usage: cinder list [--all-tenants [<0|1>]] [--name <name>] [--status <status>]
-                   [--bootable [<True|true|False|false>]]
-                   [--migration_status <migration_status>]
-                   [--metadata [<key=value> [<key=value> ...]]]
-                   [--marker <marker>] [--limit <limit>] [--fields <fields>]
-                   [--sort <key>[:<direction>]] [--tenant [<tenant>]]
-
-Lists all volumes.
+cinder list [flag...]
 
 Optional arguments:
   --all-tenants [<0|1>]
@@ -3948,9 +4169,7 @@ Optional arguments:
 ## delete
 
 ```bash
-usage: cinder delete [--cascade] [--remove-in-db] <volume> [<volume> ...]
-
-Removes one or more volumes.
+cinder delete [flags] <volume> [<volume> ...]	# 删除volume
 
 Positional arguments:
   <volume>        Name or ID of volume or volumes to delete.
@@ -3958,5 +4177,95 @@ Positional arguments:
 Optional arguments:
   --cascade       Remove any snapshots along with volume. Default=False.
   --remove-in-db  Remove deleted record in db at the same time. Default=False.
+```
+
+## rename
+
+```bash
+cinder rename [flag] <volume> [<name>]
+
+Positional arguments:
+  <volume>              Name or ID of volume to rename.
+  <name>                New name for volume.
+
+Optional arguments:
+  --description <description>
+                        Volume description. Default=None.
+```
+
+## attachment-list
+
+```bash
+--os-volume-api-version 3.50 help attachment-list
+```
+
+## reset-state
+
+```bash
+cinder reset-state [flag...] <entity> [<entity> ...]	不会改变实际状态
+
+Positional arguments:
+  <entity>              Name or ID of entity to update.
+
+Optional arguments:
+  --type <type>         Type of entity to update. Available resources are:
+                        'volume', 'snapshot', 'backup', 'group' (since 3.20)
+                        and 'group-snapshot' (since 3.19), Default=volume.
+                        
+  --state <available|error>       
+  --attach-status <attach-status>
+                        This is only used for a volume entity. The attach
+                        status to assign to the volume in the database, with
+                        no regard to the actual status. Valid values are
+                        "attached" and "detached". Default=None, that means
+                        the status is unchanged.
+  --reset-migration-status
+                        This is only used for a volume entity. Clears the
+                        migration status of the volume in the DataBase that
+                        indicates the volume is source or destination of
+                        volume migration, with no regard to the actual status
+```
+
+
+
+# vcps
+
+```bash
+export VPC_TENANT_ID=001a18cadd4b401e9fdeab6c411d9816 #环境变量
+```
+
+## port-list
+
+```bash
+vpcs port-list [flags]
+
+Flags:
+      --all-columns                Display all columns
+  -c, --column stringArray         Columns to display
+      --device-id string           device id of port
+      --device-ids stringArray     device ids of port
+      --device-type string         device type of port {unset/gateway/dhcp/vm/baremetal/elb/endpoint/ns/cbm/health_check/gwlb/gwlbe/v2gw/l2gw_tunnel/l2gw_connection/private_nat/faasgw/faasgw_rule}
+      --device-types stringArray   device types of port {unset/gateway/dhcp/vm/baremetal/elb/endpoint/ns/cbm/health_check/gwlb/gwlbe/v2gw/l2gw_tunnel/l2gw_connection/private_nat/faasgw/faasgw_rule}
+      --hostgroup-id string        hostgroup id of port binding
+      --ids stringArray            port ids
+      --limit int                  Limit of list (When it is an admin user, limit must be selected, and the value range is 0-1000.) (default -1)
+      --offset int                 Offset of list
+      --role string                role of port {primary/elastic}
+      --service-type string        service type of port {unset/system/compute/elb/nfv/vpce/cbm/health_check/nfv_vgw/l2gw/private_nat/faasgw}
+      --subnet-id string           subnet id of port
+      --subnet-ids stringArray     subnet ids of port
+      --vpc-id string              vpc id of port
+      --vpc-ids stringArray        vpc ids of port
+
+Global Flags:
+  -a, --admin                 admin role
+  -f, --format string         Format to print result, support table/vertical/json (default "table")
+  -h, --help                  Type for help
+      --server-url string     URL of vpc server api or set by env 'VPC_SERVER_URL' (default "http://10.8.73.43:32198/vpc-server")
+      --tenant-id string      Tenant ID used to call api
+      --trace-id string       trace id (default "trace-tdsnjltzof")
+  -v, --verbose               verbose output
+      --with-json-formatted   Print json in formatted, only for format 'json'
+      --with-line-number      Print table with line number, only for format 'table'
 ```
 

@@ -53,3 +53,16 @@ MongoConf:
 mongo -u "root" -p "testaz3" --authenticationDatabase "admin"
 ```
 
+### cp
+
+```bash
+kubectl cp gostack-mongos-0:/home/instance /path/to/local/directory -n az1
+```
+
+```bash
+kubectl cp <source> <destination> [-n namespace]
+
+<source> <destination>:
+<namespace>/<pod-name>[:<container-name>]:<path-to-file-or-directory>
+```
+

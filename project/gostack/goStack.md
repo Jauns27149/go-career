@@ -249,8 +249,8 @@ gs instance boot \
 --host 23d752acc3284677ac00e5320aa8633adfd25ca5 \
 --zone SERIES-7-ZONE  \
 --name janus \
---port port-ustdivjyb0 \
---password janus \
+--port port-ymjb9txc6u \
+--password root \
 --volume-size 50
 ```
 
@@ -390,6 +390,47 @@ Flags:
       --update-date int64Slice   update date of instances (default [])
       --user-id string           user id of instances
       --zone string              zone of instances
+```
+
+### backup
+
+```bash
+gs instance backup --help
+creating a backup of instance
+
+Usage:
+  gs instance backup [flags]
+
+Examples:
+  gs instance backup <instance_id> [--name <backup_name>] [--description <description>]
+
+Flags:
+      --debug                             debug
+      --description string                description of instance  backup
+      --do-full-backup string             whether to create a full backup.
+      --force-consistency-backup string   whether to create a consistent backup.
+  -h, --help                              help for backup
+      --json                              show json response
+      --name string                       display name for backup
+      --volume-ids string                 volume id
+```
+
+### backup-delete  
+
+```bash
+[root@cn-nm-region1-az1-control-10e8e73e43 ~]# gs instance backup-delete --help
+Delete the instance backup
+
+Usage:
+  gs instance backup-delete [flags]
+
+Examples:
+  gs instance backup-delete <instance_backup_id>
+
+Flags:
+      --debug   debug
+  -h, --help    help for backup-delete
+      --json    show json response
 ```
 
 
