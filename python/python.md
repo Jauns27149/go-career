@@ -107,11 +107,56 @@ if 'orange' not in fruits:
 | float   | 浮点数 | 表示带小数点的数值，遵循 IEEE 754 双精度浮点数标准   |
 | complex | 复数   | 由实部和虚部组成，用于表示复数                       |
 | bool    | 布尔值 | 表示真或假，只有两个可能的值：`True` 和 `False`      |
-| `str`   | 字符串 | 用于表示文本数据，支持 Unicode 编码                  |
-| `list`  | 列表   | 有序、可变的序列，可以包含不同类型的元素             |
+| str     | 字符串 | 用于表示文本数据，支持 Unicode 编码                  |
+| list    | 列表   | 有序、可变的序列，可以包含不同类型的元素             |
 | `tuple` | 元组   | 有序、不可变的序列，通常用于存储异构数据             |
 | `dict`  | 字典   | 键值对集合，键必须是唯一的且不可变，值可以是任意类型 |
 | set     | 集合   | 无序、不重复的元素集合，支持集合操作如并集、交集等   |
+
+## List
+
+### 声明
+
+1. 使用方括号 `[]` 来定义一个列表，并在其中用逗号分隔各个元素：
+   ```python
+   my_list = [element1, element2, element3]
+   ```
+
+3. 使用列表推导式（List Comprehensions）快速生成一个列表：
+   ```python
+   squared_numbers = [x**2 for x in range(10)]  # 创建一个包含0到9的平方数的列表
+   ```
+
+4. 使用 `list()` 构造函数来从其他可迭代对象（如字符串、元组等）创建列表：
+   ```python
+   list_from_string = list("hello")  # 将字符串转换为列表 ['h', 'e', 'l', 'l', 'o']
+   list_from_tuple = list((1, 2, 3))  # 将元组转换为列表 [1, 2, 3]
+   ```
+
+5. 如果要创建一个特定长度的列表，并且所有元素都是相同的值，可以使用乘法：
+   ```python
+   repeated_elements = ['a'] * 5  # 创建一个 ['a', 'a', 'a', 'a', 'a'] 的列表
+   ```
+
+6. 使用 `range()` 函数结合 `list()` 构造函数来创建数值列表：
+   ```python
+   number_list = list(range(5))  # 创建一个 [0, 1, 2, 3, 4] 的列表
+   ```
+
+### 方法
+
+#### append()
+
+```python
+# 用于在列表的末尾添加一个元素
+list.append(element)
+"""
+list：你想要添加元素的目标列表。
+element：任何类型的元素（包括数字、字符串、另一个列表等），它将被添加到列表的最后。
+"""
+```
+
+
 
 ## dict
 
@@ -254,6 +299,13 @@ print(counter)
 
 # 内置函数
 
+## main函数
+
+```python
+if __name__ == "__main__":
+    # 主程序代码写在这里
+```
+
 ## 三元表达式
 
 ```python
@@ -316,3 +368,25 @@ Index 3: cherry
 print(list(enumerate(['apple', 'banana', 'cherry'])))
 # [(0, 'apple'), (1, 'banana'), (2, 'cherry')]
 ```
+
+## str()
+
+用于将对象转换为字符串表示，可以接受任何类型的对象，并返回该对象的字符串形式。
+
+```bash
+# 将整数转换为字符串
+number = 12345
+string_number = str(number)
+print(string_number)  # 输出: "12345"
+
+# 将浮点数转换为字符串
+pi = 3.14159
+string_pi = str(pi)
+print(string_pi)  # 输出: "3.14159"
+
+# 将布尔值转换为字符串
+boolean_value = True
+string_boolean = str(boolean_value)
+print(string_boolean)  # 输出: "True"
+```
+
