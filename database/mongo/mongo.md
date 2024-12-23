@@ -234,8 +234,14 @@ number：这是一个必需的整数参数，表示你想要限制的最大返�
 - 备份指定集合：
   ```shell
   mongodump --db mydatabase --collection mycollection
+  mongodump --db instance --collection instance_backup
+  
+  
+  mongodump --db instance --collection instance_backup \
+            --username root --password test \
+            --authenticationDatabase admin
   ```
-
+  
 - 将备份保存到指定目录：
   ```shell
   mongodump --out /path/to/backup

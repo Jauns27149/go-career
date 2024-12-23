@@ -2306,7 +2306,7 @@ openstack flavor show s2.xlarge.2
 
 ```bash
 openstack flavor create --ram 65536 --vcpus 4 janus
-openstack flavor create janus --ram 163 --vcpus 2 \
+openstack flavor create janus --ram 32768 --vcpus 2 \
 --property DISK:VOLUMES_QUOTA='8' \
 --property NIC:QoS='aaaaaaaa-aaaa-aaaa-aaaa-000000001024' \
 --property NIC:multiqueue='1'
@@ -2988,6 +2988,8 @@ shell formatter:
 ```bash
 openstack server list --name janus
 openstack server list --host gz15-txjs-szj-55e243e16e108 --limit 3 --status ACTIVE
+
+openstack server list --host gz15-txjs-szj-55e243e16e93 --status ACTIVE
 ```
 
 ```bash
@@ -3772,7 +3774,34 @@ Optional arguments:
 # cinder
 
 ``` bash
-usage: cinder [command]
+[root@gz-txjs-control-55e243e31e31 ~]# cinder --os-volume-api-version 3.50  help 
+usage: cinder [--version] [-d] [--service-type <service-type>]
+              [--service-name <service-name>]
+              [--volume-service-name <volume-service-name>]
+              [--os-endpoint-type <os-endpoint-type>]
+              [--endpoint-type <endpoint-type>]
+              [--os-volume-api-version <volume-api-ver>]
+              [--bypass-url <bypass-url>] [--os-endpoint <os-endpoint>]
+              [--retries <retries>] [--profile HMAC_KEY] [--insecure]
+              [--os-cacert <ca-certificate>] [--os-cert <certificate>]
+              [--os-key <key>] [--timeout <seconds>] [--os-auth-type <name>]
+              [--os-auth-url OS_AUTH_URL] [--os-system-scope OS_SYSTEM_SCOPE]
+              [--os-domain-id OS_DOMAIN_ID] [--os-domain-name OS_DOMAIN_NAME]
+              [--os-project-id OS_PROJECT_ID]
+              [--os-project-name OS_PROJECT_NAME]
+              [--os-project-domain-id OS_PROJECT_DOMAIN_ID]
+              [--os-project-domain-name OS_PROJECT_DOMAIN_NAME]
+              [--os-trust-id OS_TRUST_ID]
+              [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
+              [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
+              [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
+              [--os-user-domain-id OS_USER_DOMAIN_ID]
+              [--os-user-domain-name OS_USER_DOMAIN_NAME]
+              [--os-password OS_PASSWORD] [--os-auth-strategy <auth-strategy>]
+              [--os-auth-system <os-auth-system>] [--os-token <token>]
+              [--os-url <url>] [--os-delete-token <delete-token>]
+              <subcommand> ...
+
 Command-line interface to the OpenStack Cinder API.
 
 Positional arguments:
@@ -3780,6 +3809,19 @@ Positional arguments:
     absolute-limits     Lists absolute limits for a user.
     api-version         Display the server API version information. (Supported
                         by API versions 3.0 - 3.latest)
+    attachment-complete
+                        Complete an attachment for a cinder volume. (Supported
+                        by API versions 3.44 - 3.latest)
+    attachment-create   Create an attachment for a cinder volume. (Supported
+                        by API versions 3.27 - 3.latest)
+    attachment-delete   Delete an attachment for a cinder volume. (Supported
+                        by API versions 3.27 - 3.latest)
+    attachment-list     Lists all attachments. (Supported by API versions 3.27
+                        - 3.latest)
+    attachment-show     Show detailed information for attachment. (Supported
+                        by API versions 3.27 - 3.latest)
+    attachment-update   Update an attachment for a cinder volume. (Supported
+                        by API versions 3.27 - 3.latest)
     availability-zone-list
                         Lists all availability zones.
     backup-abort        Aborts one or more backups.
@@ -3791,6 +3833,8 @@ Positional arguments:
     backup-reset-state  Explicitly updates the backup state.
     backup-restore      Restores a backup.
     backup-show         Shows backup details.
+    backup-update       Updates a backup. (Supported by API versions 3.9 -
+                        3.latest)
     calc-backup-hmac    Calculate backup hmac.
     calc-snapshot-hmac  Calculate snapshot hmac.
     calc-volume-hmac    Calculate volume hmac.
@@ -3802,6 +3846,14 @@ Positional arguments:
                         Clean volume reserved time.
     clone-image-metadata
                         Clone image metadata.
+    cluster-disable     Disables clustered services. (Supported by API
+                        versions 3.7 - 3.latest)
+    cluster-enable      Enables clustered services. (Supported by API versions
+                        3.7 - 3.latest)
+    cluster-list        Lists clustered services with optional filtering.
+                        (Supported by API versions 3.7 - 3.latest)
+    cluster-show        Show detailed information on a clustered service.
+                        (Supported by API versions 3.7 - 3.latest)
     config-metadata     Sets or unsets or updates config metadata.
     consisgroup-create  Creates a consistency group.
     consisgroup-create-from-src
@@ -3853,8 +3905,59 @@ Positional arguments:
                         Shows volume qos.
     get-volumes-with-reserved-time
                         Get volumes with reserved time.
+    group-create        Creates a group. (Supported by API versions 3.13 -
+                        3.latest)
+    group-create-from-src
+                        Creates a group from a group snapshot or a source
+                        group. (Supported by API versions 3.14 - 3.latest)
+    group-delete        Removes one or more groups. (Supported by API versions
+                        3.13 - 3.latest)
+    group-disable-replication
+                        Disables replication for group. (Supported by API
+                        versions 3.38 - 3.latest)
+    group-enable-replication
+                        Enables replication for group. (Supported by API
+                        versions 3.38 - 3.latest)
+    group-failover-replication
+                        Fails over replication for group. (Supported by API
+                        versions 3.38 - 3.latest)
+    group-list          Lists all groups. (Supported by API versions 3.13 -
+                        3.latest)
+    group-list-replication-targets
+                        Lists replication targets for group. (Supported by API
+                        versions 3.38 - 3.latest)
+    group-show          Shows details of a group. (Supported by API versions
+                        3.13 - 3.latest)
+    group-snapshot-create
+                        Creates a group snapshot. (Supported by API versions
+                        3.14 - 3.latest)
+    group-snapshot-delete
+                        Removes one or more group snapshots. (Supported by API
+                        versions 3.14 - 3.latest)
     group-snapshot-list
                         Lists all group snapshots.
+    group-snapshot-show
+                        Shows group snapshot details. (Supported by API
+                        versions 3.14 - 3.latest)
+    group-specs-list    Lists current group types and specs. (Supported by API
+                        versions 3.11 - 3.latest)
+    group-type-create   Creates a group type. (Supported by API versions 3.11
+                        - 3.latest)
+    group-type-default  List the default group type. (Supported by API
+                        versions 3.11 - 3.latest)
+    group-type-delete   Deletes group type or types. (Supported by API
+                        versions 3.11 - 3.latest)
+    group-type-key      Sets or unsets group_spec for a group type. (Supported
+                        by API versions 3.11 - 3.latest)
+    group-type-list     Lists available 'group types'. (Admin only will see
+                        private types) (Supported by API versions 3.11 -
+                        3.latest)
+    group-type-show     Show group type details. (Supported by API versions
+                        3.11 - 3.latest)
+    group-type-update   Updates group type name, description, and/or
+                        is_public. (Supported by API versions 3.11 - 3.latest)
+    group-update        Updates a group. (Supported by API versions 3.13 -
+                        3.latest)
     image-metadata      Sets or deletes volume image metadata.
     image-metadata-show
                         Shows volume image metadata.
@@ -3862,8 +3965,18 @@ Positional arguments:
     list                Lists all volumes.
     list-delete-confirm-resources
                         Get delete confirm resources.
+    list-filters        List enabled filters. (Supported by API versions 3.33
+                        - 3.latest)
     live-retype         Changes the volume type for a volume.
     manage              Manage an existing volume.
+    manageable-list     Lists all manageable volumes. (Supported by API
+                        versions 3.8 - 3.latest)
+    message-delete      Removes one or more messages. (Supported by API
+                        versions 3.3 - 3.latest)
+    message-list        Lists all messages. (Supported by API versions 3.3 -
+                        3.latest)
+    message-show        Shows message details. (Supported by API versions 3.3
+                        - 3.latest)
     metadata            Sets or deletes volume metadata.
     metadata-show       Shows volume metadata.
     metadata-update-all
@@ -3900,10 +4013,14 @@ Positional arguments:
     reset-state         Explicitly updates the entity state in the Cinder
                         database.
     retype              Changes the volume type for a volume.
+    revert-to-snapshot  Revert a volume to the specified snapshot. (Supported
+                        by API versions 3.40 - 3.latest)
     service-disable     Disables the service.
     service-enable      Enables the service.
+    service-get-log     (Supported by API versions 3.32 - 3.latest)
     service-list        Lists all services. Filter by host and service binary.
                         (Supported by API versions 3.0 - 3.latest)
+    service-set-log     (Supported by API versions 3.32 - 3.latest)
     set-bootable        Update bootable status of a volume.
     set-qos             Set qos for volume.
     set-reserved-time   Set volume reserved time.
@@ -3919,6 +4036,9 @@ Positional arguments:
     snapshot-delete     Removes one or more snapshots.
     snapshot-list       Lists all snapshots.
     snapshot-manage     Manage an existing snapshot.
+    snapshot-manageable-list
+                        Lists all manageable snapshots. (Supported by API
+                        versions 3.8 - 3.latest)
     snapshot-metadata   Sets or deletes snapshot metadata.
     snapshot-metadata-show
                         Shows snapshot metadata.
@@ -3929,6 +4049,8 @@ Positional arguments:
                         Explicitly updates the snapshot state.
     snapshot-show       Shows snapshot details.
     snapshot-unmanage   Stop managing a snapshot.
+    summary             Get volumes summary. (Supported by API versions 3.12 -
+                        3.latest)
     system-restore      Restore a system_reserved volume.
     thaw-host           Thaw and enable the specified cinder-volume host.
     transfer-accept     Accepts a volume transfer.
@@ -3959,6 +4081,8 @@ Positional arguments:
     volume-lock         Lock a volume, so the volume cannot be deleted until
                         it's unlocked.
     volume-unlock       UnLock a volume, so the volume can be deleted.
+    work-cleanup        Request cleanup of services with optional filtering.
+                        (Supported by API versions 3.24 - 3.latest)
     bash-completion     Prints arguments for bash_completion.
     help                Shows help about this program or one of its
                         subcommands.
@@ -4196,8 +4320,50 @@ Optional arguments:
 ## attachment-list
 
 ```bash
---os-volume-api-version 3.50 help attachment-list
+cinder --os-volume-api-version 3.50  attachment-list   --status
 ```
+
+```bash
+usage: cinder attachment-list [--all-tenants [<0|1>]]
+                              [--volume-id <volume-id>] [--status <status>]
+                              [--marker <marker>] [--limit <limit>]
+                              [--sort <key>[:<direction>]]
+                              [--tenant [<tenant>]]
+                              [--filters [<key=value> [<key=value> ...]]]
+
+Lists all attachments.
+
+Optional arguments:
+  --all-tenants [<0|1>]
+                        Shows details for all tenants. Admin only.
+  --volume-id <volume-id>
+                        Filters results by a volume ID. Default=None. This
+                        option is deprecated and will be removed in newer
+                        release. Please use '--filters' option which is
+                        introduced since 3.33 instead.
+  --status <status>     Filters results by a status. Default=None. This option
+                        is deprecated and will be removed in newer release.
+                        Please use '--filters' option which is introduced
+                        since 3.33 instead.
+  --marker <marker>     Begin returning attachments that appear later in
+                        attachment list than that represented by this id.
+                        Default=None.
+  --limit <limit>       Maximum number of attachments to return. Default=None.
+  --sort <key>[:<direction>]
+                        Comma-separated list of sort keys and directions in
+                        the form of <key>[:<asc|desc>]. Valid keys: id,
+                        status, size, availability_zone, name, bootable,
+                        created_at, reference. Default=None.
+  --tenant [<tenant>]   Display information from single tenant (Admin only).
+  --filters [<key=value> [<key=value> ...]]
+                        Filter key and value pairs. Please use 'cinder list-
+                        filters' to check enabled filters from server. Use
+                        'key~=value' for inexact filtering if the key
+                        supports. Default=None. (Supported by API version 3.33
+                        and later)
+```
+
+
 
 ## reset-state
 
