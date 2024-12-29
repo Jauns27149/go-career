@@ -433,6 +433,28 @@ Flags:
       --json    show json response
 ```
 
+### reset
+
+```bash
+reset instance status to active
+
+Usage:
+  gs instance reset [flags]
+
+Examples:
+  gs instance reset <instance_id> [--status <status>] [--root-device-id <id>]
+
+Flags:
+      --debug                      debug
+      --delete-task string         delete-task reset to (etc. --delete-task=true)
+      --dpu_disk_queue int         dpu_disk_queue reset to 
+  -h, --help                       help for reset
+      --interface-reserve string   interface-reserve reset to (etc. --interface-reserve=true)
+      --root-device-id string      root-device-id reset to (etc. --root-device-id=volume-id)
+      --status string              status reset to
+      --volume-reserve string      volume-reserve reset to (etc. --volume-reserve=true)
+```
+
 
 
 ## flavor
