@@ -656,9 +656,9 @@ Redis提供了两种不同的持久化方法可以将数据存储在磁盘中，
 使用伪代码如下：
 public void write(String key,Object data){
 Redis.delKey(key);
-        db.updateData(data);
-        Thread.sleep(1000);
-        Redis.delKey(key);
+        db.updateData(data);
+        Thread.sleep(1000);
+        Redis.delKey(key);
 }
 转化为中文描述就是（1）先淘汰缓存（2）再写数据库（这两步和原来一样）（3）休眠1秒，再次淘汰缓存，这么做，可以将1秒内所造成的缓存脏数据，再次删除。确保读请求结束，写请求可以删除读请求造成的缓存脏数据。自行评估自己的项目的读数据业务逻辑的耗时，写数据的休眠时间则在读数据业务逻辑的耗时基础上，加几百ms即可。
 如果使用的是 Mysql 的读写分离的架构的话，那么其实主从同步之间也会有时间差。
