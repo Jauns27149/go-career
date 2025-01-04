@@ -673,6 +673,10 @@ Optional arguments:
 ### reset-state
 
 ```bash
+nova reset-state --active janus
+```
+
+```bash
 usage: nova reset-state [plags] <server> [<server> ...]
 
 Reset the state of a server.
@@ -849,6 +853,39 @@ Optional arguments:
                              only).
   --instance-id INSTANCE_ID  List instance backup for the instance.
 
+```
+
+### volume-attachments
+
+```bash
+ nova volume-attachments e057d497-bcc3-4fb2-9804-8bac4332378d
+```
+
+
+
+```bash
+nova volume-attachments <server>
+
+List all the volumes attached to a server.
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+### rescue 
+
+```bash
+Reboots a server into rescue mode, which starts the machine from either the
+initial image or a specified image, attaching the current boot disk as
+secondary.
+
+Positional arguments:
+  <server>               Name or ID of server.
+
+Optional arguments:
+  --password <password>  The admin password to be set in the rescue
+                         environment.
+  --image <image>        The image to rescue with.
 ```
 
 
@@ -4589,7 +4626,7 @@ Optional arguments:
 ## backup-delete
 
 ```bash
-usage: cinder backup-delete [--force] <backup> [<backup> ...]
+cinder backup-delete [--force] <backup> [<backup> ...]
 
 Removes one or more backups.
 
@@ -4615,6 +4652,98 @@ Optional arguments:
   --state <state>  The state to assign to the backup. Valid values are
                    "available", "error". Default=available.
 
+```
+
+## backup-restore
+
+```bash
+cinder backup-restore [--volume <volume>] [--force-host]
+                             [--name <name>]
+                             <backup>
+
+Restores a backup.
+
+Positional arguments:
+  <backup>           Name or ID of backup to restore.
+
+Optional arguments:
+  --volume <volume>  Name or ID of existing volume to which to restore. This
+                     is mutually exclusive with --name and takes priority.
+                     Default=None.
+  --force-host       Use volume host first. Default=False.
+  --name <name>      Use the name for new volume creation to restore. This is
+                     mutually exclusive with --volume (or the deprecated
+                     --volume-id) and --volume (or --volume-id) takes
+                     priority. Default=None.
+```
+
+
+
+## attachment-create 
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-create janus ae5cebfc-630d-43db-bf34-8847afbc926c
+```
+
+```bash
+usage: cinder attachment-create [flag...] <volume> <server_id>
+
+Create an attachment for a cinder volume.
+
+Positional arguments:
+  <volume>              Name or ID of volume or volumes to attach.
+  <server_id>           ID of server attaching to.
+
+Optional arguments:
+  --connect <connect>   Make an active connection using provided connector
+                        info (True or False).
+  --initiator <initiator>
+                        iqn of the initiator attaching to. Default=None.
+  --ip <ip>             ip of the system attaching to. Default=None.
+  --host <host>         Name of the host attaching to. Default=None.
+  --platform <platform>
+                        Platform type. Default=x86_64.
+  --ostype <ostype>     OS type. Default=linux2.
+  --multipath <multipath>
+                        Use multipath. Default=False.
+  --mountpoint <mountpoint>
+                        Mountpoint volume will be attached at. Default=None.
+```
+
+## attachment-complete
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-complete 1342ecd8-547d-4580-a8e8-57cff8c51d19
+```
+
+```bash
+cinder attachment-complete <attachment> [<attachment> ...]
+
+Complete an attachment for a cinder volume.
+
+Positional arguments:
+  <attachment>  ID of attachment or attachments to delete.
+```
+
+## attachment-delete
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-delete
+```
+
+```bash
+ cinder attachment-delete <attachment> [<attachment> ...]
+
+Delete an attachment for a cinder volume.
+
+Positional arguments:
+  <attachment>  ID of attachment or attachments to delete.
+```
+
+## attachment-show
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-show 
 ```
 
 

@@ -391,6 +391,73 @@ E-mail bug reports to: <bug-sed@gnu.org>.
 Be sure to include the word ``sed'' somewhere in the ``Subject:'' field.
 ```
 
+### tr
+
+```bash
+
+```
+
+```bash
+Usage: tr [OPTION]... SET1 [SET2]
+Translate, squeeze, and/or delete characters from standard input,
+writing to standard output.
+
+  -c, -C, --complement    use the complement of SET1
+  -d, --delete            delete characters in SET1, do not translate
+  -s, --squeeze-repeats   replace each input sequence of a repeated character
+                            that is listed in SET1 with a single occurrence
+                            of that character
+  -t, --truncate-set1     first truncate SET1 to length of SET2
+      --help     display this help and exit
+      --version  output version information and exit
+
+SETs are specified as strings of characters.  Most represent themselves.
+Interpreted sequences are:
+
+  \NNN            character with octal value NNN (1 to 3 octal digits)
+  \\              backslash
+  \a              audible BEL
+  \b              backspace
+  \f              form feed
+  \n              new line
+  \r              return
+  \t              horizontal tab
+  \v              vertical tab
+  CHAR1-CHAR2     all characters from CHAR1 to CHAR2 in ascending order
+  [CHAR*]         in SET2, copies of CHAR until length of SET1
+  [CHAR*REPEAT]   REPEAT copies of CHAR, REPEAT octal if starting with 0
+  [:alnum:]       all letters and digits
+  [:alpha:]       all letters
+  [:blank:]       all horizontal whitespace
+  [:cntrl:]       all control characters
+  [:digit:]       all digits
+  [:graph:]       all printable characters, not including space
+  [:lower:]       all lower case letters
+  [:print:]       all printable characters, including space
+  [:punct:]       all punctuation characters
+  [:space:]       all horizontal or vertical whitespace
+  [:upper:]       all upper case letters
+  [:xdigit:]      all hexadecimal digits
+  [=CHAR=]        all characters which are equivalent to CHAR
+
+Translation occurs if -d is not given and both SET1 and SET2 appear.
+-t may be used only when translating.  SET2 is extended to length of
+SET1 by repeating its last character as necessary.  Excess characters
+of SET2 are ignored.  Only [:lower:] and [:upper:] are guaranteed to
+expand in ascending order; used in SET2 while translating, they may
+only be used in pairs to specify case conversion.  -s uses SET1 if not
+translating nor deleting; else squeezing uses SET2 and occurs after
+translation or deletion.
+
+GNU coreutils online help: <http://www.gnu.org/software/coreutils/>
+For complete documentation, run: info coreutils 'tr invocation'
+```
+
+### sort
+
+```bash
+```
+
 
 
 
@@ -847,6 +914,55 @@ usage: netstat [-vWeenNcCF] [<Af>] -r         netstat {-V|--version|-h|--help}
     inet (DARPA Internet) inet6 (IPv6) ax25 (AMPR AX.25) 
     netrom (AMPR NET/ROM) ipx (Novell IPX) ddp (Appletalk DDP) 
     x25 (CCITT X.25) 
+```
+
+## tar
+
+```bash
+tar -tvf archive.tar 
+```
+
+## rz
+
+```
+rz version 0.12.20
+Usage: rz [options] [filename.if.xmodem]
+Receive files with ZMODEM/YMODEM/XMODEM protocol
+    (X) = option applies to XMODEM only
+    (Y) = option applies to YMODEM only
+    (Z) = option applies to ZMODEM only
+  -+, --append                append to existing files
+  -a, --ascii                 ASCII transfer (change CR/LF to LF)
+  -b, --binary                binary transfer
+  -B, --bufsize N             buffer N bytes (N==auto: buffer whole file)
+  -c, --with-crc              Use 16 bit CRC (X)
+  -C, --allow-remote-commands allow execution of remote commands (Z)
+  -D, --null                  write all received data to /dev/null
+      --delay-startup N       sleep N seconds before doing anything
+  -e, --escape                Escape control characters (Z)
+  -E, --rename                rename any files already existing
+      --errors N              generate CRC error every N bytes (debugging)
+  -h, --help                  Help, print this usage message
+  -m, --min-bps N             stop transmission if BPS below N
+  -M, --min-bps-time N          for at least N seconds (default: 120)
+  -O, --disable-timeouts      disable timeout code, wait forever for data
+      --o-sync                open output file(s) in synchronous write mode
+  -p, --protect               protect existing files
+  -q, --quiet                 quiet, no progress reports
+  -r, --resume                try to resume interrupted file transfer (Z)
+  -R, --restricted            restricted, more secure mode
+  -s, --stop-at {HH:MM|+N}    stop transmission at HH:MM or in N seconds
+  -S, --timesync              request remote time (twice: set local time)
+      --syslog[=off]          turn syslog on or off, if possible
+  -t, --timeout N             set timeout to N tenths of a second
+  -u, --keep-uppercase        keep upper case filenames
+  -U, --unrestrict            disable restricted mode (if allowed to)
+  -v, --verbose               be verbose, provide debugging information
+  -w, --windowsize N          Window is N bytes (Z)
+  -X  --xmodem                use XMODEM protocol
+  -y, --overwrite             Yes, clobber existing file if any
+      --ymodem                use YMODEM protocol
+  -Z, --zmodem                use ZMODEM protocol
 ```
 
 

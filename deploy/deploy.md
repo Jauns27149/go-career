@@ -406,16 +406,12 @@ Options:
 ### cp
 
 ```bash
-docker cp janus:/var
+docker cp manager.py nova_compute:/usr/lib/python2.7/site-packages/nova/compute/manager.py
 ```
 
 ```bash
-
-Usage:	docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
-	docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
-
-Copy files/folders between a container and the local filesystem
-
+docker cp [option...] source destination	# 从宿主机复制文件到容器内部，或相反路径
+container_path: <container_name:path>
 Options:
   -a, --archive       Archive mode (copy all uid/gid information)
   -L, --follow-link   Always follow symbol link in SRC_PATH
