@@ -15,5 +15,10 @@
 adb shell pm disable-user --user 0  com.oneplus.bbs
 ```
 
+- 禁用软件重新启用
 
+  ```bash
+  adb shell pm enable com.oneplus.member
+  ```
 
+  

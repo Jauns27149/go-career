@@ -581,7 +581,7 @@ Optional arguments:
 ### live-migration
 
 ```bash
-usage: nova live-migration [flags] <server> [<host>]
+nova live-migration [flags] <server> [<host>]
 
 Migrate running server to a new machine.
 
@@ -606,8 +606,7 @@ Optional arguments:
 ### live-migration-abort
 
 ```bash
-[root@gz-txjs-control-55e243e31e30 ~]# nova help live-migration-abort
-usage: nova live-migration-abort <server> <migration>
+nova live-migration-abort <server> <migration>
 
 Abort an on-going live migration. (Supported by API versions '2.24' -
 '2.latest') [hint: use '--os-compute-api-version' flag to show help message
@@ -635,7 +634,13 @@ Positional arguments:
 ### migration-list
 
 ```bash
-usage: nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
+nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
+```
+
+
+
+```bash
+nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
                            [--status <status>] [--marker <marker>]
                            [--limit <limit>] [--changes-since <changes_since>]
 
@@ -814,6 +819,38 @@ Optional arguments:
                          versions '2.49' - '2.latest')
 ```
 
+### backup
+
+```bash
+nova backup janus janus daily 3
+```
+
+```bash
+nova backup <server> <name> <backup-type> <rotation>
+
+Backup a server by creating a 'backup' type snapshot.
+
+Positional arguments:
+  <server>       Name or ID of server.
+  <name>         Name of the backup image.
+  <backup-type>  The backup type, like "daily" or "weekly".
+  <rotation>     Int parameter representing how many backups to keep around.
+```
+
+### instance-backup-list
+
+```bash
+nova instance-backup-list [flag...]
+
+Get a list of instance backup.
+
+Optional arguments:
+  --all-tenants [<0|1>]      List instance backup for all tenants (Admin
+                             only).
+  --instance-id INSTANCE_ID  List instance backup for the instance.
+
+```
+
 
 
 
@@ -892,6 +929,71 @@ Optional arguments:
 | virsh undefine <domain-name>   | 删除虚拟机            |
 | virsh domstate <domain-name>   | 查看虚拟机状态        |
 | virsh vncdisplay <domain-name> | 查看虚拟机的 VNC 端口 |
+
+### migrate
+
+```bash
+[root@gz15-txjs-szj-55e243e16e107 ~]# virsh help migrate
+  NAME
+    migrate - migrate domain to another host
+
+  SYNOPSIS
+    migrate <domain> <desturi> [--live] [--offline] [--p2p] [--direct] [--tunnelled] [--persistent] [--undefinesource] [--suspend] [--copy-storage-all] [--copy-storage-inc] [--change-protection] [--unsafe] [--verbose] [--compressed] [--auto-converge] [--rdma-pin-all] [--abort-on-error] [--postcopy] [--postcopy-after-precopy] [--migrateuri <string>] [--graphicsuri <string>] [--listen-address <string>] [--dname <string>] [--timeout <number>] [--timeout-suspend] [--timeout-postcopy] [--xml <string>] [--migrate-disks <string>] [--disks-port <number>] [--disks-uri <string>] [--comp-methods <string>] [--comp-mt-level <number>] [--comp-mt-threads <number>] [--comp-mt-dthreads <number>] [--comp-xbzrle-cache <number>] [--auto-converge-initial <number>] [--auto-converge-increment <number>] [--persistent-xml <string>] [--tls] [--postcopy-bandwidth <number>] [--parallel] [--parallel-connections <number>] [--bandwidth <number>] [--tls-destination <string>] [--dirty-limit]
+
+  DESCRIPTION
+    Migrate domain to another host.  Add --live for live migration.
+
+  OPTIONS
+    [--domain] <string>  domain name, id or uuid
+    [--desturi] <string>  connection URI of the destination host as seen from the client(normal migration) or source(p2p migration)
+    --live           live migration
+    --offline        offline migration
+    --p2p            peer-2-peer migration
+    --direct         direct migration
+    --tunnelled      tunnelled migration
+    --persistent     persist VM on destination
+    --undefinesource  undefine VM on source
+    --suspend        do not restart the domain on the destination host
+    --copy-storage-all  migration with non-shared storage with full disk copy
+    --copy-storage-inc  migration with non-shared storage with incremental copy (same base image shared between source and destination)
+    --change-protection  prevent any configuration changes to domain until migration ends
+    --unsafe         force migration even if it may be unsafe
+    --verbose        display the progress of migration
+    --compressed     compress repeated pages during live migration
+    --auto-converge  force convergence during live migration
+    --rdma-pin-all   pin all memory before starting RDMA live migration
+    --abort-on-error  abort on soft errors during migration
+    --postcopy       enable post-copy migration; switch to it using migrate-postcopy command
+    --postcopy-after-precopy  automatically switch to post-copy migration after one pass of pre-copy
+    --migrateuri <string>  migration URI, usually can be omitted
+    --graphicsuri <string>  graphics URI to be used for seamless graphics migration
+    --listen-address <string>  listen address that destination should bind to for incoming migration
+    --dname <string>  rename to new name during migration (if supported)
+    --timeout <number>  run action specified by --timeout-* option (suspend by default) if live migration exceeds timeout (in seconds)
+    --timeout-suspend  suspend the guest after timeout
+    --timeout-postcopy  switch to post-copy after timeout
+    --xml <string>   filename containing updated XML for the target
+    --migrate-disks <string>  comma separated list of disks to be migrated
+    --disks-port <number>  port to use by target server for incoming disks migration
+    --disks-uri <string>  URI to use for disks migration (overrides --disks-port)
+    --comp-methods <string>  comma separated list of compression methods to be used
+    --comp-mt-level <number>  compress level for multithread compression
+    --comp-mt-threads <number>  number of compression threads for multithread compression
+    --comp-mt-dthreads <number>  number of decompression threads for multithread compression
+    --comp-xbzrle-cache <number>  page cache size for xbzrle compression
+    --auto-converge-initial <number>  initial CPU throttling rate for auto-convergence
+    --auto-converge-increment <number>  CPU throttling rate increment for auto-convergence
+    --persistent-xml <string>  filename containing updated persistent XML for the target
+    --tls            use TLS for migration
+    --postcopy-bandwidth <number>  post-copy migration bandwidth limit in MiB/s
+    --parallel       enable parallel migration
+    --parallel-connections <number>  number of connections for parallel migration
+    --bandwidth <number>  migration bandwidth limit in MiB/s
+    --tls-destination <string>  override the destination host name used for TLS verification
+    --dirty-limit    dirty-limit migration
+```
+
+
 
 ## QGA（Qemu Guest Agent）
 
@@ -2306,7 +2408,7 @@ openstack flavor show s2.xlarge.2
 
 ```bash
 openstack flavor create --ram 65536 --vcpus 4 janus
-openstack flavor create janus --ram 32768 --vcpus 2 \
+openstack flavor create janus --ram 16384 --vcpus 8 \
 --property DISK:VOLUMES_QUOTA='8' \
 --property NIC:QoS='aaaaaaaa-aaaa-aaaa-aaaa-000000001024' \
 --property NIC:multiqueue='1'
@@ -4321,6 +4423,8 @@ Optional arguments:
 
 ```bash
 cinder --os-volume-api-version 3.50  attachment-list   --status
+
+cinder --os-volume-api-version 3.50  attachment-list  --volume-id 0e07009a-5066-4c9e-aa8a-ca0e631b6329
 ```
 
 ```bash
@@ -4390,6 +4494,127 @@ Optional arguments:
                         migration status of the volume in the DataBase that
                         indicates the volume is source or destination of
                         volume migration, with no regard to the actual status
+```
+
+## backup-show
+
+```bash
+cinder backup-show <backup>
+
+Positional arguments:
+  <backup>  Name or ID of backup.
+```
+
+## backup state
+
+```bash
+usage: cinder backup-reset-state [--state <state>] <backup> [<backup> ...]
+
+Explicitly updates the backup state.
+
+Positional arguments:
+  <backup>         Name or ID of the backup to modify.
+
+Optional arguments:
+  --state <state>  The state to assign to the backup. Valid values are
+                   "available", "error". Default=available.
+
+```
+
+## backup-list
+
+```bash
+cinder backup-list --status merging_backup
+```
+
+```bash
+cinder backup-list [flag...]
+
+Optional arguments:
+  --all-tenants [<all_tenants>]
+                        Shows details for all tenants. Admin only.
+  --name <name>         Filters results by a name. Default=None. This option
+                        is deprecated and will be removed in newer release.
+                        Please use '--filters' option which is introduced
+                        since 3.33 instead.
+  --status <status>     Filters results by a status. Default=None. This option
+                        is deprecated and will be removed in newer release.
+                        Please use '--filters' option which is introduced
+                        since 3.33 instead.
+  --volume-id <volume-id>
+                        Filters results by a volume ID. Default=None. This
+                        option is deprecated and will be removed in newer
+                        release. Please use '--filters' option which is
+                        introduced since 3.33 instead.
+  --marker <marker>     Begin returning backups that appear later in the
+                        backup list than that represented by this id.
+                        Default=None.
+  --limit <limit>       Maximum number of backups to return. Default=None.
+  --sort <key>[:<direction>]
+                        Comma-separated list of sort keys and directions in
+                        the form of <key>[:<asc|desc>]. Valid keys: id,
+                        status, size, availability_zone, name, bootable,
+                        created_at, reference. Default=None.
+```
+
+## backup-create 
+
+```bash
+cinder backup-create [flag...] <volume>
+
+Positional arguments:
+  <volume>              Name or ID of volume to backup.
+
+Optional arguments:
+  --backup-id <backup-id>
+                        Specified uuid4 string as backup id. Default=None.
+  --container <container>
+                        Backup container name. Default=None.
+  --backend <backend>   Backup backend name. ceph or swift.
+  --name <name>         Backup name. Default=None.
+  --description <description>
+                        Backup description. Default=None.
+  --incremental         Incremental backup. Default=False.
+  --force               Allows or disallows backup of a volume when the volume
+                        is attached to an instance. If set to True, backs up
+                        the volume whether its status is "available" or "in-
+                        use". The backup of an "in-use" volume means your data
+                        is crash consistent. Default=False.
+  --force-host          Use volume host first. Default=False.
+  --snapshot-id <snapshot-id>
+                        ID of snapshot to backup. Default=None.
+
+```
+
+## backup-delete
+
+```bash
+usage: cinder backup-delete [--force] <backup> [<backup> ...]
+
+Removes one or more backups.
+
+Positional arguments:
+  <backup>  Name or ID of backup(s) to delete.
+
+Optional arguments:
+  --force   Allows deleting backup of a volume when its status is other than
+            "available" or "error". Default=False.
+```
+
+## backup-reset-state
+
+```bash
+cinder backup-reset-state [flag] <backup>... 
+
+Explicitly updates the backup state.
+
+Positional arguments:
+  <backup>         Name or ID of the backup to modify.
+
+Optional arguments:
+  --state <state>  The state to assign to the backup. Valid values are
+                   "available", "error". Default=available.
+
 ```
 
 
