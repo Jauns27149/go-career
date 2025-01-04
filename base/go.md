@@ -74,6 +74,26 @@ go env # 查看环境变量
 
 # 标准包
 
+## builtin
+
+### max
+
+```go
+func max[T cmp.Ordered](x T, y ...T) T
+/*	
+max 函数是一个内置函数，对于可比较大小的类型（cmp.Ordered），它返回固定数量参数中的最大值。
+必须至少提供一个参数。如果类型 T 是浮点数类型并且任意参数是 NaN（非数字），那么 max 函数将返回 NaN。
+```
+
+```go
+func main() {
+	result := max(10, 20, 30, 40, 50)
+	fmt.Printf("最大值是: %d\n", result)
+}
+/*
+最大值是: 50
+```
+
 ## strings
 
 ### Split
@@ -101,4 +121,35 @@ Output:
 ```
 
 
+
+## sort
+
+### Slice
+
+```go
+func Slice(x any, less func(i int, j int) bool)
+/*	Slice 函数根据提供的比较函数对切片 x 进行排序。如果 x 不是一个切片，它会引发恐慌（panic）。
+		排序不保证稳定性：相等的元素可能会从原始顺序中颠倒。若需要稳定的排序，请使用 SliceStable
+```
+
+```go
+func main() {
+	people := []struct {
+		Name string
+		Age  int
+	}{
+		{"Gopher", 7},
+		{"Alice", 55},
+		{"Vera", 24},
+		{"Bob", 75},
+	}
+	sort.Slice(people, func(i, j int) bool {
+		return people[i].Age < people[j].Age
+	})
+	fmt.Println("按年龄排序:", people)
+}
+/*
+按名字排序: [{Alice 55} {Bob 75} {Gopher 7} {Vera 24}]
+按年龄排序: [{Gopher 7} {Vera 24} {Alice 55} {Bob 75}]
+```
 
