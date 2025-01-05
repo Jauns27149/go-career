@@ -46,32 +46,10 @@ nova
 └── venv             # 包含虚拟环境配置，用于隔离 Python 环境，确保依赖项正确安装。
 ```
 
-# 命令
+# `nova`命令
 
 ```bash
-[root@gz-txjs-control-55e243e31e29 ~]# nova help
-usage: nova [--version] [--debug] [--os-cache] [--timings]
-            [--os-region-name <region-name>] [--service-type <service-type>]
-            [--service-name <service-name>]
-            [--os-endpoint-type <endpoint-type>]
-            [--os-compute-api-version <compute-api-ver>]
-            [--endpoint-override <bypass-url>] [--profile HMAC_KEY]
-            [--insecure] [--os-cacert <ca-certificate>]
-            [--os-cert <certificate>] [--os-key <key>] [--timeout <seconds>]
-            [--os-auth-type <name>] [--os-auth-url OS_AUTH_URL]
-            [--os-system-scope OS_SYSTEM_SCOPE] [--os-domain-id OS_DOMAIN_ID]
-            [--os-domain-name OS_DOMAIN_NAME] [--os-project-id OS_PROJECT_ID]
-            [--os-project-name OS_PROJECT_NAME]
-            [--os-project-domain-id OS_PROJECT_DOMAIN_ID]
-            [--os-project-domain-name OS_PROJECT_DOMAIN_NAME]
-            [--os-trust-id OS_TRUST_ID]
-            [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
-            [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
-            [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
-            [--os-user-domain-id OS_USER_DOMAIN_ID]
-            [--os-user-domain-name OS_USER_DOMAIN_NAME]
-            [--os-password OS_PASSWORD]
-            <subcommand> ...
+ nova [flag...] <subcommand> 
 
 Command-line interface to the OpenStack Nova API.
 
@@ -456,6 +434,491 @@ Optional arguments:
 
 See "nova help COMMAND" for help on a specific command.
 ```
+
+### show
+
+```bash
+usage: nova show [flags] <server>
+
+Show details about the given server.
+
+Positional arguments:
+  <server>          Name or ID of server.
+  
+Optional arguments:
+  --minimal         Skips flavor/image lookups when showing servers.
+  --deleted         show deleted servers (Admin only).
+  --wrap <integer>  Wrap the output to a specified length, or 0 to disable.
+```
+
+
+
+### list
+
+```bash
+nova list --name janus
+```
+
+```bash
+nova list [falg]
+
+Optional arguments:
+  --reservation-id <reservation-id>  Only return servers that match reservation-id.
+  --ip <ip-regexp>              Search with regular expression match by IP address.
+  --ip6 <ip6-regexp>            Search with regular expression match by IPv6 address.
+  --name <name-regexp>          Search with regular expression match by name.
+  --instance-name <name-regexp>	Search with regular expression match by server name.
+  --status <status>             Search by server status, status: ACTIVE
+  --flavor <flavor>             Search by flavor name or ID.
+  --image <image>               Search by image name or ID.
+  --host <hostname>             Search servers by hostname to which they are assigned (Admin only).
+  --all-tenants [<0|1>]         Display information from all tenants (Admin only).
+  --tenant [<tenant>]           Display information from single tenant (Admin only).
+  --user [<user>]               Display information from single user (Admin only).
+  --deleted                     Only display deleted servers (Admin only).
+  --fields <fields>             Comma-separated list of fields to display. Use
+                                the show command to see which fields are
+                                available.
+  --minimal                     Get only UUID and name.
+  --sort <key>[:<direction>]    Comma-separated list of sort keys and
+                                directions in the form of <key>[:<asc|desc>].
+                                The direction defaults to descending if not
+                                specified.
+  --marker <marker>             The last server UUID of the previous page;
+                                displays list of servers after "marker".
+  --limit <limit>               Maximum number of servers to display. If limit
+                                == -1, all servers will be displayed. If limit
+                                is bigger than 'CONF.api.max_limit' option of
+                                Nova API, limit 'CONF.api.max_limit' will be
+                                used instead.
+  --changes-since <changes_since>
+                                List only servers changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+  --tags <tags>                 The given tags must all be present for a
+                                server to be included in the list result.
+                                Boolean expression in this case is 't1 AND
+                                t2'. Tags must be separated by commas: --tags
+                                <tag1,tag2> (Supported by API versions '2.26'
+                                - '2.latest')
+  --tags-any <tags-any>         If one of the given tags is present the server
+                                will be included in the list result. Boolean
+                                expression in this case is 't1 OR t2'. Tags
+                                must be separated by commas: --tags-any
+                                <tag1,tag2> (Supported by API versions '2.26'
+                                - '2.latest')
+  --not-tags <not-tags>         Only the servers that do not have any of the
+                                given tags will be included in the list
+                                results. Boolean expression in this case is
+                                'NOT(t1 AND t2)'. Tags must be separated by
+                                commas: --not-tags <tag1,tag2> (Supported by
+                                API versions '2.26' - '2.latest')
+  --not-tags-any <not-tags-any>
+                                Only the servers that do not have at least one
+                                of the given tags will be included in the list
+                                result. Boolean expression in this case is
+                                'NOT(t1 OR t2)'. Tags must be separated by
+                                commas: --not-tags-any <tag1,tag2> (Supported
+                                by API versions '2.26' - '2.latest')
+```
+
+### live-migration
+
+```bash
+nova live-migration [flags] <server> [<host>]
+
+Migrate running server to a new machine.
+
+Positional arguments:
+  <server>                      Name or ID of server.
+  <host>                        Destination host name.
+
+Optional arguments:
+  --block-migrate               True in case of block_migration.
+                                (Default=auto:live_migration) (Supported by
+                                API versions '2.25' - '2.latest')
+  --force                       Force to not verify the scheduler if a host is
+                                provided. (Supported by API versions '2.30' -
+                                '2.latest')
+  --migration-type <migration-type>
+                                For local storage migration to shared storage.
+                                e.g. to_<volume_type_name>(see 'cinder type-
+                                list'): migrate all the disks of the instance
+                                to the volume.
+```
+
+### live-migration-abort
+
+```bash
+nova live-migration-abort <server> <migration>
+
+Abort an on-going live migration. (Supported by API versions '2.24' -
+'2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>     Name or ID of server.
+  <migration>  ID of migration.
+```
+
+### server-migration-list
+
+```bash
+[root@gz-txjs-control-55e243e31e30 ~]# nova help server-migration-list
+usage: nova server-migration-list <server>
+
+Get the migrations list of specified server. (Supported by API versions '2.23'
+- '2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+### migration-list
+
+```bash
+nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
+```
+
+
+
+```bash
+nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
+                           [--status <status>] [--marker <marker>]
+                           [--limit <limit>] [--changes-since <changes_since>]
+
+Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Optional arguments:
+  --instance-uuid <instance_uuid>
+                                Fetch migrations for the given instance.
+  --host <host>                 Fetch migrations for the given host.
+  --status <status>             Fetch migrations for the given status.
+  --marker <marker>             The last migration of the previous page;
+                                displays list of migrations after "marker".
+                                Note that the marker is the migration UUID.
+  --limit <limit>               Maximum number of migrations to display. Note
+                                that there is a configurable max limit on the
+                                server, and the limit that is used will be the
+                                minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only migrations changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+```
+
+
+
+### reset-state
+
+```bash
+nova reset-state --active janus
+```
+
+```bash
+usage: nova reset-state [plags] <server> [<server> ...]
+
+Reset the state of a server.
+
+Positional arguments:
+  <server>       Name or ID of server(s).
+
+Optional arguments:
+  --all-tenants  Reset state server(s) in another tenant by name (Admin only).
+  --active       Request the server be reset to "active" state instead of
+                 "error" state (the default).
+  --stopped      Request the server be reset to "stopped" state
+```
+
+### instance-action-list 
+
+```bash
+nova instance-action-list  <server>
+```
+
+```bash
+usage: nova instance-action-list [--marker <marker>] [--limit <limit>]
+                                 [--changes-since <changes_since>]
+                                 <server>
+
+List actions on a server. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Positional arguments:
+  <server>                      Name or UUID of the server to list actions
+                                for. Only UUID can be used to list actions on
+                                a deleted server.
+
+Optional arguments:
+  --marker <marker>             The last instance action of the previous page;
+                                displays list of actions after "marker".
+  --limit <limit>               Maximum number of instance actions to display.
+                                Note that there is a configurable max limit on
+                                the server, and the limit that is used will be
+                                the minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only instance actions changed after a
+                                certain point of time. The provided time
+                                should be an ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z
+```
+
+###  instance-action
+
+```bash
+nova instance-action <server> <request_id>
+```
+
+```bash
+usage: nova instance-action <server> <request_id>
+
+Show an action.
+
+Positional arguments:
+  <server>      Name or UUID of the server to show actions for. Only UUID can
+                be used to show actions for a deleted server. (Supported by
+                API versions '2.21' - '2.latest')
+  <request_id>  Request ID of the action to get.
+```
+
+### rebuild
+
+```bash
+usage: nova rebuild [--image <image>] [--rebuild-password <rebuild-password>]
+                    [--poll] [--minimal] [--preserve-ephemeral]
+                    [--name <name>] [--description <description>]
+                    [--meta <key=value>] [--key-name <key-name>] [--key-unset]
+                    [--user-data <user-data>] [--user-data-unset]
+                    [--volume <volume>]
+                    <server>
+
+Shutdown, re-image, and re-boot a server.
+
+Positional arguments:
+  <server>                      Name or ID of server.
+
+Optional arguments:
+  --image <image>               Name or ID of new image.
+  --rebuild-password <rebuild-password>
+                                Set the provided admin password on the rebuilt
+                                server.
+  --poll                        Report the server rebuild progress until it
+                                completes.
+  --minimal                     Skips flavor/image lookups when showing
+                                servers.
+  --preserve-ephemeral          Preserve the default ephemeral storage
+                                partition on rebuild.
+  --name <name>                 Name for the new server.
+  --description <description>   New description for the server. (Supported by
+                                API versions '2.19' - '2.latest')
+  --meta <key=value>            Record arbitrary key/value metadata to
+                                /meta_data.json on the metadata server. Can be
+                                specified multiple times.
+  --key-name <key-name>         Keypair name to set in the server. Cannot be
+                                specified with the '--key-unset' option.
+                                (Supported by API versions '2.54' -
+                                '2.latest')
+  --key-unset                   Unset keypair in the server. Cannot be
+                                specified with the '--key-name' option.
+                                (Supported by API versions '2.54' -
+                                '2.latest')
+  --user-data <user-data>       User data file to pass to be exposed by the
+                                metadata server. (Supported by API versions
+                                '2.57' - '2.latest')
+  --user-data-unset             Unset user_data in the server. Cannot be
+                                specified with the '--user-data' option.
+                                (Supported by API versions '2.57' -
+                                '2.latest')
+  --volume <volume>             ID of the volume to rebuild. (Supported by API
+                                versions '2.61' - '2.latest')
+```
+
+### volume-attach  
+
+```bash
+nova volume-attach janus 447522bf-5f8c-41c1-9b10-a629efac9a9c
+```
+
+```bash
+usage: nova volume-attach [--tag <tag>] [--disk_bus <disk_bus>]
+                          <server> <volume> [<device>]
+
+Attach a volume to a server.
+
+Positional arguments:
+  <server>               Name or ID of server.
+  <volume>               ID of the volume to attach.
+  <device>               Name of the device e.g. /dev/vdb. Use "auto" for
+                         autoassign (if supported). Libvirt driver will use
+                         default device name.
+
+Optional arguments:
+  --tag <tag>            Tag for the attached volume. (Supported by API
+                         versions '2.49' - '2.latest')
+  --disk_bus <disk_bus>  Disk bus for the attached volume, can be chosen from
+                         ide, sata,scsi, virtio and etc. (Supported by API
+                         versions '2.49' - '2.latest')
+```
+
+### backup
+
+```bash
+nova backup janus janus daily 3
+```
+
+```bash
+nova backup <server> <name> <backup-type> <rotation>
+
+Backup a server by creating a 'backup' type snapshot.
+
+Positional arguments:
+  <server>       Name or ID of server.
+  <name>         Name of the backup image.
+  <backup-type>  The backup type, like "daily" or "weekly".
+  <rotation>     Int parameter representing how many backups to keep around.
+```
+
+### instance-backup-list
+
+```bash
+nova instance-backup-list [flag...]
+
+Get a list of instance backup.
+
+Optional arguments:
+  --all-tenants [<0|1>]      List instance backup for all tenants (Admin
+                             only).
+  --instance-id INSTANCE_ID  List instance backup for the instance.
+
+```
+
+### volume-attachments
+
+```bash
+ nova volume-attachments e057d497-bcc3-4fb2-9804-8bac4332378d
+```
+
+
+
+```bash
+nova volume-attachments <server>
+
+List all the volumes attached to a server.
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+### rescue 
+
+```bash
+Reboots a server into rescue mode, which starts the machine from either the
+initial image or a specified image, attaching the current boot disk as
+secondary.
+
+Positional arguments:
+  <server>               Name or ID of server.
+
+Optional arguments:
+  --password <password>  The admin password to be set in the rescue
+                         environment.
+  --image <image>        The image to rescue with.
+```
+
+## snapshot
+
+server-snapshot-create      Create a server snapshot.
+server-snapshot-delete      Delete a server snapshot.
+server-snapshot-list        Print a list of server snapshots.
+server-snapshot-reset-state
+                            Reset a server snapshot to the special state.
+server-snapshot-restore     Restore a server snapshot to the server.
+server-snapshot-show        Get a server snapshot details.
+server-snapshot-update      Update a server snapshot.
+
+### server-snapshot-list
+
+```bash
+nova server-snapshot-list [optinal...]
+
+Print a list of server snapshots.
+
+Optional arguments:
+  --instance-uuid <instance_uuid>
+                                Fetch snapshots for the given instance.
+  --state <state>               Display snapshots in the specific state.
+  --all-tenants [<0|1>]         Display snapshots from all tenants (Admin
+                                only).
+  --invisible [<0|1>]           Whether to display the invisible snapshots.
+  --marker <marker>             The last snapshot of the previous page;
+                                displays list of snapshots after "marker".
+                                Note that the marker is the snapshot UUID.
+  --limit <limit>               Maximum number of snapshots to display. Note
+                                that there is a configurable max limit on the
+                                server, and the limit that is used will be the
+                                minimum between what is requested here and
+                                what is configured in the server.
+  --sort-key <sort-key>         Snapshot list sort key.
+  --sort-dir <sort-dir>         Snapshot list sort direction.
+```
+
+### server-snapshot-create
+
+```bash
+nova server-snapshot-create 5ae06825-0722-4920-93c3-1b7f3b042793 janus
+```
+
+```bash
+nova server-snapshot-create [flag...] <instance_id> <name>
+
+Create a server snapshot.
+
+Positional arguments:
+  <instance_id>                 ID of the instance to snapshot.
+  <name>                        Name of server snapshot.
+
+Optional arguments:
+  --description <description>   Description of server snapshot.
+  --force-consistency <force-consistency>
+                                Whether to force create a consistent snapshot,
+                                if set to true creating will fail if guest fs
+                                freeze failed and block storage consistent
+                                snapshot failed.
+```
+
+### server-snapshot-show
+
+```ba
+nova server-snapshot-show <server_snapshot_id>
+
+Get a server snapshot details.
+
+Positional arguments:
+  <server_snapshot_id>  ID of the server snapshot to show.
+
+```
+
+### server-snapshot-delete
+
+```bash
+nova server-snapshot-delete <server_snapshot> [<server_snapshot> ...]
+
+Delete a server snapshot.
+
+Positional arguments:
+  <server_snapshot>  ID(s) of the server snapshot to delete.
+
+```
+
+
 
 # 组件
 

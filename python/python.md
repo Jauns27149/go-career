@@ -257,13 +257,22 @@ element：任何类型的元素（包括数字、字符串、另一个列表等�
 
 
 
-# 语句
+# 语法
 
 | 字符 | 作用                                             |
 | ---- | ------------------------------------------------ |
 | del  | 用于删除对象、变量、列表中的元素或字典中的键值对 |
 |      |                                                  |
 |      |                                                  |
+
+## Type Hints
+
+```python
+name: type = value
+# 为变量、函数参数和返回值指定类型
+```
+
+
 
 # 配置文件
 
@@ -388,5 +397,19 @@ print(string_pi)  # 输出: "3.14159"
 boolean_value = True
 string_boolean = str(boolean_value)
 print(string_boolean)  # 输出: "True"
+```
+
+## dir()
+
+```python
+def dir(__o: object = ...) -> List[str]
+# 返回一个列表，包含指定对象的属性和方法名。如果没有参数传递给 dir()，它将列出当前本地作用域内的名称
+```
+
+## type()
+
+```py
+def __init__(self, __o: object) -> None
+# 获取对象的类型
 ```
 
