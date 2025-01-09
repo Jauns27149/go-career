@@ -1042,3 +1042,122 @@ Receive files with ZMODEM/YMODEM/XMODEM protocol
 | *    | 匹配任意数量的字符（包括零个字符）           |
 | ？   | 匹配一个字符                                 |
 
+# 默认安装命令
+
+## curl
+
+```bash
+curl [options...] <url>
+-X, --request <method> Specify request method to use
+```
+
+## tr
+
+```bash
+Usage: tr [OPTION]... STRING1 [STRING2]
+Translate, squeeze, and/or delete characters from standard input,
+writing to standard output.  STRING1 and STRING2 specify arrays of
+characters ARRAY1 and ARRAY2 that control the action.
+
+  -c, -C, --complement    use the complement of ARRAY1
+  -d, --delete            delete characters in ARRAY1, do not translate
+  -s, --squeeze-repeats   replace each sequence of a repeated character
+                            that is listed in the last specified ARRAY,
+                            with a single occurrence of that character
+  -t, --truncate-set1     first truncate ARRAY1 to length of ARRAY2
+      --help        display this help and exit
+      --version     output version information and exit
+
+ARRAYs are specified as strings of characters.  Most represent themselves.
+Interpreted sequences are:
+
+  \NNN            character with octal value NNN (1 to 3 octal digits)
+  \\              backslash
+  \a              audible BEL
+  \b              backspace
+  \f              form feed
+  \n              new line
+  \r              return
+  \t              horizontal tab
+  \v              vertical tab
+  CHAR1-CHAR2     all characters from CHAR1 to CHAR2 in ascending order
+  [CHAR*]         in ARRAY2, copies of CHAR until length of ARRAY1
+  [CHAR*REPEAT]   REPEAT copies of CHAR, REPEAT octal if starting with 0
+  [:alnum:]       all letters and digits
+  [:alpha:]       all letters
+  [:blank:]       all horizontal whitespace
+  [:cntrl:]       all control characters
+  [:digit:]       all digits
+  [:graph:]       all printable characters, not including space
+  [:lower:]       all lower case letters
+  [:print:]       all printable characters, including space
+  [:punct:]       all punctuation characters
+  [:space:]       all horizontal or vertical whitespace
+  [:upper:]       all upper case letters
+  [:xdigit:]      all hexadecimal digits
+  [=CHAR=]        all characters which are equivalent to CHAR
+
+Translation occurs if -d is not given and both STRING1 and STRING2 appear.
+-t is only significant when translating.  ARRAY2 is extended to length of
+ARRAY1 by repeating its last character as necessary.  Excess characters
+of ARRAY2 are ignored.  Character classes expand in unspecified order;
+while translating, [:lower:] and [:upper:] may be used in pairs to
+specify case conversion.  Squeezing occurs after translation or deletion.
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/tr>
+or available locally via: info '(coreutils) tr invocation'
+```
+
+```bash
+`tr` 命令的使用格式为 `tr [OPTION]... STRING1 [STRING2]`，它可以从标准输入读取字符，并根据指定的操作对这些字符进行翻译（替换）、压缩（合并重复字符）和/或删除，最终将结果输出到标准输出。`STRING1` 和 `STRING2` 分别指定了两个字符数组 `ARRAY1` 和 `ARRAY2`，它们用来控制 `tr` 的具体行为。
+
+以下是 `tr` 命令支持的一些选项：
+
+- `-c`, `-C`, `--complement`：使用 `ARRAY1` 的补集，即处理所有不属于 `ARRAY1` 中列出的字符。
+- `-d`, `--delete`：删除 `ARRAY1` 中列出的所有字符，而不执行任何转换。
+- `-s`, `--squeeze-repeats`：将最后一个指定的 `ARRAY` 中连续出现的字符序列替换为该字符的一个实例。
+- `-t`, `--truncate-set1`：首先截断 `ARRAY1` 使其长度与 `ARRAY2` 相等。
+- `--help`：显示帮助信息并退出。
+- `--version`：显示版本信息并退出。
+
+字符数组可以通过字符串形式指定，大多数情况下字符直接表示自己。但也有几种特殊的解释序列：
+
+- `\NNN`：八进制值为 NNN 的字符（1 到 3 位八进制数字）。
+- `\\`：反斜杠。
+- `\a`：可听的 BEL 铃声。
+- `\b`：退格键。
+- `\f`：换页符。
+- `\n`：新行。
+- `\r`：回车。
+- `\t`：水平制表符。
+- `\v`：垂直制表符。
+- `CHAR1-CHAR2`：从 `CHAR1` 到 `CHAR2` 的所有字符，按 ASCII 码升序排列。
+- `[CHAR*]`：在 `ARRAY2` 中，复制字符直到与 `ARRAY1` 的长度相同。
+- `[CHAR*REPEAT]`：复制字符 REPEAT 次，如果 REPEAT 以 0 开头，则认为是八进制数。
+- `[:alnum:]`：所有字母和数字。
+- `[:alpha:]`：所有字母。
+- `[:blank:]`：所有水平空白字符。
+- `[:cntrl:]`：所有控制字符。
+- `[:digit:]`：所有数字。
+- `[:graph:]`：所有可打印字符，不包括空格。
+- `[:lower:]`：所有小写字母。
+- `[:print:]`：所有可打印字符，包括空格。
+- `[:punct:]`：所有标点符号。
+- `[:space:]`：所有水平或垂直空白字符。
+- `[:upper:]`：所有大写字母。
+- `[:xdigit:]`：所有十六进制数字。
+- `[=CHAR=]`：所有与 `CHAR` 等价的字符。
+
+当未给出 `-d` 选项且同时提供了 `STRING1` 和 `STRING2` 时会发生翻译操作。
+`-t` 选项仅在翻译时有意义。如果需要，`ARRAY2` 会通过重复其最后一个字符来扩展至与 `ARRAY1` 长度相同。
+`ARRAY2` 中超出 `ARRAY1` 长度的多余字符将被忽略。
+只有 `[:lower:]` 和 `[:upper:]` 在扩展时保证按升序展开；在翻译过程中，它们可以成对使用来指定大小写的转换。
+压缩操作发生在翻译或删除之后。
+
+GNU coreutils 的在线帮助可以在 <https://www.gnu.org/software/coreutils/> 获取，
+完整的文档可以在 <https://www.gnu.org/software/coreutils/tr> 或者
+
+通过本地命令 `info '(coreutils) tr invocation'` 查看。
+```
+
