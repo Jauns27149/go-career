@@ -179,6 +179,12 @@ virsh list
 virsh console <instance-id>
 ```
 
+domblklist
+
+```bash
+virsh domblklist [instance_id]
+```
+
 
 
 #  openstack 命令
@@ -2754,6 +2760,18 @@ shell formatter:
 
   --prefix PREFIX       add a prefix to all variable names
 ```
+
+
+
+## port
+
+### list
+
+```bash
+openstack port list --device-id dda78499-79f7-4925-b519-89ffdd01d832
+```
+
+
 
 # glance
 

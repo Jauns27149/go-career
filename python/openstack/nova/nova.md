@@ -833,6 +833,45 @@ Optional arguments:
   --image <image>        The image to rescue with.
 ```
 
+## migration
+
+### migration-list
+
+```bash
+nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
+```
+
+```bash
+nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
+                           [--status <status>] [--marker <marker>]
+                           [--limit <limit>] [--changes-since <changes_since>]
+
+Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Optional arguments:
+  --instance-uuid <instance_uuid>
+                                Fetch migrations for the given instance.
+  --host <host>                 Fetch migrations for the given host.
+  --status <status>             Fetch migrations for the given status.
+  --marker <marker>             The last migration of the previous page;
+                                displays list of migrations after "marker".
+                                Note that the marker is the migration UUID.
+  --limit <limit>               Maximum number of migrations to display. Note
+                                that there is a configurable max limit on the
+                                server, and the limit that is used will be the
+                                minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only migrations changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+```
+
+
+
 ## snapshot
 
 server-snapshot-create      Create a server snapshot.
@@ -915,6 +954,81 @@ Delete a server snapshot.
 
 Positional arguments:
   <server_snapshot>  ID(s) of the server snapshot to delete.
+
+```
+
+## instance-backup
+
+​    instance-backup-create      Create an instance backup.
+​    instance-backup-delete      Delete an instance backup.
+​    instance-backup-force-delete
+​                                Force delete a instance backup.
+​    instance-backup-list        Get a list of instance backup.
+​    instance-backup-restore     Restore an instance backup to the previous
+​                                instance.
+​    instance-backup-show        Get an instance backup details.
+​    instance-backup-update      Update an instance backup.
+
+### instance-backup-create 
+
+```bash
+nova instance-backup-create [flag...] <instance_id> <name>
+
+Create an instance backup.
+
+Positional arguments:
+  <instance_id>                 ID of the instance to backup.
+  <name>                        Name of instance backup.
+
+Optional arguments:
+  --description <description>   Description of instance backup.
+  --force-consistency-backup <force-consistency-backup>
+                                Whether to force create a consistent backup,
+                                if set to true creating will fail if guest
+                                fsfreeze failed and block storage consistent
+                                snap failed.
+  --do_full_backup <do_full_backup>
+                                Whether to create a full backup.
+
+```
+
+### instance-backup-list 
+
+```bash
+nova instance-backup-list --all-tenants 1 --instance-id 5ae06825-0722-4920-93c3-1b7f3b042793
+```
+
+```bash
+nova instance-backup-list [flag...]
+
+Get a list of instance backup.
+
+Optional arguments:
+  --all-tenants [<0|1>]      List instance backup for all tenants (Admin
+                             only).
+  --instance-id INSTANCE_ID  List instance backup for the instance.
+```
+
+###  instance-backup-show 
+
+```bash
+ nova instance-backup-show 6280a51f-cc10-4d75-b43e-fd2b1df79ddb
+```
+
+###  instance-backup-update
+
+```bash
+nova instance-backup-update [flag...] <instance_backup_id>
+
+Update an instance backup.
+
+Positional arguments:
+  <instance_backup_id>       ID of the instance backup to update.
+
+Optional arguments:
+  --name NAME                New name for for the instance backup.
+  --description DESCRIPTION  New description for for the instance backup.
+  --state STATE              New state for for the instance backup, admin
 
 ```
 

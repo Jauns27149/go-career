@@ -745,6 +745,56 @@ Positional arguments:
 cinder --os-volume-api-version 3.50 attachment-show 
 ```
 
+## attachment
+
+### attachment-create 
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-create janus ae5cebfc-630d-43db-bf34-8847afbc926c
+```
+
+```bash
+usage: cinder attachment-create [flag...] <volume> <server_id>
+
+Create an attachment for a cinder volume.
+
+Positional arguments:
+  <volume>              Name or ID of volume or volumes to attach.
+  <server_id>           ID of server attaching to.
+
+Optional arguments:
+  --connect <connect>   Make an active connection using provided connector
+                        info (True or False).
+  --initiator <initiator>
+                        iqn of the initiator attaching to. Default=None.
+  --ip <ip>             ip of the system attaching to. Default=None.
+  --host <host>         Name of the host attaching to. Default=None.
+  --platform <platform>
+                        Platform type. Default=x86_64.
+  --ostype <ostype>     OS type. Default=linux2.
+  --multipath <multipath>
+                        Use multipath. Default=False.
+  --mountpoint <mountpoint>
+                        Mountpoint volume will be attached at. Default=None.
+```
+
+### attachment-complete
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-complete 1342ecd8-547d-4580-a8e8-57cff8c51d19
+```
+
+```bash
+cinder attachment-complete <attachment> [<attachment> ...]
+
+Complete an attachment for a cinder volume.
+
+Positional arguments:
+  <attachment>  ID of attachment or attachments to delete.
+```
+
+
+
 ## backup
 
 ### backup-create 
@@ -782,7 +832,7 @@ Optional arguments:
 ### backup-list
 
 ```bash
-cinder backup-list --volume_id f61be795-93cb-4217-a316-f6332556c6aa
+cinder backup-list --volume_id a840bf60-0fc1-495f-939a-2b048962a75a
 ```
 
 ```bash
@@ -815,3 +865,32 @@ Optional arguments:
                         created_at, reference. Default=None.
 ```
 
+### backup-show
+
+```bash
+cinder backup-show 3a140bf5-9516-4a8d-a0f8-ad576cd2df1b
+```
+
+```bash
+cinder backup-show <backup>
+
+Positional arguments:
+  <backup>  Name or ID of backup.
+```
+
+### backup-delete
+
+```bash
+cinder backup-delete [--force] <backup> [<backup> ...]
+
+Removes one or more backups.
+
+Positional arguments:
+  <backup>  Name or ID of backup(s) to delete.
+
+Optional arguments:
+  --force   Allows deleting backup of a volume when its status is other than
+            "available" or "error". Default=False.
+```
+
+## 

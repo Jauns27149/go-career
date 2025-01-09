@@ -53,6 +53,19 @@ MongoConf:
 mongo -u "root" -p "testaz3" --authenticationDatabase "admin"
 ```
 
+#### deployments
+
+```bash
+kubectl get deployments -n az2
+```
+
+#### services
+
+```bash
+```
+
+
+
 ### cp
 
 ```bash
@@ -65,6 +78,68 @@ kubectl cp <source> <destination> [-n namespace]
 <source> <destination>:
 <namespace>/<pod-name>[:<container-name>]:<path-to-file-or-directory>
 ```
+
+```bash
+kubectl get deployments -n az2 | grep gostack-api
+```
+
+
+
+```bash
+kubectl set image deployment/<deployment-name> <container-name>=<new-image>:<tag> -n az2
+```
+
+
+
+### rollout
+
+```bash
+kubectl rollout undo deployment/<deployment-name> -n az2
+# 指定的 Deployment 回滚到之前的修订版本
+```
+
+```bash
+1. 可以走单纯的打包流水线，手动去部署（部署前群里面同步一下，我看你还没有进，我明天催一下）
+2. 星空镜像地址可以直接在内蒙环境拉取，电脑上拉取不了
+3. 下面是部署的参考命令，你根据你要部署的组件去替换镜像地址；
+
+
+### gostack_proxy
+kubectl set image deployment/cn-nm-region1-az1-gostack-proxy gostack-proxy=docker.ctyun.cn:60001/gostack/gostack_proxy:202310292111-dev-amd64 -n az1
+
+### gostack_api
+repos-snapshot.ctyun.cn/compute/gostack/gostack:20250106131325-18ad53da92-amd64
+kubectl set image deployment/cn-nm-region1-az1-gostack-api  api=docker.ctyun.cn:60001/gostack/gostack:202311022100-dev-amd64 -n az1
+### gostack_scheduler
+kubectl set image deployment/cn-nm-region1-az1-gostack-scheduler  scheduler=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+
+### gostack_engine
+kubectl set image deployment/cn-nm-region1-az1-gostack-engine  engine=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+kubectl set image deployment/cn-nm-region1-az1-gostack-engine-2 engine=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+kubectl set image deployment/cn-nm-region1-az1-gostack-engine-3 engine=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+
+### gostack_其它
+kubectl set image deployment/cn-nm-region1-az1-gostack-cron  cron=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+kubectl set image deployment/cn-nm-region1-az1-gostack-event event=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+kubectl set image deployment gostack-meta meta-api=docker.ctyun.cn:60001/gostack/gostack:202309131611-live-resize-amd64 -n az1
+
+
+### gostack_agent，注意要升级哪些agent更新对应的daemon set
+kubectl set image daemonset cn-nm-region1-az1-gostack-agent agent=docker.ctyun.cn:60001/gostack/agent:202311011819-dev-amd64 -n az1
+kubectl set image daemonset gostack-agent agent=docker.ctyun.cn:60001/gostack/agent:202311011819-dev-amd64 -n az1
+
+kubectl get pod -n az1 | grep cn-nm-region1-az1-gostack-agent | awk '{print $1}' | xargs kubectl delete pod -n az1
+kubectl get pod -n az1 | awk '/^gostack-agent-[1-9,a-z]/' |grep -vE "aarch64|s8-|ir3-|-hx|haiguang"| awk '{print $1}' | xargs kubectl delete pod -n az1
+```
+
+### logs
+
+```bash
+kubectl logs -l <label-selector> -n <namespace>
+# 你可以结合 -l 参数和 kubectl logs 来查看所有符合标签选择器的 Pods 的日志：
+```
+
+
 
 # docker
 

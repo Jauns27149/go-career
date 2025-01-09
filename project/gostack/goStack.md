@@ -455,6 +455,42 @@ Flags:
       --volume-reserve string      volume-reserve reset to (etc. --volume-reserve=true)
 ```
 
+### snapshot
+
+#### snapshot-reset
+
+```bash
+reset instanceSnapshot status to available
+gs instance snapshot-reset [flags] <instance_snapshot_id>
+
+Flags:
+      --debug   debug
+  -h, --help    help for snapshot-reset
+      --json    show json response
+```
+
+#### snapshot-count
+
+```bash
+count instance snapshot deleted or create by day, week, month, year
+
+Usage:
+  gs instance snapshot-count [flags]
+
+Examples:
+gs instance snapshot-count [--group <group>] [--period <period>] [--project_id <project_id>]
+
+Flags:
+      --debug               debug
+      --deleted             show count for deleted snapshot
+      --group string        <status|time>, need to count that field
+  -h, --help                help for snapshot-count
+  -l, --limit int           limit of result
+      --period string       <day|week|month>, need to count period
+      --project_id string   assign project_id for snapshot
+  -s, --skip int            skip of result
+```
+
 
 
 ## flavor
