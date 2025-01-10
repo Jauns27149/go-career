@@ -321,47 +321,6 @@ Flags:
       --zone string                   which AZ to boot instance
 ```
 
-### snapshot-create
-
-```bash
- gs instance snapshot-create 28a1fd43-7389-193e-29f7-a7f656e9fb63 --name janus --force-consistency true
-```
-
-```bash
-Usage:
-  gs instance snapshot-create <instance_id> [--force-sonsistency true] [flags]
-
-Flags:
-      --debug                      debug
-      --description string         description of instance  snapshot
-      --force-consistency string   whether to create a consistent snapshot. (etc. --force-consistency true)
-  -h, --help                       help for snapshot-create
-      --invisible string           whether invisible.
-      --json                       show json response
-      --name string                display name for snapshot
-```
-
-### snapshot-list
-
-```bash
-Usage:
-  gs instance snapshot-list [flags]
-
-Flags:
-      --debug                debug
-      --deleted              delete flag of instanceSnapshots
-  -h, --help                 help for snapshot-list
-      --instance-id string   name of instanceSnapshots
-      --invisible            whether is invisible
-  -l, --limit int            limit of result
-      --marker string        marker of instanceSnapshots
-      --name string          name of instanceSnapshots
-      --project-id string    project id of instanceSnapshots
-  -s, --skip int             skip of result
-      --status string        status of instanceSnapshot
-      --user-id string       user id of instanceSnapshots
-```
-
 ### list
 
 ```bas
@@ -455,7 +414,89 @@ Flags:
       --volume-reserve string      volume-reserve reset to (etc. --volume-reserve=true)
 ```
 
+### delete
+
+```bash
+gs instance delete <instance_id> [flag...]
+
+Flags:
+      --debug    debug
+      --hard     is hard stop
+  -h, --help     help for delete
+      --ignore   is ignore error
+```
+
+### rebuild
+
+```bash
+[root@cn-nm-region1-az1-control-10e8e73e43 ~]# gs instance rebuild --help
+rebuild a instance
+
+Usage:
+  gs instance rebuild [flags]
+
+Examples:
+  gs instance rebuild <instance_id> --image <image_id> [--root-password <password>]
+
+Flags:
+      --config-drive              need config drive to boot instance(etc. --config-drive=false) (default true)
+      --debug                     debug
+  -h, --help                      help for rebuild
+      --image string              image id of instance
+      --is-trusted                need create trusted instance
+      --json                      show json response
+      --key-name string           key-name
+      --metadata stringToString   metadata (default [])
+      --root-password string      password for instance
+      --user-data string          user data to boot instance
+      --volume-id string          system volume id of instance
+      --volume-size int           volume-size
+```
+
+
+
 ### snapshot
+
+#### snapshot-create
+
+```bash
+ gs instance snapshot-create 28a1fd43-7389-193e-29f7-a7f656e9fb63 --name janus --force-consistency true
+```
+
+```bash
+Usage:
+  gs instance snapshot-create <instance_id> [--force-sonsistency true] [flags]
+
+Flags:
+      --debug                      debug
+      --description string         description of instance  snapshot
+      --force-consistency string   whether to create a consistent snapshot. (etc. --force-consistency true)
+  -h, --help                       help for snapshot-create
+      --invisible string           whether invisible.
+      --json                       show json response
+      --name string                display name for snapshot
+```
+
+#### snapshot-list
+
+```bash
+Usage:
+  gs instance snapshot-list [flags]
+
+Flags:
+      --debug                debug
+      --deleted              delete flag of instanceSnapshots
+  -h, --help                 help for snapshot-list
+      --instance-id string   name of instanceSnapshots
+      --invisible            whether is invisible
+  -l, --limit int            limit of result
+      --marker string        marker of instanceSnapshots
+      --name string          name of instanceSnapshots
+      --project-id string    project id of instanceSnapshots
+  -s, --skip int             skip of result
+      --status string        status of instanceSnapshot
+      --user-id string       user id of instanceSnapshots
+```
 
 #### snapshot-reset
 
@@ -489,6 +530,32 @@ Flags:
       --period string       <day|week|month>, need to count period
       --project_id string   assign project_id for snapshot
   -s, --skip int            skip of result
+```
+
+#### snapshot-show
+
+```bash
+gs instance snapshot-show <instance_snapshot_id> [flag...]
+
+Examples:
+  gs instance snapshot-show <instance_snapshot_id>
+
+Flags:
+      --debug   debug
+  -h, --help    help for snapshot-show
+      --json    show json response
+```
+
+#### snapshot-delete 
+
+```bash
+gs instance snapshot-delete <instance_snapshot_id> [flag...]
+
+Flags:
+      --debug   debug
+  -h, --help    help for snapshot-delete
+      --json    show json response
+
 ```
 
 
@@ -581,6 +648,62 @@ Flags:
       --name string        name
       --policy string      flavor cpu policy Shared/Dedicated/Default
 ```
+
+## host
+
+```bash
+gs host [command]
+
+Available Commands:
+  add-power        add-power host
+  add-tag          add host tag
+  add-zone         add-zone host
+  addLocationTags  add host Location Tags host
+  cancel           cancel force down host
+  delete           delete host
+  disable          disable host
+  enable           enable host
+  evacuate         evacuate host
+  force            force down host
+  instance         show instances on hosts
+  jobs             show jobs on hosts
+  list             list all hosts
+  list-usb-devices list host usb devices
+  refresh          refresh device of the host
+  remove-tag       remove host tag
+  show             show host info
+  show-dpu         show host dpu info
+  show-localdisk   show host localdisk
+  task             show tasks on hosts
+  update           update host
+
+Flags:
+  -h, --help   help for host
+```
+
+### list
+
+```bash
+gs host list --status up
+```
+
+```bash
+gs host list [flag...]
+
+Flags:
+      --debug           debug
+      --fields string   show fields separated by comma
+  -h, --help            help for list
+  -l, --limit int       limit of result
+      --name string     search host by name
+      --power string    power number of hosts
+  -s, --skip int        skip of result
+      --status string   host status
+      --zone string     zone of hosts
+
+```
+
+
 
 ## version
 

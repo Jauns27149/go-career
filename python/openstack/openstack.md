@@ -3003,7 +3003,7 @@ Authentication Options:
 ## image-list
 
 ```bash
-glance image-list --visibility public --limie 10
+glance image-list --visibility public --limit 10
 
 # | 24647239-7b2e-4895-8ede-1d278a3b10df | Ubuntu_16.04  
 ```
@@ -3058,6 +3058,12 @@ export VPC_TENANT_ID=001a18cadd4b401e9fdeab6c411d9816 #环境变量
 ```
 
 ## port-list
+
+```bash
+vpcs port-list --device-type unset --role primary --service-type compute --limit 10
+```
+
+
 
 ```bash
 vpcs port-list [flags]

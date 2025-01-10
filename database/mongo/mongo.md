@@ -50,6 +50,27 @@ MongoDB 是一种流行的非关系型数据库（NoSQL），特别适合处理�
 #### 简单条件查询
 
 ```javascript
+db.instance_snapshot.find({status:"FREEZED"}).count()
+
+
+const (
+	PendingSnapshot     InstanceSnapshotStatus = "PENDING"
+	FreezedSnapshot     InstanceSnapshotStatus = "FREEZED"
+	SnapshotIngSnapshot InstanceSnapshotStatus = "SNAPSHOTING"
+	AvailableSnapshot   InstanceSnapshotStatus = "AVAILABLE"
+	ErrorSnapshot       InstanceSnapshotStatus = "ERROR"
+	DeletingSnapshot    InstanceSnapshotStatus = "DELETING"
+	DeletedSnapshot     InstanceSnapshotStatus = "DELETED"
+	Restoring           InstanceSnapshotStatus = "RESTORING"
+	CreateImage         InstanceSnapshotStatus = "UPLOADINGIMAGE"
+	ErrRebuildError     int                    = 5 // rebuild instance.
+)
+
+```
+
+
+
+```javascript
 db.collection.find( <query>, <projection>, <options> )
 /*
 查询	使用查询运算符指定选择筛选器。要返回集合中的所有文档，请省略此参数或传递空文档 ({})。

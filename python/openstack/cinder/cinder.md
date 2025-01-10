@@ -400,7 +400,8 @@ Run "cinder help SUBCOMMAND" for help on a subcommand.
 ## create  
 
 ```bash
-cinder create --name janus --image-id 24647239-7b2e-4895-8ede-1d278a3b10df 50 
+cinder create --name janus_a --image-id 939d8d9f-9c40-4369-8de6-4b701be38799 50 
+939d8d9f-9c40-4369-8de6-4b701be38799
 ```
 
 ```bash

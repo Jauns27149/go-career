@@ -50,7 +50,7 @@ MongoConf:
 ```
 
 ```bash
-mongo -u "root" -p "testaz3" --authenticationDatabase "admin"
+mongo -u "root" -p "test" --authenticationDatabase "admin"
 ```
 
 #### deployments
@@ -137,6 +137,10 @@ kubectl get pod -n az1 | awk '/^gostack-agent-[1-9,a-z]/' |grep -vE "aarch64|s8-
 ```bash
 kubectl logs -l <label-selector> -n <namespace>
 # 你可以结合 -l 参数和 kubectl logs 来查看所有符合标签选择器的 Pods 的日志：
+```
+
+```bash
+kubectl exec -it gostack-mongos-0 -n az2 -- /bin/bash
 ```
 
 
