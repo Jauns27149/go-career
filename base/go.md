@@ -94,6 +94,11 @@ func main() {
 最大值是: 50
 ```
 
+### 接口类型转换为具体类型
+
+- 类型断言： `value.(type)` 形式来尝试将接口类型的值转换为指定的具体类型。如果转换成功，返回转换后的值；如果失败，则接收两个会返回 type 的默认零值和flase，接受一个会panic.
+- 类型切换： `switch value.(type)`，它会尝试匹配不同的类型，并在找到匹配的类型后执行相应的代码块。
+
 ## strings
 
 ### Split
@@ -105,6 +110,42 @@ fmt.Print(strings.Split("a,b,c", ","))
 Output:
 [a b c]
 ```
+
+### Contains
+
+```go
+func Contains(s string, substr string) bool
+```
+
+```go
+// Contains reports whether substr is within s
+fmt.Println(strings. Contains("seafood", "foo")) 
+// true
+```
+
+### ReplaceAll
+
+```go
+func ReplaceAll(s string, old string, new string) string
+```
+
+```go
+fmt.Println(strings. ReplaceAll("oink oink oink", "oink", "moo")) 
+// moo moo moo
+```
+
+### TrimSpace
+
+```go
+func TrimSpace(s string) string
+```
+
+```go
+fmt.Println(strings. TrimSpace(" \t\n Hello, Gophers \n\t\r\n")) 
+// Hello, Gophers
+```
+
+
 
 ## slices
 

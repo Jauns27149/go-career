@@ -186,7 +186,8 @@ style A fill:#f96,stroke:#333,stroke-width:4px
 
 ```mermaid
 graph TD;
-    A[开始] --> B{条件};
+	url[/instance_snapshots/:instance_snapshot_id];
+   url --> B{条件};
     B -->|是| C[执行任务];
     B -->|否| D[结束];
 ```
