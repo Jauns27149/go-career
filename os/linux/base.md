@@ -259,50 +259,6 @@ Full documentation <https://www.gnu.org/software/coreutils/dirname>
 or available locally via: info '(coreutils) dirname invocation'
 ```
 
-### cut
-
-```bash
-cut [option] [file]
-```
-
-```bash
-Usage: cut OPTION... [FILE]...
-Print selected parts of lines from each FILE to standard output.
-
-With no FILE, or when FILE is -, read standard input.
-
-Mandatory arguments to long options are mandatory for short options too.
-  -b, --bytes=LIST        select only these bytes
-  -c, --characters=LIST   select only these characters
-  -d, --delimiter=DELIM   use DELIM instead of TAB for field delimiter
-  -f, --fields=LIST       select only these fields;  also print any line
-                            that contains no delimiter character, unless
-                            the -s option is specified
-  -n                      (ignored)
-      --complement        complement the set of selected bytes, characters
-                            or fields
-  -s, --only-delimited    do not print lines not containing delimiters
-      --output-delimiter=STRING  use STRING as the output delimiter
-                            the default is to use the input delimiter
-  -z, --zero-terminated   line delimiter is NUL, not newline
-      --help        display this help and exit
-      --version     output version information and exit
-
-Use one, and only one of -b, -c or -f.  Each LIST is made up of one
-range, or many ranges separated by commas.  Selected input is written
-in the same order that it is read, and is written exactly once.
-Each range is one of:
-
-  N     N'th byte, character or field, counted from 1
-  N-    from N'th byte, character or field, to end of line
-  N-M   from N'th to M'th (included) byte, character or field
-  -M    from first to M'th (included) byte, character or field
-
-GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
-Full documentation <https://www.gnu.org/software/coreutils/cut>
-or available locally via: info '(coreutils) cut invocation'
-```
-
 ### uniq
 
 ```bash
@@ -390,68 +346,6 @@ GNU sed home page: <http://www.gnu.org/software/sed/>.
 General help using GNU software: <http://www.gnu.org/gethelp/>.
 E-mail bug reports to: <bug-sed@gnu.org>.
 Be sure to include the word ``sed'' somewhere in the ``Subject:'' field.
-```
-
-### tr
-
-```bash
-
-```
-
-```bash
-Usage: tr [OPTION]... SET1 [SET2]
-Translate, squeeze, and/or delete characters from standard input,
-writing to standard output.
-
-  -c, -C, --complement    use the complement of SET1
-  -d, --delete            delete characters in SET1, do not translate
-  -s, --squeeze-repeats   replace each input sequence of a repeated character
-                            that is listed in SET1 with a single occurrence
-                            of that character
-  -t, --truncate-set1     first truncate SET1 to length of SET2
-      --help     display this help and exit
-      --version  output version information and exit
-
-SETs are specified as strings of characters.  Most represent themselves.
-Interpreted sequences are:
-
-  \NNN            character with octal value NNN (1 to 3 octal digits)
-  \\              backslash
-  \a              audible BEL
-  \b              backspace
-  \f              form feed
-  \n              new line
-  \r              return
-  \t              horizontal tab
-  \v              vertical tab
-  CHAR1-CHAR2     all characters from CHAR1 to CHAR2 in ascending order
-  [CHAR*]         in SET2, copies of CHAR until length of SET1
-  [CHAR*REPEAT]   REPEAT copies of CHAR, REPEAT octal if starting with 0
-  [:alnum:]       all letters and digits
-  [:alpha:]       all letters
-  [:blank:]       all horizontal whitespace
-  [:cntrl:]       all control characters
-  [:digit:]       all digits
-  [:graph:]       all printable characters, not including space
-  [:lower:]       all lower case letters
-  [:print:]       all printable characters, including space
-  [:punct:]       all punctuation characters
-  [:space:]       all horizontal or vertical whitespace
-  [:upper:]       all upper case letters
-  [:xdigit:]      all hexadecimal digits
-  [=CHAR=]        all characters which are equivalent to CHAR
-
-Translation occurs if -d is not given and both SET1 and SET2 appear.
--t may be used only when translating.  SET2 is extended to length of
-SET1 by repeating its last character as necessary.  Excess characters
-of SET2 are ignored.  Only [:lower:] and [:upper:] are guaranteed to
-expand in ascending order; used in SET2 while translating, they may
-only be used in pairs to specify case conversion.  -s uses SET1 if not
-translating nor deleting; else squeezing uses SET2 and occurs after
-translation or deletion.
-
-GNU coreutils online help: <http://www.gnu.org/software/coreutils/>
-For complete documentation, run: info coreutils 'tr invocation'
 ```
 
 ### sort
@@ -1159,5 +1053,138 @@ GNU coreutils 的在线帮助可以在 <https://www.gnu.org/software/coreutils/>
 完整的文档可以在 <https://www.gnu.org/software/coreutils/tr> 或者
 
 通过本地命令 `info '(coreutils) tr invocation'` 查看。
+```
+
+## cut
+
+```bash
+Usage: cut OPTION... [FILE]...
+Print selected parts of lines from each FILE to standard output.
+
+With no FILE, or when FILE is -, read standard input.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -b, --bytes=LIST        select only these bytes
+  -c, --characters=LIST   select only these characters
+  -d, --delimiter=DELIM   use DELIM instead of TAB for field delimiter
+  -f, --fields=LIST       select only these fields;  also print any line
+                            that contains no delimiter character, unless
+                            the -s option is specified
+  -n                      (ignored)
+      --complement        complement the set of selected bytes, characters
+                            or fields
+  -s, --only-delimited    do not print lines not containing delimiters
+      --output-delimiter=STRING  use STRING as the output delimiter
+                            the default is to use the input delimiter
+  -z, --zero-terminated   line delimiter is NUL, not newline
+      --help        display this help and exit
+      --version     output version information and exit
+
+Use one, and only one of -b, -c or -f.  Each LIST is made up of one
+range, or many ranges separated by commas.  Selected input is written
+in the same order that it is read, and is written exactly once.
+Each range is one of:
+
+  N     N'th byte, character or field, counted from 1
+  N-    from N'th byte, character or field, to end of line
+  N-M   from N'th to M'th (included) byte, character or field
+  -M    from first to M'th (included) byte, character or field
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/cut>
+or available locally via: info '(coreutils) cut invocation'
+```
+
+## head
+
+```bash
+head -n -1 finename # 不现实最后一行
+```
+
+```bash
+Usage: head [OPTION]... [FILE]...
+Print the first 10 lines of each FILE to standard output.
+With more than one FILE, precede each with a header giving the file name.
+
+With no FILE, or when FILE is -, read standard input.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -c, --bytes=[-]NUM       print the first NUM bytes of each file;
+                             with the leading '-', print all but the last
+                             NUM bytes of each file
+  -n, --lines=[-]NUM       print the first NUM lines instead of the first 10;
+                             with the leading '-', print all but the last
+                             NUM lines of each file
+  -q, --quiet, --silent    never print headers giving file names
+  -v, --verbose            always print headers giving file names
+  -z, --zero-terminated    line delimiter is NUL, not newline
+      --help        display this help and exit
+      --version     output version information and exit
+
+NUM may have a multiplier suffix:
+b 512, kB 1000, K 1024, MB 1000*1000, M 1024*1024,
+GB 1000*1000*1000, G 1024*1024*1024, and so on for T, P, E, Z, Y, R, Q.
+Binary prefixes can be used, too: KiB=K, MiB=M, and so on.
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/head>
+or available locally via: info '(coreutils) head invocation'
+```
+
+## tail
+
+```bash
+tail -n +2 # 从第2行开始到最后一行
+```
+
+```bash
+Usage: tail [OPTION]... [FILE]...
+Print the last 10 lines of each FILE to standard output.
+With more than one FILE, precede each with a header giving the file name.
+
+With no FILE, or when FILE is -, read standard input.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -c, --bytes=[+]NUM       output the last NUM bytes; or use -c +NUM to
+                             output starting with byte NUM of each file
+  -f, --follow[={name|descriptor}]
+                           output appended data as the file grows;
+                             an absent option argument means 'descriptor'
+  -F                       same as --follow=name --retry
+  -n, --lines=[+]NUM       output the last NUM lines, instead of the last 10;
+                             or use -n +NUM to skip NUM-1 lines at the start
+      --max-unchanged-stats=N
+                           with --follow=name, reopen a FILE which has not
+                             changed size after N (default 5) iterations
+                             to see if it has been unlinked or renamed
+                             (this is the usual case of rotated log files);
+                             with inotify, this option is rarely useful
+      --pid=PID            with -f, terminate after process ID, PID dies
+  -q, --quiet, --silent    never output headers giving file names
+      --retry              keep trying to open a file if it is inaccessible
+  -s, --sleep-interval=N   with -f, sleep for approximately N seconds
+                             (default 1.0) between iterations;
+                             with inotify and --pid=P, check process P at
+                             least once every N seconds
+  -v, --verbose            always output headers giving file names
+  -z, --zero-terminated    line delimiter is NUL, not newline
+      --help        display this help and exit
+      --version     output version information and exit
+
+NUM may have a multiplier suffix:
+b 512, kB 1000, K 1024, MB 1000*1000, M 1024*1024,
+GB 1000*1000*1000, G 1024*1024*1024, and so on for T, P, E, Z, Y, R, Q.
+Binary prefixes can be used, too: KiB=K, MiB=M, and so on.
+
+With --follow (-f), tail defaults to following the file descriptor, which
+means that even if a tail'ed file is renamed, tail will continue to track
+its end.  This default behaviour is not desirable when you really want to
+track the actual name of the file, not the file descriptor (e.g., log
+rotation).  Use --follow=name in that case.  That causes tail to track the
+named file in a way that accommodates renaming, removal and creation.
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/tail>
+or available locally via: info '(coreutils) tail invocation'
 ```
 
