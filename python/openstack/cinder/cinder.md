@@ -400,7 +400,7 @@ Run "cinder help SUBCOMMAND" for help on a subcommand.
 ## create  
 
 ```bash
-cinder create --name janus_a --image-id 939d8d9f-9c40-4369-8de6-4b701be38799 50 
+cinder create --name janus_a --image-id 865729f5-6327-466d-ab75-3c909a54547d 50 
 939d8d9f-9c40-4369-8de6-4b701be38799
 ```
 
@@ -572,7 +572,7 @@ Optional arguments:
 ## reset-state
 
 ```bash
-cinder reset-state [flag...] <entity> [<entity> ...]	不会改变实际状态
+ [flag...] <entity> [<entity> ...]	不会改变实际状态
 
 Positional arguments:
   <entity>              Name or ID of entity to update.
@@ -638,22 +638,6 @@ Optional arguments:
             "available" or "error". Default=False.
 ```
 
-## backup-reset-state
-
-```bash
-cinder backup-reset-state [flag] <backup>... 
-
-Explicitly updates the backup state.
-
-Positional arguments:
-  <backup>         Name or ID of the backup to modify.
-
-Optional arguments:
-  --state <state>  The state to assign to the backup. Valid values are
-                   "available", "error". Default=available.
-
-```
-
 ## backup-restore
 
 ```bash
@@ -679,79 +663,12 @@ Optional arguments:
 
 
 
-## attachment-create 
-
-```bash
-cinder --os-volume-api-version 3.50 attachment-create janus ae5cebfc-630d-43db-bf34-8847afbc926c
-```
-
-```bash
-usage: cinder attachment-create [flag...] <volume> <server_id>
-
-Create an attachment for a cinder volume.
-
-Positional arguments:
-  <volume>              Name or ID of volume or volumes to attach.
-  <server_id>           ID of server attaching to.
-
-Optional arguments:
-  --connect <connect>   Make an active connection using provided connector
-                        info (True or False).
-  --initiator <initiator>
-                        iqn of the initiator attaching to. Default=None.
-  --ip <ip>             ip of the system attaching to. Default=None.
-  --host <host>         Name of the host attaching to. Default=None.
-  --platform <platform>
-                        Platform type. Default=x86_64.
-  --ostype <ostype>     OS type. Default=linux2.
-  --multipath <multipath>
-                        Use multipath. Default=False.
-  --mountpoint <mountpoint>
-                        Mountpoint volume will be attached at. Default=None.
-```
-
-## attachment-complete
-
-```bash
-cinder --os-volume-api-version 3.50 attachment-complete 1342ecd8-547d-4580-a8e8-57cff8c51d19
-```
-
-```bash
-cinder attachment-complete <attachment> [<attachment> ...]
-
-Complete an attachment for a cinder volume.
-
-Positional arguments:
-  <attachment>  ID of attachment or attachments to delete.
-```
-
-## attachment-delete
-
-```bash
-cinder --os-volume-api-version 3.50 attachment-delete
-```
-
-```bash
- cinder attachment-delete <attachment> [<attachment> ...]
-
-Delete an attachment for a cinder volume.
-
-Positional arguments:
-  <attachment>  ID of attachment or attachments to delete.
-```
-
-## attachment-show
-
-```bash
-cinder --os-volume-api-version 3.50 attachment-show 
-```
-
 ## attachment
 
 ### attachment-create 
 
 ```bash
-cinder --os-volume-api-version 3.50 attachment-create janus ae5cebfc-630d-43db-bf34-8847afbc926c
+cinder --os-volume-api-version 3.50 attachment-create janus 5ae06825-0722-4920-93c3-1b7f3b042793 
 ```
 
 ```bash
@@ -792,6 +709,27 @@ Complete an attachment for a cinder volume.
 
 Positional arguments:
   <attachment>  ID of attachment or attachments to delete.
+```
+
+### attachment-delete
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-delete
+```
+
+```bash
+ cinder attachment-delete <attachment> [<attachment> ...]
+
+Delete an attachment for a cinder volume.
+
+Positional arguments:
+  <attachment>  ID of attachment or attachments to delete.
+```
+
+### attachment-show
+
+```bash
+cinder --os-volume-api-version 3.50 attachment-show 
 ```
 
 
@@ -892,6 +830,22 @@ Positional arguments:
 Optional arguments:
   --force   Allows deleting backup of a volume when its status is other than
             "available" or "error". Default=False.
+```
+
+### backup-reset-state
+
+```bash
+cinder backup-reset-state [flag] <backup>... 
+
+Explicitly updates the backup state.
+
+Positional arguments:
+  <backup>         Name or ID of the backup to modify.
+
+Optional arguments:
+  --state <state>  The state to assign to the backup. Valid values are
+                   "available", "error". Default=available.
+
 ```
 
 ## 

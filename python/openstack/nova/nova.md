@@ -523,96 +523,6 @@ Optional arguments:
                                 by API versions '2.26' - '2.latest')
 ```
 
-### live-migration
-
-```bash
-nova live-migration [flags] <server> [<host>]
-
-Migrate running server to a new machine.
-
-Positional arguments:
-  <server>                      Name or ID of server.
-  <host>                        Destination host name.
-
-Optional arguments:
-  --block-migrate               True in case of block_migration.
-                                (Default=auto:live_migration) (Supported by
-                                API versions '2.25' - '2.latest')
-  --force                       Force to not verify the scheduler if a host is
-                                provided. (Supported by API versions '2.30' -
-                                '2.latest')
-  --migration-type <migration-type>
-                                For local storage migration to shared storage.
-                                e.g. to_<volume_type_name>(see 'cinder type-
-                                list'): migrate all the disks of the instance
-                                to the volume.
-```
-
-### live-migration-abort
-
-```bash
-nova live-migration-abort <server> <migration>
-
-Abort an on-going live migration. (Supported by API versions '2.24' -
-'2.latest') [hint: use '--os-compute-api-version' flag to show help message
-for proper version]
-
-Positional arguments:
-  <server>     Name or ID of server.
-  <migration>  ID of migration.
-```
-
-### server-migration-list
-
-```bash
-[root@gz-txjs-control-55e243e31e30 ~]# nova help server-migration-list
-usage: nova server-migration-list <server>
-
-Get the migrations list of specified server. (Supported by API versions '2.23'
-- '2.latest') [hint: use '--os-compute-api-version' flag to show help message
-for proper version]
-
-Positional arguments:
-  <server>  Name or ID of server.
-```
-
-### migration-list
-
-```bash
-nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
-```
-
-
-
-```bash
-nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
-                           [--status <status>] [--marker <marker>]
-                           [--limit <limit>] [--changes-since <changes_since>]
-
-Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
-[hint: use '--os-compute-api-version' flag to show help message for proper
-version]
-
-Optional arguments:
-  --instance-uuid <instance_uuid>
-                                Fetch migrations for the given instance.
-  --host <host>                 Fetch migrations for the given host.
-  --status <status>             Fetch migrations for the given status.
-  --marker <marker>             The last migration of the previous page;
-                                displays list of migrations after "marker".
-                                Note that the marker is the migration UUID.
-  --limit <limit>               Maximum number of migrations to display. Note
-                                that there is a configurable max limit on the
-                                server, and the limit that is used will be the
-                                minimum between what is requested here and
-                                what is configured in the server.
-  --changes-since <changes_since>
-                                List only migrations changed after a certain
-                                point of time. The provided time should be an
-                                ISO 8061 formatted time. ex
-                                2016-03-04T06:27:59Z .
-```
-
 
 
 ### reset-state
@@ -833,12 +743,59 @@ Optional arguments:
   --image <image>        The image to rescue with.
 ```
 
+## resume
+
+```bash
+nova resume <server>
+
+Resume a server.
+
+Positional arguments:
+  <server>  Name or ID of server.
+
+```
+
+## evacuate
+
+```bash
+nova evacuate [--password <password>] [--force] <server> [<host>]
+
+Evacuate server from failed host.
+
+Positional arguments:
+  <server>               Name or ID of server.
+  <host>                 Name or ID of the target host. If no host is
+                         specified, the scheduler will choose one.
+
+Optional arguments:
+  --password <password>  Set the provided admin password on the evacuated
+                         server. Not applicable if the server is on shared
+                         storage.
+  --force                Force to not verify the scheduler if a host is
+                         provided. (Supported by API versions '2.29' -
+                         '2.latest')
+
+```
+
+## resize-confirm
+
+```bash
+nova resize-confirm <server>
+
+Confirm a previous resize.
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+
+
 ## migration
 
 ### migration-list
 
 ```bash
-nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
+nova migration-list  --instance-uuid 5ae06825-0722-4920-93c3-1b7f3b042793 
 ```
 
 ```bash
@@ -870,7 +827,116 @@ Optional arguments:
                                 2016-03-04T06:27:59Z .
 ```
 
+### live-migration
 
+```bash
+nova live-migration [flags] <server> [<host>]
+
+Migrate running server to a new machine.
+
+Positional arguments:
+  <server>                      Name or ID of server.
+  <host>                        Destination host name.
+
+Optional arguments:
+  --block-migrate               True in case of block_migration.
+                                (Default=auto:live_migration) (Supported by
+                                API versions '2.25' - '2.latest')
+  --force                       Force to not verify the scheduler if a host is
+                                provided. (Supported by API versions '2.30' -
+                                '2.latest')
+  --migration-type <migration-type>
+                                For local storage migration to shared storage.
+                                e.g. to_<volume_type_name>(see 'cinder type-
+                                list'): migrate all the disks of the instance
+                                to the volume.
+```
+
+### live-migration-abort
+
+```bash
+nova live-migration-abort janus 75768
+```
+
+```bash
+nova live-migration-abort <server> <migration>
+
+Abort an on-going live migration. (Supported by API versions '2.24' -
+'2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>     Name or ID of server.
+  <migration>  ID of migration.
+```
+
+### server-migration-list
+
+```bash
+[root@gz-txjs-control-55e243e31e30 ~]# nova help server-migration-list
+usage: nova server-migration-list <server>
+
+Get the migrations list of specified server. (Supported by API versions '2.23'
+- '2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>  Name or ID of server.
+```
+
+### migration-list
+
+```bash
+nova migration-list  --instance-uuid ae5cebfc-630d-43db-bf34-8847afbc926c --limit
+```
+
+
+
+```bash
+nova migration-list [--instance-uuid <instance_uuid>] [--host <host>]
+                           [--status <status>] [--marker <marker>]
+                           [--limit <limit>] [--changes-since <changes_since>]
+
+Print a list of migrations. (Supported by API versions '2.0' - '2.latest')
+[hint: use '--os-compute-api-version' flag to show help message for proper
+version]
+
+Optional arguments:
+  --instance-uuid <instance_uuid>
+                                Fetch migrations for the given instance.
+  --host <host>                 Fetch migrations for the given host.
+  --status <status>             Fetch migrations for the given status.
+  --marker <marker>             The last migration of the previous page;
+                                displays list of migrations after "marker".
+                                Note that the marker is the migration UUID.
+  --limit <limit>               Maximum number of migrations to display. Note
+                                that there is a configurable max limit on the
+                                server, and the limit that is used will be the
+                                minimum between what is requested here and
+                                what is configured in the server.
+  --changes-since <changes_since>
+                                List only migrations changed after a certain
+                                point of time. The provided time should be an
+                                ISO 8061 formatted time. ex
+                                2016-03-04T06:27:59Z .
+```
+
+### migrate
+
+```bash
+nova migrate [--host <host>] [--poll] <server>
+
+Migrate a server.
+
+Positional arguments:
+  <server>       Name or ID of server.
+
+Optional arguments:
+  --host <host>  Destination host name. (Supported by API versions '2.56' -
+                 '2.latest')
+  --poll         Report the server migration progress until it completes.
+
+```
 
 ## snapshot
 
@@ -1029,6 +1095,23 @@ Optional arguments:
   --name NAME                New name for for the instance backup.
   --description DESCRIPTION  New description for for the instance backup.
   --state STATE              New state for for the instance backup, admin
+
+```
+
+## password
+
+### set-password
+
+```bash
+nova set-password [--username <username>] <server>
+
+Change the user password for a server.
+
+Positional arguments:
+  <server>               Name or ID of server.
+
+Optional arguments:
+  --username <username>  The ordinary username of server.
 
 ```
 
@@ -1266,5 +1349,41 @@ sequenceDiagram
 | updated_at    | 2024-12-16T15:15:13.000000                                 |
 | user_id       | 6dc03c066d3149e5b19baeb92948a755                           |
 +---------------+------------------------------------------------------------+
+```
+
+# 数据库
+
+## block_device_mapping
+
+```sql
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| created_at            | datetime     | YES  |     | NULL    |                |
+| updated_at            | datetime     | YES  |     | NULL    |                |
+| deleted_at            | datetime     | YES  |     | NULL    |                |
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| device_name           | varchar(255) | YES  |     | NULL    |                |
+| delete_on_termination | tinyint(1)   | YES  |     | NULL    |                |
+| snapshot_id           | varchar(36)  | YES  | MUL | NULL    |                |
+| volume_id             | varchar(36)  | YES  | MUL | NULL    |                |	卷的唯一标识符
+| volume_size           | int(11)      | YES  |     | NULL    |                |
+| no_device             | tinyint(1)   | YES  |     | NULL    |                |
+| connection_info       | mediumtext   | YES  |     | NULL    |                |
+| instance_uuid         | varchar(36)  | YES  | MUL | NULL    |                |	虚拟机实例的唯一标识符
+| deleted               | int(11)      | YES  |     | NULL    |                |	标记记录是否已删除，非0值代表已删除
+| source_type           | varchar(255) | YES  |     | NULL    |                |
+| destination_type      | varchar(255) | YES  |     | NULL    |                |
+| guest_format          | varchar(255) | YES  |     | NULL    |                |
+| device_type           | varchar(255) | YES  |     | NULL    |                |
+| disk_bus              | varchar(255) | YES  |     | NULL    |                |
+| boot_index            | int(11)      | YES  |     | NULL    |                |	启动顺序索引，0为系统盘
+| image_id              | varchar(36)  | YES  |     | NULL    |                |
+| tag                   | varchar(255) | YES  |     | NULL    |                |
+| attachment_id         | varchar(36)  | YES  |     | NULL    |                |	特定挂载操作的唯一标识符
+| uuid                  | varchar(36)  | YES  | UNI | NULL    |                |
+| backup_id             | varchar(36)  | YES  |     | NULL    |                |
+| volume_type           | varchar(255) | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
 ```
 

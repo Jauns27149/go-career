@@ -413,3 +413,10 @@ def __init__(self, __o: object) -> None
 # 获取对象的类型
 ```
 
+`__import__`
+
+```python
+__import__(name, globals=None, locals=None, fromlist=(), level=0)
+# 动态导入模块
+```
+

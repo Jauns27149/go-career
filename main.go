@@ -2,16 +2,13 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
 func main() {
-	multStatus := []string{"   ", "a    ", "b     ", "c", "d", "e", "f"}
-	var newStatus []string
-	for _, s := range multStatus {
-		if v := strings.TrimSpace(s); v != "" {
-			newStatus = append(newStatus, v)
-		}
-	}
-	fmt.Println(newStatus)
+	a := make([]string, 0)
+	fmt.Println(a)
+	fmt.Printf("%q\n", strings.Split("", ","))
+	fmt.Println(math.MaxInt32)
 }

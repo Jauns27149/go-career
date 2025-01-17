@@ -301,7 +301,7 @@ db.collection_name.drop()
   mongorestore --dir=/path/to/backup
   ```
 
-# aggregate
+# aggregate()
 
 在 MongoDB 的聚合框架中，各个阶段的顺序非常重要，因为每个阶段的操作都是基于前一个阶段输出的数据。理解不同阶段之间的顺序可以帮助你构建高效的查询，并确保数据按照预期的方式被处理。
 
@@ -323,6 +323,23 @@ db.collection_name.drop()
 ## project
 
 用于选择（或排除）文档中的字段，从而定义输出文档的结构。
+
+### 操作符
+
+| 操作符        | 作用                 |
+| ------------- | -------------------- |
+| $toDate       | 把时间戳转化为日期   |
+| $dateToString | 把日期转换为特定格式 |
+|               |                      |
+
+```javascript
+db.instance_snapshot.aggregate([
+  {$match: {status: {$ne: "DELETED"}}},
+  {$project: {time: {$dateToString: {format: "%Y-%m", date:{$toDate: "$created_at"}}}}},
+	{$group: {_id: "$time", count: {$sum: 1}}},
+  {$project: {count: 1}},
+])
+```
 
 ## group
 
@@ -365,3 +382,84 @@ db.collection_name.drop()
 
 - `<field>`：指定要排序的字段名。
 - `<order>`：可以是 `1` 或 `-1`，分别表示升序（ascending）和降序（descending）。
+
+# find()
+
+```bash
+db.users.find({ age: { $gt: 20 } }, { name: 1, age: 1 })
+```
+
+```bash
+db.collection.find(query, projection)
+
+# query: （可选）查询条件，指定需要匹配的文档。如果为空 {}，则返回集合中所有的文档。
+# projection: （可选）指定需要返回哪些字段。如果不提供，默认返回所有字段。
+```
+
+# update
+
+## updateOne()
+
+```bash
+db.collection.updateOne(filter, update, options) # 用于更新集合中第一个符合查询条件的文档
+
+# filter: 查询条件，表示要更新的文档
+# update: 更新操作，指定如何更新文档
+# options: （可选）一些附加选项，如 upsert
+```
+
+```javascript
+db.users.updateOne(
+  { name: "Alice" },               // 查询条件：查找 name 为 "Alice" 的文档
+  { $set: { age: 30 } }            // 更新操作：将 age 设置为 30
+)
+```
+
+## updateMany()
+
+```bash
+db.collection.updateMany(filter, update, options) #用于更新集合中所有符合条件的文档
+
+# filter: 查询条件，表示要更新的文档
+# update: 更新操作，指定如何更新文档
+# options: （可选）一些附加选项，如 upsert
+```
+
+```javascript
+db.users.updateOne(
+  { name: "Alice" },               // 查询条件：查找 name 为 "Alice" 的文档
+  { $set: { age: 30 } }            // 更新操作：将 age 设置为 30
+)
+```
+
+## replaceOne()
+
+```bash
+db.collection.replaceOne(filter, replacement, options)
+# 用于将符合条件的文档完全替换为新的文档。
+# 这个操作将会删除原文档中的所有字段，然后替换为新文档（只有替换文档中指定的字段会保留）
+
+# filter: 查询条件，表示要替换的文档
+# replacement: 新文档，作为替代的文档
+# options: （可选）一些附加选项，如 upsert
+```
+
+```javascript
+db.users.replaceOne(
+  { name: "Alice" },         // 查询条件：查找 name 为 "Alice" 的文档
+  { name: "Alice", age: 30 } // 替换文档：将整个文档替换为{name: "Alice", age: 30}
+)
+```
+
+## 更新操作符
+
+| 操作符    | 作用                                             |
+| --------- | ------------------------------------------------ |
+| $set      | 更新指定字段的值。如果字段不存在，则会添加该字段 |
+| $unset    | 删除指定字段                                     |
+| $inc      | 增加指定字段的值                                 |
+| $push     | 向数组中添加元素                                 |
+| $addToSet | 向数组中添加元素，但不会添加重复值               |
+| $pop      | 删除数组的第一个或最后一个元素                   |
+| $rename   | 重命名字段                                       |
+
