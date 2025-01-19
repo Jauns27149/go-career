@@ -1,19 +1,20 @@
 package main
 
-import "sort"
+import (
+	"sort"
+)
 
 func findMinArrowShots(points [][]int) int {
 	sort.Slice(points, func(i, j int) bool {
-		return points[i][0] < points[j][0]
+		return points[i][1] < points[j][1]
 	})
-
-	mergers := make([][]int, 0, len(points))
-	for _, point := range points {
-		if len(mergers) == 0 || mergers[len(mergers)-1][1] < point[1] {
-			mergers = append(mergers, point)
-		} else {
-			mergers[len(mergers)-1][1] = max(mergers[len(mergers)-1][1], point[1])
+	right := points[0][1]
+	ans := 1
+	for _, v := range points {
+		if v[0] > right {
+			right = v[1]
+			ans++
 		}
 	}
-	return len(mergers)
+	return ans
 }
