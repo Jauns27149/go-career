@@ -795,7 +795,7 @@ Positional arguments:
 ### migration-list
 
 ```bash
-nova migration-list  --instance-uuid 5ae06825-0722-4920-93c3-1b7f3b042793 
+nova migration-list  --instance-uuid 07ccb2ef-2e51-46c5-bbff-b29f97ea694d 
 ```
 
 ```bash
@@ -937,6 +937,22 @@ Optional arguments:
   --poll         Report the server migration progress until it completes.
 
 ```
+
+### live-migration-force-complete
+
+```bash
+usage: nova live-migration-force-complete <server> <migration>
+
+Force on-going live migration to complete. (Supported by API versions '2.22' -
+'2.latest') [hint: use '--os-compute-api-version' flag to show help message
+for proper version]
+
+Positional arguments:
+  <server>     Name or ID of server.
+  <migration>  ID of migration.
+```
+
+
 
 ## snapshot
 
@@ -1138,6 +1154,17 @@ nova-scheduler
 
     作用：选择最适合运行新实例的计算节点。
     通信方式：通过消息队列与 nova-conductor 和 nova-api 通信。
+
+## 启动组件名称
+
+```bash
+openstack-nova-api.service           
+openstack-nova-conductor.service    
+openstack-nova-consoleauth.service  
+openstack-nova-scheduler.service    
+```
+
+
 
 # 业务
 
@@ -1385,5 +1412,118 @@ sequenceDiagram
 | backup_id             | varchar(36)  | YES  |     | NULL    |                |
 | volume_type           | varchar(255) | YES  |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
+```
+
+## instances
+
+```bash
+nova@55.243.31.11 12:39:  [nova]> desc instances;
++--------------------------+-----------------------+------+-----+---------+----------------+
+| Field                    | Type                  | Null | Key | Default | Extra          |
++--------------------------+-----------------------+------+-----+---------+----------------+
+| created_at               | datetime              | YES  |     | NULL    |                |
+| updated_at               | datetime              | YES  | MUL | NULL    |                |
+| deleted_at               | datetime              | YES  |     | NULL    |                |
+| id                       | int(11)               | NO   | PRI | NULL    | auto_increment |
+| internal_id              | int(11)               | YES  |     | NULL    |                |
+| user_id                  | varchar(255)          | YES  |     | NULL    |                |
+| project_id               | varchar(255)          | YES  | MUL | NULL    |                |
+| image_ref                | varchar(255)          | YES  |     | NULL    |                |
+| kernel_id                | varchar(255)          | YES  |     | NULL    |                |
+| ramdisk_id               | varchar(255)          | YES  |     | NULL    |                |
+| launch_index             | int(11)               | YES  |     | NULL    |                |
+| key_name                 | varchar(255)          | YES  |     | NULL    |                |
+| key_data                 | mediumtext            | YES  |     | NULL    |                |
+| power_state              | int(11)               | YES  |     | NULL    |                |
+| vm_state                 | varchar(255)          | YES  |     | NULL    |                |
+| memory_mb                | int(11)               | YES  |     | NULL    |                |
+| vcpus                    | int(11)               | YES  |     | NULL    |                |
+| hostname                 | varchar(255)          | YES  |     | NULL    |                |
+| host                     | varchar(255)          | YES  | MUL | NULL    |                |
+| user_data                | mediumtext            | YES  |     | NULL    |                |
+| reservation_id           | varchar(255)          | YES  | MUL | NULL    |                |
+| launched_at              | datetime              | YES  |     | NULL    |                |
+| terminated_at            | datetime              | YES  | MUL | NULL    |                |
+| display_name             | varchar(255)          | YES  |     | NULL    |                |
+| display_description      | varchar(255)          | YES  |     | NULL    |                |
+| availability_zone        | varchar(255)          | YES  |     | NULL    |                |
+| locked                   | tinyint(1)            | YES  |     | NULL    |                |
+| os_type                  | varchar(255)          | YES  |     | NULL    |                |
+| launched_on              | mediumtext            | YES  |     | NULL    |                |
+| instance_type_id         | int(11)               | YES  |     | NULL    |                |
+| vm_mode                  | varchar(255)          | YES  |     | NULL    |                |
+| uuid                     | varchar(36)           | NO   | UNI | NULL    |                |
+| architecture             | varchar(255)          | YES  |     | NULL    |                |
+| root_device_name         | varchar(255)          | YES  |     | NULL    |                |
+| access_ip_v4             | varchar(39)           | YES  |     | NULL    |                |
+| access_ip_v6             | varchar(39)           | YES  |     | NULL    |                |
+| config_drive             | varchar(255)          | YES  |     | NULL    |                |
+| task_state               | varchar(255)          | YES  | MUL | NULL    |                |
+| default_ephemeral_device | varchar(255)          | YES  |     | NULL    |                |
+| default_swap_device      | varchar(255)          | YES  |     | NULL    |                |
+| progress                 | int(11)               | YES  |     | NULL    |                |
+| auto_disk_config         | tinyint(1)            | YES  |     | NULL    |                |
+| shutdown_terminate       | tinyint(1)            | YES  |     | NULL    |                |
+| disable_terminate        | tinyint(1)            | YES  |     | NULL    |                |
+| root_gb                  | int(11)               | YES  |     | NULL    |                |
+| ephemeral_gb             | int(11)               | YES  |     | NULL    |                |
+| cell_name                | varchar(255)          | YES  |     | NULL    |                |
+| node                     | varchar(255)          | YES  |     | NULL    |                |
+| deleted                  | int(11)               | YES  | MUL | NULL    |                |
+| locked_by                | enum('owner','admin') | YES  |     | NULL    |                |
+| cleaned                  | int(11)               | YES  |     | NULL    |                |
+| ephemeral_key_uuid       | varchar(36)           | YES  |     | NULL    |                |
+| volume_quota             | int(11)               | YES  |     | NULL    |                |
+| pgpu_driver_kits         | text                  | YES  |     | NULL    |                |
++--------------------------+-----------------------+------+-----+---------+----------------+
+```
+
+# 流程图
+
+## 热迁
+
+```mermaid
+graph TD
+   subgraph Legend
+    		%% nova/compute/manager.py
+   			%% nova/virt/libvirt/driver.py
+        source[source]
+        style source fill: green
+        destination[destination]
+        style destination fill: purple
+   end
+ 
+	live_migration(live_migration)
+	style live_migration fill: green
+	do_migration(_do_live_migration)
+	style do_migration fill: green
+	monitor(_live_migration_monitor)
+	style monitor fill: green,color: brown
+	post(_post_live_migration)
+	style post fill: green
+	rollback(_rollback_live_migration)
+	style rollback fill: green
+	exception(这里没有回滚:芜湖2)
+    post_destination(post_live_migration_at_destination)
+	style post_destination fill: purple
+	rollback_destination(rollback_live_migration_at_destination)
+	style rollback_destination fill: purple
+	url("url: /servers/{server_id}/can-live-migrate-server/os-migrateLive")
+	controller(_migrate_live)
+	
+	
+	url --> controller(_migrate_live)
+	
+	
+	
+	
+	live_migration --> do_migration
+	do_migration --> monitor
+	monitor --> |completed| post
+	monitor --> |failed| rollback
+	monitor --> |cancled| rollback
+	monitor --> |exception| exception
+	post --> post_destination
+	rollback --> rollback_destination
 ```
 

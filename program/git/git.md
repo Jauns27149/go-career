@@ -14,3 +14,17 @@ Git提交标题格式
 git commit --amend -m "fix# 快照统计功能调试"
 ```
 
+# fatal: Cannot prompt because user interactivity has been disabled
+
+```bash
+git config --global credential.helper manager-core
+git credential-manager-core store # enter两次退出
+```
+
+```bash
+protocol=https
+host=work.ctyun.cn
+username=wueq@mail.asiainfo.com
+password=4.jVHjy&Leh1
+```
+

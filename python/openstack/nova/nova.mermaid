@@ -1,0 +1,68 @@
+graph TD
+    subgraph Legend
+    %% nova/compute/manager.py
+    %% nova/virt/libvirt/driver.py
+        source[source]
+        style source fill: green
+        destination[destination]
+        style destination fill: purple
+    end
+
+    live_migration(live_migration)
+    style live_migration fill: green
+    do_migration(_do_live_migration)
+    style do_migration fill: green
+    monitor(_live_migration_monitor)
+    style monitor fill: green, color: brown
+    post(_post_live_migration)
+    style post fill: green
+    rollback(_rollback_live_migration)
+    style rollback fill: green
+    exception(这里没有回滚:芜湖2)
+    post_destination(post_live_migration_at_destination)
+    style post_destination fill: purple
+    rollback_destination(rollback_live_migration_at_destination)
+    style rollback_destination fill: purple
+    url("url: /servers/{server_id}/can-live-migrate-server/os-migrateLive")
+    controller("api.openstack.compute.migrate_server: _migrate_live()")
+    nova_live_migrate("compute.api: live_migrate()")
+    conductor.api_live_migrate_instance("conductor.api: live_migrate_instance()")
+    conductor.manager_live_migrate_instance("conductor.manager: live_migrate_instance()")
+    conductor.manager_live_migrate("conductor.manager: _live_migrate()")
+    conductor.tasks.live_migrate__execute("conductor.tasks.live_migrate: _execute()")
+
+    url --> controller
+    controller --> nova_live_migrate
+    nova_live_migrate --> conductor.api_live_migrate_instance
+    conductor.api_live_migrate_instance --> conductor.manager_live_migrate_instance
+    conductor.manager_live_migrate_instance --> conductor.manager_live_migrate
+    conductor.manager_live_migrate --> conductor.tasks.live_migrate__execute
+
+    conductor.tasks.manager.place_allocation_with_migration("conductor.tasks.manager: replace_allocation_with_migration()")
+    scheduler.client.report_get_allocations_for_consumer_by_provider("scheduler.client.report: get_allocations_for_consumer_by_provider()")
+    scheduler.client.report__find_destination("scheduler.client.report: _find_destination()")
+    scheduler.client.__init___select_destinations("scheduler.client.__init__: select_destinations")
+
+    conductor.tasks.live_migrate__execute -.-> conductor.tasks.manager.place_allocation_with_migration
+    conductor.tasks.manager.place_allocation_with_migration -.-> scheduler.client.report_get_allocations_for_consumer_by_provider
+    conductor.tasks.manager.place_allocation_with_migration --> scheduler.client.report__find_destination
+    scheduler.client.report__find_destination -.-> scheduler.client.__init___select_destinations
+
+
+    conductor.tasks.live_migrate__execute --> live_migration
+
+
+
+
+
+
+    live_migration --> do_migration
+    do_migration --> monitor
+    monitor -->|completed| post
+    monitor -->|failed| rollback
+    monitor -->|cancled| rollback
+    monitor -->|exception| exception
+    post --> post_destination
+    rollback --> rollback_destination
+
+

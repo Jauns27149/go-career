@@ -394,6 +394,14 @@ systemctl [OPTIONS...] COMMAND ...
 
   - --force : 强制执行
 
+
+```bash
+systemctl list-units --type=service --all # 查看全部服务
+systemctl list-units --type=service --state=running # 查看运行服务，包括avtive
+```
+
+
+
 ### lsblk
 
 ```bash

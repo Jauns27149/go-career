@@ -10,10 +10,10 @@
 go 命令
 
 ```bash
-
+$env:GOPRIVATE="work.ctyun.cn"
+$env:GOPROXY="direct"
+# 配置私库，powershell
 ```
-
-- - 
 
 # 内联优化
 
