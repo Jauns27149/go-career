@@ -194,3 +194,66 @@ func main() {
 按年龄排序: [{Gopher 7} {Vera 24} {Alice 55} {Bob 75}]
 ```
 
+## os
+
+### create
+
+```go
+func Create(name string) (file *File, err error)
+
+/*
+Create采用模式0666（任何人都可读写，不可执行）创建一个名为name的文件，如果文件已存在会截断它（为空文件）。
+如果成功，返回的文件对象可用于I/O；对应的文件描述符具有O_RDWR模式。如果出错，错误底层类型是*PathError。
+```
+
+### *File
+
+####  Readdirnames
+
+```go
+func (f *File) Readdirnames(n int) (names []string, err error)
+/*
+Readdir读取目录f的内容，返回一个有n个成员的[]string，切片成员为目录中文件对象的名字，采用目录顺序。
+对本函数的下一次调用会返回上一次调用剩余未读取的内容的信息。
+
+如果n>0，Readdir函数会返回一个最多n个成员的切片。这时，如果Readdir返回一个空切片，它会返回一个非nil的错误说明原因。
+如果到达了目录f的结尾，返回值err会是io.EOF。
+
+如果n<=0，Readdir函数返回目录中剩余所有文件对象的名字构成的切片。
+此时，如果Readdir调用成功（读取所有内容直到结尾），它会返回该切片和nil的错误值。
+如果在到达结尾前遇到错误，会返回之前成功读取的名字构成的切片和该错误。
+```
+
+## os/exec
+
+### Command
+
+```go
+func Command(name string, arg ...string) *Cmd
+/*
+函数返回一个*Cmd，用于使用给出的参数执行name指定的程序。返回值只设定了Path和Args两个参数。
+如果name不含路径分隔符，将使用LookPath获取完整路径；否则直接使用name。参数arg不应包含命令名。
+```
+
+### *Cmd
+
+#### OutPut
+
+```go
+func (c *Cmd) Output() ([]byte, error)
+/*
+执行命令并返回标准输出的切片。
+```
+
+
+
+#### Run
+
+```go
+func (c *Cmd) Run() error
+/*
+Run执行c包含的命令，并阻塞直到完成。
+如果命令成功执行，stdin、stdout、stderr的转交没有问题，并且返回状态码为0，方法的返回值为nil；
+如果命令没有执行或者执行失败，会返回*ExitError类型的错误；否则返回的error可能是表示I/O问题。
+```
+

@@ -1196,3 +1196,10 @@ Full documentation <https://www.gnu.org/software/coreutils/tail>
 or available locally via: info '(coreutils) tail invocation'
 ```
 
+## which
+
+```bash
+which <command>
+# 查看命令文件的位置
+```
+
