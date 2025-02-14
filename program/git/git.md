@@ -28,3 +28,10 @@ username=wueq@mail.asiainfo.com
 password=4.jVHjy&Leh1
 ```
 
+# 改变当前项目的put的用户信息
+
+```bash
+git config user.name "你的新用户名"
+git config user.email "你的新邮箱"
+```
+
